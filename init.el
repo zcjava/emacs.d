@@ -45,6 +45,7 @@
   (global-display-line-numbers-mode t))
 
 (use-package hungry-delete
+  :ensure t
   :bind (
 	 ("C-c DEL" . hungry-delete-backward)
 	 ("C-c d" . hungry-delete-forward))
@@ -52,7 +53,7 @@
 
 ;;命令补全列表
 (use-package which-key
-;;  :ensure t  ;;是否一定要确保已安装
+  :ensure t  ;;是否一定要确保已安装
   :config (which-key-mode))
 
 ;;
@@ -61,7 +62,7 @@
   :hook (after-init . global-flycheck-mode))
 ;; org 漂亮排版
 (use-package org-bullets
-;;  :ensure t
+  :ensure t
   :config
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
   )
@@ -73,11 +74,20 @@
 ;; 	 ("C-c ^" . crux-top-join-line)
 ;; 	 )
 ;;   )
-(require 'dracula-theme)
+
+(use-package dracula-theme
+  :ensure t
+  )
+
 (load-theme 'dracula t)
 
 ;; 设置全局的代码补全
-(global-company-mode)
+(use-package company
+  :ensure t
+  )
+
+(add-hook 'after-init-hook 'global-company-mode)
+
 
 (set-face-attribute 'default nil :font "Menlo-16")
 
