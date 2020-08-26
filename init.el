@@ -2,6 +2,7 @@
 
 (require 'package)
 (setq package-enable-at-startup nil)
+(setq use-package-always-ensure t)
 
 ;;(add-to-list 'package-archives
 ;;	     '("melpa" . "http://elpa.emacs-china.org/melpa/"))
@@ -22,7 +23,8 @@
 
 ;;不保留备份文件  eg:  init.el~之类的文件
 (setq make-backup-files nil)
-
+;; 使用y/n 替代yes/no
+(fset 'yes-or-no-p 'y-or-n-p)
 ;; unless 的含义是 if nil  do body
 (unless (bound-and-true-p package--initialized) 
   (package-initialize)) ;; 刷新软件源索引
@@ -68,11 +70,44 @@
   )
 
 
-(use-package ivy
-  :ensure t
-  :config (require 'swiper) (require 'counsel) ;; 依赖
+(use-package counsel
+  :ensure t 
+;;  :config (require 'swiper) (require 'counsel) ;; 依赖
   :hook (after-init . ivy-mode)
   )
+
+
+
+
+(use-package projectile)
+(use-package yasnippet :config (yas-global-mode))
+(use-package lsp-mode :hook ((lsp-mode . lsp-enable-which-key-integration))
+  :config (setq lsp-completion-enable-additional-text-edit nil))
+(use-package hydra)
+
+(use-package lsp-ui)
+(use-package which-key :config (which-key-mode))
+(use-package lsp-java
+  :config
+  (add-hook 'java-mode-hook 'lsp)
+  (setq lsp-java-server-install-dir (expand-file-name "~/.spacemacs.d/lsp-java-server/"))
+  )
+(use-package dap-mode :after lsp-mode :config (dap-auto-configure-mode))
+(use-package dap-java :ensure nil)
+(use-package helm-lsp)
+(use-package helm
+  :config (helm-mode))
+(use-package lsp-treemacs)
+
+
+
+
+
+;; optional if you want which-key integration
+(use-package which-key
+    :config
+    (which-key-mode))
+
 
 
 
