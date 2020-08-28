@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: comment_split
+# key: ;;
+# --
+;;==========$1==========$0

@@ -4,3 +4,5 @@ auto-save-list
 .cache
 workspace
 .lsp-session-v1
+request
+transient

@@ -5,11 +5,14 @@
 (setq use-package-always-ensure t)
 
 ;;(add-to-list 'package-archives
+
+
+
 ;;	     '("melpa" . "http://elpa.emacs-china.org/melpa/"))
 (setq package-archives '(
-    ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/") 
-    ("gnu" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
-    ("org" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")))
+			 ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
+			 ("gnu" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
+			 ("org" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")))
 
 (package-initialize)
 
@@ -26,7 +29,7 @@
 ;; 使用y/n 替代yes/no
 (fset 'yes-or-no-p 'y-or-n-p)
 ;; unless 的含义是 if nil  do body
-(unless (bound-and-true-p package--initialized) 
+(unless (bound-and-true-p package--initialized)
   (package-initialize)) ;; 刷新软件源索引
 (unless package-archive-contents
   (package-refresh-contents))
@@ -35,15 +38,23 @@
   (package-refresh-contents)
   (package-install 'use-package))
 
-;; (eval-and-compile 
-;;     (setq use-package-always-ensure t) ;不用每个包都手动添加:ensure t关键字 
+
+;; 快读打开init.file
+(defun open-ini-file()
+  (interactive)
+  (find-file "~/.emacs.d/init.el")
+  )
+
+
+;; (eval-and-compile
+;;     (setq use-package-always-ensure t) ;不用每个包都手动添加:ensure t关键字
 ;;     (setq use-package-always-defer t) ;默认都是延迟加载，不用每个包都手动添加:defer t
 ;;     )
 
 ;; 开启全局行号显示
-(use-package emacs 
-  :config 
-;  (setq display-line-numbers-type 'relative) 
+(use-package emacs
+  :config
+					;  (setq display-line-numbers-type 'relative)
   (global-display-line-numbers-mode t))
 
 (use-package hungry-delete
@@ -62,6 +73,7 @@
 (use-package flycheck
   :ensure t
   :hook (after-init . global-flycheck-mode))
+
 ;; org 漂亮排版
 (use-package org-bullets
   :ensure t
@@ -71,42 +83,81 @@
 
 
 (use-package counsel
-  :ensure t 
-;;  :config (require 'swiper) (require 'counsel) ;; 依赖
+  :ensure t
+  ;;  :config (require 'swiper) (require 'counsel) ;; 依赖
   :hook (after-init . ivy-mode)
   )
 
 
-
-
 (use-package projectile)
-(use-package yasnippet :config (yas-global-mode))
-(use-package lsp-mode :hook ((lsp-mode . lsp-enable-which-key-integration))
+
+(use-package yasnippet
+  :config
+  (yas-global-mode)
+  (setq yas-snippet-dirs '("~/.emacs.d/snippets/"))
+  )
+
+;;==========java==========
+(use-package lsp-mode
+  :hook ((lsp-mode . lsp-enable-which-key-integration))
   :config (setq lsp-completion-enable-additional-text-edit nil))
+
 (use-package hydra)
 
 (use-package lsp-ui)
-(use-package which-key :config (which-key-mode))
+
+(use-package which-key
+  :config (which-key-mode))
+
 (use-package lsp-java
   :config
   (add-hook 'java-mode-hook 'lsp)
   (setq lsp-java-server-install-dir (expand-file-name "~/.spacemacs.d/lsp-java-server/"))
   )
-(use-package dap-mode :after lsp-mode :config (dap-auto-configure-mode))
-(use-package dap-java :ensure nil)
+
+(use-package dap-mode
+  :after lsp-mode
+  :config (dap-auto-configure-mode))
+
+(use-package dap-java
+  :ensure nil)
+
 (use-package helm-lsp)
+
 (use-package helm
   :config (helm-mode))
+
 (use-package lsp-treemacs)
 
+(require 'lsp-java-boot)
+;; to enable the lenses
+(add-hook 'lsp-mode-hook #'lsp-lens-mode)
+(add-hook 'java-mode-hook #'lsp-java-boot-lens-mode)
+
+;;==========java==========
 
 
+(use-package mvn
+  :ensure t
+  )
+
+(use-package magit
+  :ensure t
+  )
+
+;;(use-package yas
+
+(use-package exec-path-from-shell
+  :ensure t)
+
+(when (memq window-system '(mac ns x))
+  (exec-path-from-shell-initialize))
 
 
 ;; optional if you want which-key integration
 (use-package which-key
-    :config
-    (which-key-mode))
+  :config
+  (which-key-mode))
 
 
 
@@ -148,9 +199,20 @@
 
 (load-theme 'dracula t)
 
+
+(use-package format-all
+  :ensure t
+  )
+
 ;; 设置全局的代码补全
 (use-package company
   :ensure t
+  :bind (
+	 :map company-active-map
+	 (("C-n" . company-select-next)
+	  ("C-p" . company-select-previous)
+	  ("C-d" . company-show-doc-buffer)
+	  ))
   )
 
 (add-hook 'after-init-hook 'global-company-mode)
@@ -168,7 +230,7 @@
  '(custom-safe-themes
    '("24714e2cb4a9d6ec1335de295966906474fdb668429549416ed8636196cb1441" default))
  '(package-selected-packages
-   '(ivy hungry-delete org-bullets which-key use-package json-mode dracula-theme company)))
+   '(magit ivy hungry-delete org-bullets which-key use-package json-mode dracula-theme company)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
