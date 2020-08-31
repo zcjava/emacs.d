@@ -7,3 +7,5 @@ workspace
 request
 transient
 *.gitignore#
+/bookmarks
+/recentf
