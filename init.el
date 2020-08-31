@@ -24,6 +24,29 @@
 ;;隐藏滚动条
 (scroll-bar-mode nil)
 
+;;==========utf8==========
+;; 设置emacs 使用 utf-8
+(setq locale-coding-system 'utf-8)
+;; 设置键盘输入时的字符编码
+(set-keyboard-coding-system 'utf-8)
+(set-selection-coding-system 'utf-8)
+;; 文件默认保存为 utf-8
+(set-buffer-file-coding-system 'utf-8)
+(set-default buffer-file-coding-system 'utf8)
+(set-default-coding-systems 'utf-8)
+;; 解决粘贴中文出现乱码的问题
+(set-clipboard-coding-system 'utf-8)
+;; 终端中文乱码
+(set-terminal-coding-system 'utf-8)
+(prefer-coding-system 'utf-8)
+(modify-coding-system-alist 'process "*" 'utf-8)
+(setq default-process-coding-system '(utf-8 . utf-8))
+;; 解决文件目录的中文名乱码
+(setq-default pathname-coding-system 'utf-8)
+(set-file-name-coding-system 'utf-8)
+;; 解决 Shell Mode(cmd) 下中文乱码问题
+;;==========utf8 end==========
+
 ;;不保留备份文件  eg:  init.el~之类的文件
 (setq make-backup-files nil)
 ;; 使用y/n 替代yes/no
@@ -38,14 +61,6 @@
   (package-refresh-contents)
   (package-install 'use-package))
 
-
-;; 快读打开init.file
-(defun open-ini-file()
-  (interactive)
-  (find-file "~/.emacs.d/init.el")
-  )
-
-
 ;; (eval-and-compile
 ;;     (setq use-package-always-ensure t) ;不用每个包都手动添加:ensure t关键字
 ;;     (setq use-package-always-defer t) ;默认都是延迟加载，不用每个包都手动添加:defer t
@@ -54,7 +69,7 @@
 ;; 开启全局行号显示
 (use-package emacs
   :config
-					;  (setq display-line-numbers-type 'relative)
+  ;;(setq display-line-numbers-type 'relative)
   (global-display-line-numbers-mode t))
 
 (use-package hungry-delete
@@ -88,26 +103,78 @@
   :hook (after-init . ivy-mode)
   )
 
-
-(use-package projectile)
-
-(use-package yasnippet
-  :config
-  (yas-global-mode)
-  (setq yas-snippet-dirs '("~/.emacs.d/snippets/"))
+(defun open-init-file()
+  (interactive)
+  (find-file "~/.emacs.d/init.el")
   )
 
+;;==========smartparens==========
+;;自动补全符号
+(use-package smartparens
+  :ensure t
+  )
+
+(smartparens-global-mode t)
+
+;;==========hydra==========
+;;使用短快捷键组合列表来简化command
+(use-package hydra
+  :ensure t
+  )
+
+(defhydra hydra-zoom (global-map "M-m")
+  "zoom"
+  ("g" text-scale-increase "in")
+  ("l" text-scale-decrease "out"))
+
+(defhydra hydra-buffer-menu (:color pink
+                             :hint nil)
+  "
+^Mark^             ^Unmark^           ^Actions^          ^Search
+^^^^^^^^-----------------------------------------------------------------
+_m_: mark          _u_: unmark        _x_: execute       _R_: re-isearch
+_s_: save          _U_: unmark up     _b_: bury          _I_: isearch
+_d_: delete        ^ ^                _g_: refresh       _O_: multi-occur
+_D_: delete up     ^ ^                _T_: files only: % -28`Buffer-menu-files-only
+_~_: modified
+"
+  ("m" Buffer-menu-mark)
+  ("u" Buffer-menu-unmark)
+  ("U" Buffer-menu-backup-unmark)
+  ("d" Buffer-menu-delete)
+  ("D" Buffer-menu-delete-backwards)
+  ("s" Buffer-menu-save)
+  ("~" Buffer-menu-not-modified)
+  ("x" Buffer-menu-execute)
+  ("b" Buffer-menu-bury)
+  ("g" revert-buffer)
+  ("T" Buffer-menu-toggle-files-only)
+  ("O" Buffer-menu-multi-occur :color blue)
+  ("I" Buffer-menu-isearch-buffers :color blue)
+  ("R" Buffer-menu-isearch-buffers-regexp :color blue)
+  ("c" nil "cancel")
+  ("v" Buffer-menu-select "select" :color blue)
+  ("o" Buffer-menu-other-window "other-window" :color blue)
+  ("q" quit-window "quit" :color blue))
+
+(define-key Buffer-menu-mode-map "." 'hydra-buffer-menu/body)
+;;==========hydra end==========
+
+
+
+(use-package vterm
+  :ensure t
+  )
+
+(use-package projectile)
+(use-package yasnippet :config (yas-global-mode))
+
 ;;==========java==========
-(use-package lsp-mode
-  :hook ((lsp-mode . lsp-enable-which-key-integration))
+(use-package lsp-mode :hook ((lsp-mode . lsp-enable-which-key-integration))
   :config (setq lsp-completion-enable-additional-text-edit nil))
 
-(use-package hydra)
 
 (use-package lsp-ui)
-
-(use-package which-key
-  :config (which-key-mode))
 
 (use-package lsp-java
   :config
@@ -134,7 +201,7 @@
 (add-hook 'lsp-mode-hook #'lsp-lens-mode)
 (add-hook 'java-mode-hook #'lsp-java-boot-lens-mode)
 
-;;==========java==========
+;;==========java end==========
 
 
 (use-package mvn
@@ -152,15 +219,6 @@
 
 (when (memq window-system '(mac ns x))
   (exec-path-from-shell-initialize))
-
-
-;; optional if you want which-key integration
-(use-package which-key
-  :config
-  (which-key-mode))
-
-
-
 
 (setq ivy-use-virtual-buffers t)
 (setq enable-recursive-minibuffers t)
@@ -208,11 +266,12 @@
 (use-package company
   :ensure t
   :bind (
-	 :map company-active-map
-	 (("C-n" . company-select-next)
-	  ("C-p" . company-select-previous)
-	  ("C-d" . company-show-doc-buffer)
-	  ))
+         :map company-active-map
+         (("C-n"   . company-select-next)
+          ("C-p"   . company-select-previous)
+          ("C-d"   . company-show-doc-buffer)
+          ("<tab>" . company-complete))
+         )
   )
 
 (add-hook 'after-init-hook 'global-company-mode)
@@ -221,16 +280,13 @@
 (set-face-attribute 'default nil :font "Menlo-16")
 
 
-
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   '("24714e2cb4a9d6ec1335de295966906474fdb668429549416ed8636196cb1441" default))
  '(package-selected-packages
-   '(magit ivy hungry-delete org-bullets which-key use-package json-mode dracula-theme company)))
+   '(vterm smartparens yasnippet which-key use-package projectile org-bullets mvn magit lsp-ui lsp-java lsp-ivy hungry-delete helm-lsp format-all flycheck exec-path-from-shell dracula-theme counsel company)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

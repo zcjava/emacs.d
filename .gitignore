@@ -6,3 +6,4 @@ workspace
 .lsp-session-v1
 request
 transient
+*.gitignore#
