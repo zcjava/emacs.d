@@ -9,3 +9,5 @@ transient
 *.gitignore#
 /bookmarks
 /recentf
+/.#init.el
+/flycheck_init.el
