@@ -203,7 +203,10 @@ _~_: modified
 
 ;;==========java end==========
 
-
+(use-package pdf-tools
+  :ensure t
+  )
+(add-to-list 'auto-mode-alist '("\\.pdf\\'" . pdf-view-mode))
 (use-package mvn
   :ensure t
   )
@@ -262,6 +265,7 @@ _~_: modified
   :ensure t
   )
 
+;;==========company==========
 ;; 设置全局的代码补全
 (use-package company
   :ensure t
@@ -275,8 +279,18 @@ _~_: modified
   )
 
 (add-hook 'after-init-hook 'global-company-mode)
+;;==========company end==========
 
 
+(use-package window-numbering
+  :ensure t
+  :config
+  (setq window-numbering-assign-func
+      (lambda () (when (equal (buffer-name) "*Calculator*") 9)))
+  )
+(window-numbering-mode t)
+
+;;字体设置
 (set-face-attribute 'default nil :font "Menlo-16")
 
 
@@ -286,7 +300,7 @@ _~_: modified
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(vterm smartparens yasnippet which-key use-package projectile org-bullets mvn magit lsp-ui lsp-java lsp-ivy hungry-delete helm-lsp format-all flycheck exec-path-from-shell dracula-theme counsel company)))
+   '(window-numbering pdf-tools vterm smartparens yasnippet which-key use-package projectile org-bullets mvn magit lsp-ui lsp-java lsp-ivy hungry-delete helm-lsp format-all flycheck exec-path-from-shell dracula-theme counsel company)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
