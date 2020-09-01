@@ -7,4 +7,11 @@ workspace
 request
 transient
 *.gitignore#
+<<<<<<< HEAD
 recentf
+=======
+/bookmarks
+/recentf
+/.#init.el
+/flycheck_init.el
+>>>>>>> 029f71d67e665009c0d257f7efe9e1e05887b6dc
