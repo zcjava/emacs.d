@@ -84,10 +84,12 @@
   :ensure t  ;;是否一定要确保已安装
   :config (which-key-mode))
 
-;;
+;;==========flycheck==========
 (use-package flycheck
   :ensure t
   :hook (after-init . global-flycheck-mode))
+(setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))
+;;==========flycheck==========
 
 ;; org 漂亮排版
 (use-package org-bullets
@@ -290,6 +292,41 @@ _~_: modified
   )
 (window-numbering-mode t)
 
+
+
+;;==========zoom==========
+;;让当前显示窗口能自动放大，显示更多的区域
+(use-package zoom
+  :ensure t
+  :init
+  (setq zoom-size '(0.718 . 0.718)) ;;设置显示区域的比例
+  )
+
+(zoom-mode t)
+;;==========zoom end==========
+
+;;==========awesome-tab==========
+;;awesome-tab 不在elpa里,使用需要自行下载到elpa里面,命令如下:
+;; git clone --depth=1 https://github.com/manateelazycat/awesome-tab.git ~/.emacs.d/elpa/awesome-tab/
+(use-package awesome-tab
+  :load-path (lambda () (expand-file-name "~/.emacs.d/elpa/awesome-tab/"))
+  :config
+  (awesome-tab-mode t)
+  )
+  ;; 使用mac command + N 就可以切换到对应的tab
+  (global-set-key (kbd "s-1") 'awesome-tab-select-visible-tab)
+  (global-set-key (kbd "s-2") 'awesome-tab-select-visible-tab)
+  (global-set-key (kbd "s-3") 'awesome-tab-select-visible-tab)
+  (global-set-key (kbd "s-4") 'awesome-tab-select-visible-tab)
+  (global-set-key (kbd "s-5") 'awesome-tab-select-visible-tab)
+  (global-set-key (kbd "s-6") 'awesome-tab-select-visible-tab)
+  (global-set-key (kbd "s-7") 'awesome-tab-select-visible-tab)
+  (global-set-key (kbd "s-8") 'awesome-tab-select-visible-tab)
+  (global-set-key (kbd "s-9") 'awesome-tab-select-visible-tab)
+  (global-set-key (kbd "s-0") 'awesome-tab-select-visible-tab)
+
+;;==========awesome-tab end==========
+
 ;;字体设置
 (set-face-attribute 'default nil :font "Menlo-16")
 
@@ -300,7 +337,7 @@ _~_: modified
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(window-numbering pdf-tools vterm smartparens yasnippet which-key use-package projectile org-bullets mvn magit lsp-ui lsp-java lsp-ivy hungry-delete helm-lsp format-all flycheck exec-path-from-shell dracula-theme counsel company)))
+   '(awesome-tab zoom window-numbering pdf-tools vterm smartparens yasnippet which-key use-package projectile org-bullets mvn magit lsp-ui lsp-java lsp-ivy hungry-delete helm-lsp format-all flycheck exec-path-from-shell dracula-theme counsel company)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
