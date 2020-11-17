@@ -46,7 +46,7 @@
 (set-file-name-coding-system 'utf-8)
 ;; 解决 Shell Mode(cmd) 下中文乱码问题
 ;;==========utf8 end==========
-
+(setq auto-save-default nil)
 ;;不保留备份文件  eg:  init.el~之类的文件
 (setq make-backup-files nil)
 ;; 使用y/n 替代yes/no
@@ -79,10 +79,15 @@
 	 ("C-c d" . hungry-delete-forward))
   )
 
-;;命令补全列表
+;;
+
+
+;;命令补全列表 
 (use-package which-key
   :ensure t  ;;是否一定要确保已安装
-  :config (which-key-mode))
+  :config (which-key-mode)
+  :bind ("M-m" . which-key-show-top-level)  ;; 绑定超级键，顶层命令列表
+  )
 
 ;;==========flycheck==========
 (use-package flycheck
@@ -124,16 +129,19 @@
   :ensure t
   )
 
-(defhydra hydra-zoom (global-map "M-m")
-  "zoom"
-  ("g" text-scale-increase "in")
-  ("l" text-scale-decrease "out"))
+;;==========zoom in out==========
+;; (defhydra hydra-zoom (global-map "M-m")
+;;   "zoom"
+;;   ("g" text-scale-increase "in")
+;;   ("l" text-scale-decrease "out"))
+;;==========zoom in out end==========
+
 
 (defhydra hydra-buffer-menu (:color pink
                              :hint nil)
   "
 ^Mark^             ^Unmark^           ^Actions^          ^Search
-^^^^^^^^-----------------------------------------------------------------
+-----------------------------------------------------------------
 _m_: mark          _u_: unmark        _x_: execute       _R_: re-isearch
 _s_: save          _U_: unmark up     _b_: bury          _I_: isearch
 _d_: delete        ^ ^                _g_: refresh       _O_: multi-occur
@@ -168,15 +176,31 @@ _~_: modified
   :ensure t
   )
 
-(use-package projectile)
+(use-package treemacs)
+
+(treemacs)
+(use-package projectile
+  :config (projectile-mode)
+  )
+
+(use-package treemacs-projectile)
+
 (use-package yasnippet :config (yas-global-mode))
 
+
 ;;==========java==========
-(use-package lsp-mode :hook ((lsp-mode . lsp-enable-which-key-integration))
-  :config (setq lsp-completion-enable-additional-text-edit nil))
+(use-package lsp-mode
+  :hook ((lsp-mode . lsp-enable-which-key-integration))
+  :config (setq lsp-completion-enable-additional-text-edit nil)
+  :commands lsp
+  )
 
+(use-package lsp-ui
+  :commands lsp-ui-mode)
 
-(use-package lsp-ui)
+(use-package helm-lsp :commands helm-lsp-workspace-symbol)
+;; if you are ivy user
+(use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
 
 (use-package lsp-java
   :config
@@ -191,17 +215,43 @@ _~_: modified
 (use-package dap-java
   :ensure nil)
 
-(use-package helm-lsp)
 
 (use-package helm
   :config (helm-mode))
 
-(use-package lsp-treemacs)
+(use-package lsp-treemacs
+  )
+
 
 (require 'lsp-java-boot)
 ;; to enable the lenses
 (add-hook 'lsp-mode-hook #'lsp-lens-mode)
 (add-hook 'java-mode-hook #'lsp-java-boot-lens-mode)
+
+
+
+(setq lsp-java-java-path "/usr/local/opt/openjdk@11/bin/java")
+(setq lombok-jar-path
+        (expand-file-name "~/.m2/repository/org/projectlombok/lombok/1.18.10/lombok-1.18.10.jar"))
+
+(setq lsp-java-vmargs
+        `("-noverify"
+          "-Xmx1G"
+          "-XX:+UseG1GC"
+          "-XX:+UseStringDeduplication"
+          ,(concat "-javaagent:" lombok-jar-path)
+;;          ,(concat "-Xbootclasspath/a:" lombok-jar-path)
+          ))
+(setq lsp-groovy-server-file (expand-file-name "~/.spacemacs.d/groovy-language-server/groovy-language-server-all.jar"))
+
+(setq lsp-java-configuration-maven-user-settings (expand-file-name "~/.m2/settings.xml"))
+(setq lsp-java-maven-download-sources t)
+(setq lsp-java-import-maven-enabled t)
+
+;; 针对maven的pom和其他的xml 标签补全
+(add-to-list 'auto-mode-alist '("\\.\\(xml\\|xsl\\|rng\\|xhtml\\|lzx\\|x3d\\)\\'" . nxml-mode))
+(setq rng-schema-locating-files (list (expand-file-name "~/.emacs.d/schema/schemas.xml")))   
+
 
 ;;==========java end==========
 
@@ -220,8 +270,10 @@ _~_: modified
 ;;(use-package yas
 
 (use-package exec-path-from-shell
-  :ensure t)
-
+  :ensure t
+  :config (setq exec-path (append exec-path '("/usr/local/bin")))
+  )
+(setq exec-path-from-shell-check-startup-files nil)
 (when (memq window-system '(mac ns x))
   (exec-path-from-shell-initialize))
 
@@ -283,14 +335,23 @@ _~_: modified
 (add-hook 'after-init-hook 'global-company-mode)
 ;;==========company end==========
 
-
-(use-package window-numbering
+;;==========switch-window==========
+(use-package switch-window
   :ensure t
   :config
-  (setq window-numbering-assign-func
-      (lambda () (when (equal (buffer-name) "*Calculator*") 9)))
+  (setq switch-window-shortcut-style 'qwerty)
   )
-(window-numbering-mode t)
+
+(global-set-key (kbd "C-x o") 'switch-window) 
+;;==========switch-window end==========
+
+;; (use-package window-numbering
+;;   :ensure t
+;;   :config
+;;   (setq window-numbering-assign-func
+;;       (lambda () (when (equal (buffer-name) "*Calculator*") 9)))
+;;   )
+;; (window-numbering-mode t)
 
 
 
@@ -337,7 +398,7 @@ _~_: modified
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(awesome-tab zoom window-numbering pdf-tools vterm smartparens yasnippet which-key use-package projectile org-bullets mvn magit lsp-ui lsp-java lsp-ivy hungry-delete helm-lsp format-all flycheck exec-path-from-shell dracula-theme counsel company)))
+   '(window-number treemacs-projectile awesome-tab zoom window-numbering pdf-tools vterm smartparens yasnippet which-key use-package projectile org-bullets mvn magit lsp-ui lsp-java lsp-ivy hungry-delete helm-lsp format-all flycheck exec-path-from-shell dracula-theme counsel company)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
