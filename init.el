@@ -81,13 +81,14 @@
 
 ;;
 
-
 ;;命令补全列表 
 (use-package which-key
   :ensure t  ;;是否一定要确保已安装
-  :config (which-key-mode)
+  :config
+  (which-key-mode)
   :bind ("M-m" . which-key-show-top-level)  ;; 绑定超级键，顶层命令列表
   )
+
 
 ;;==========flycheck==========
 (use-package flycheck
@@ -181,12 +182,14 @@ _~_: modified
 (treemacs)
 (use-package projectile
   :config (projectile-mode)
+  :bind ("C-x p f" . projectile--find-file)
   )
 
 (use-package treemacs-projectile)
 
 (use-package yasnippet :config (yas-global-mode))
 
+(hs-minor-mode t)
 
 ;;==========java==========
 (use-package lsp-mode
@@ -205,7 +208,7 @@ _~_: modified
 (use-package lsp-java
   :config
   (add-hook 'java-mode-hook 'lsp)
-  (setq lsp-java-server-install-dir (expand-file-name "~/.spacemacs.d/lsp-java-server/"))
+  (setq lsp-java-server-install-dir (expand-file-name "~/.emacs.d/emacs-lsp-java/lsp-java-server/"))
   )
 
 (use-package dap-mode
@@ -357,13 +360,13 @@ _~_: modified
 
 ;;==========zoom==========
 ;;让当前显示窗口能自动放大，显示更多的区域
-(use-package zoom
-  :ensure t
-  :init
-  (setq zoom-size '(0.718 . 0.718)) ;;设置显示区域的比例
-  )
+;; (use-package zoom
+;;   :ensure t
+;;   :init
+;;   (setq zoom-size '(0.718 . 0.718)) ;;设置显示区域的比例
+;;   )
 
-(zoom-mode t)
+;; (zoom-mode t)
 ;;==========zoom end==========
 
 ;;==========awesome-tab==========

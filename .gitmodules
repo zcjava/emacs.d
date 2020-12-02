@@ -1,0 +1,3 @@
+[submodule "emacs-lsp-java"]
+	path = emacs-lsp-java
+	url = git@gitee.com:smileo/emacs-lsp-java.git
