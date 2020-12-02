@@ -182,14 +182,20 @@ _~_: modified
 (treemacs)
 (use-package projectile
   :config (projectile-mode)
-  :bind ("C-x p f" . projectile--find-file)
+  :bind
+  ("C-x p f" . projectile--find-file)
+  ("C-x p g" . projectile-grep)
   )
 
 (use-package treemacs-projectile)
 
-(use-package yasnippet :config (yas-global-mode))
+(use-package yasnippet
+  :config (yas-global-mode)
+  (use-package yasnippet-snippets :ensure t)
+  )
 
-(hs-minor-mode t)
+(add-hook 'prog-mode-hook 'hs-minor-mode)
+
 
 ;;==========java==========
 (use-package lsp-mode
@@ -401,7 +407,7 @@ _~_: modified
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(window-number treemacs-projectile awesome-tab zoom window-numbering pdf-tools vterm smartparens yasnippet which-key use-package projectile org-bullets mvn magit lsp-ui lsp-java lsp-ivy hungry-delete helm-lsp format-all flycheck exec-path-from-shell dracula-theme counsel company)))
+   '(yasnippet-snippets window-number treemacs-projectile awesome-tab zoom window-numbering pdf-tools vterm smartparens yasnippet which-key use-package projectile org-bullets mvn magit lsp-ui lsp-java lsp-ivy hungry-delete helm-lsp format-all flycheck exec-path-from-shell dracula-theme counsel company)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
