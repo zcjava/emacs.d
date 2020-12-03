@@ -181,9 +181,11 @@ _~_: modified
 
 (treemacs)
 (use-package projectile
-  :config (projectile-mode)
+  :config
+  (projectile-mode)
+  (setq projectile-completion-system 'ivy)
   :bind
-  ("C-x p f" . projectile--find-file)
+  ("C-x p f" . projectile-find-file)
   ("C-x p g" . projectile-grep)
   )
 
@@ -205,7 +207,10 @@ _~_: modified
   )
 
 (use-package lsp-ui
-  :commands lsp-ui-mode)
+  :after lsp-mode
+  :init
+  (setq lsp-ui-doc-enable nil)
+  )
 
 (use-package helm-lsp :commands helm-lsp-workspace-symbol)
 ;; if you are ivy user
@@ -251,7 +256,7 @@ _~_: modified
           ,(concat "-javaagent:" lombok-jar-path)
 ;;          ,(concat "-Xbootclasspath/a:" lombok-jar-path)
           ))
-(setq lsp-groovy-server-file (expand-file-name "~/.spacemacs.d/groovy-language-server/groovy-language-server-all.jar"))
+(setq lsp-groovy-server-file (expand-file-name "~/.emacs.d/emacs-lsp-java/groovy-language-server/groovy-language-server-all.jar"))
 
 (setq lsp-java-configuration-maven-user-settings (expand-file-name "~/.m2/settings.xml"))
 (setq lsp-java-maven-download-sources t)
@@ -397,6 +402,21 @@ _~_: modified
 
 ;;==========awesome-tab end==========
 
+;;==========dumb-jump==========
+
+(use-package dumb-jump
+  :ensure t
+  )
+(add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
+;;==========dumb-jump==========
+
+;;==========avy==========
+(use-package avy
+  :ensure t
+  :config
+  (global-set-key (kbd "C-;") 'avy-goto-char-2)
+  )
+;;==========avy==========
 ;;字体设置
 (set-face-attribute 'default nil :font "Menlo-16")
 
@@ -407,7 +427,7 @@ _~_: modified
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(yasnippet-snippets window-number treemacs-projectile awesome-tab zoom window-numbering pdf-tools vterm smartparens yasnippet which-key use-package projectile org-bullets mvn magit lsp-ui lsp-java lsp-ivy hungry-delete helm-lsp format-all flycheck exec-path-from-shell dracula-theme counsel company)))
+   '(dumb-jump yasnippet-snippets window-number treemacs-projectile awesome-tab zoom window-numbering pdf-tools vterm smartparens yasnippet which-key use-package projectile org-bullets mvn magit lsp-ui lsp-java lsp-ivy hungry-delete helm-lsp format-all flycheck exec-path-from-shell dracula-theme counsel company)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
