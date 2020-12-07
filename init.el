@@ -46,6 +46,12 @@
 (set-file-name-coding-system 'utf-8)
 ;; 解决 Shell Mode(cmd) 下中文乱码问题
 ;;==========utf8 end==========
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; White space
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq tab-width 2)
+(setq-default indent-tabs-mode nil)
+	      
 (setq auto-save-default nil)
 ;;不保留备份文件  eg:  init.el~之类的文件
 (setq make-backup-files nil)
@@ -79,15 +85,86 @@
 	 ("C-c d" . hungry-delete-forward))
   )
 
-;;
 
-;;命令补全列表 
+;;命令补全列表
 (use-package which-key
   :ensure t  ;;是否一定要确保已安装
   :config
   (which-key-mode)
   :bind ("M-m" . which-key-show-top-level)  ;; 绑定超级键，顶层命令列表
   )
+
+
+
+;;==========skybert==========
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Show paren mode, built-in from Emacs 24.x   光标悬停代码块加底色
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(show-paren-mode t)
+(setq show-paren-style 'expression)
+
+(use-package paren)
+(set-face-background 'show-paren-match (face-background 'default))
+(set-face-attribute 'show-paren-match nil :weight 'extra-bold)
+
+;; Sub word support
+(add-hook 'minibuffer-setup-hook 'subword-mode)
+;;;;;;;;;;;;;;;;;;;;;;;;;skybert;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; ws-butler cleans up whitespace only on the lines you've edited,
+;; keeping messy colleagues happy ;-) Important that it doesn't clean
+;; the whitespace on currrent line, otherwise, eclim leaves messy
+;; code behind.
+(use-package ws-butler
+  :init
+  (setq ws-butler-keep-whitespace-before-point nil)
+  :config
+  (ws-butler-global-mode))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; ivy, counsel and swiper. Mostly minibuffer and navigation
+;; enhancements. Using smex for last recently used sorting.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package smex)  ;; 使用了这个smex 就可以实现M-x 默认值为最新输入的command recent command
+
+(use-package ivy
+  :init
+  (setq ivy-height 20
+        ivy-initial-inputs-alist nil)
+  )
+
+(use-package ivy-posframe
+  :init
+  (setq ivy-posframe-display-functions-alist
+        '((complete-symbol . ivy-posframe-display-at-point)
+          (counsel-M-x     . ivy-posframe-display-at-frame-center)
+          (t               . ivy-posframe-display-at-frame-center)))
+  (ivy-posframe-mode 0))
+
+(use-package ivy-rich
+  :init
+  (ivy-rich-mode 1))
+
+(use-package counsel
+  :bind
+  ("C-."   . 'counsel-imenu)
+  ("C-c '" . 'counsel-git-grep)
+  ("C-c ," . 'counsel-imenu)
+  ("C-h f" . 'counsel-describe-function)
+  ("C-h v" . 'counsel-describe-variable)
+  ("C-o"   . 'counsel-outline)
+  ("C-x b" . 'counsel-switch-buffer)
+  )
+;;(global-set-key (kbd "C-s") 'isearch-forward)
+(global-set-key (kbd "C-'") 'swiper-isearch-thing-at-point)
+
+(use-package counsel-projectile
+  :bind
+  ("C-x p f" . 'counsel-projectile-find-file)
+  ("C-x p g" . 'counsel-projectile-grep)
+  )
+
+;;==========skybert==========
+
 
 
 ;;==========flycheck==========
@@ -102,13 +179,6 @@
   :ensure t
   :config
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
-  )
-
-
-(use-package counsel
-  :ensure t
-  ;;  :config (require 'swiper) (require 'counsel) ;; 依赖
-  :hook (after-init . ivy-mode)
   )
 
 (defun open-init-file()
@@ -138,17 +208,7 @@
 ;;==========zoom in out end==========
 
 
-(defhydra hydra-buffer-menu (:color pink
-                             :hint nil)
-  "
-^Mark^             ^Unmark^           ^Actions^          ^Search
------------------------------------------------------------------
-_m_: mark          _u_: unmark        _x_: execute       _R_: re-isearch
-_s_: save          _U_: unmark up     _b_: bury          _I_: isearch
-_d_: delete        ^ ^                _g_: refresh       _O_: multi-occur
-_D_: delete up     ^ ^                _T_: files only: % -28`Buffer-menu-files-only
-_~_: modified
-"
+(defhydra hydra-buffer-menu (:color pink  :hint nil)
   ("m" Buffer-menu-mark)
   ("u" Buffer-menu-unmark)
   ("U" Buffer-menu-backup-unmark)
@@ -172,7 +232,6 @@ _~_: modified
 ;;==========hydra end==========
 
 
-
 (use-package vterm
   :ensure t
   )
@@ -180,14 +239,63 @@ _~_: modified
 (use-package treemacs)
 
 (treemacs)
+
+
+
 (use-package projectile
+  ;; :bind
+  ;; ("C-x p f" . projectile-find-file)
+  ;; ("C-x p g" . projectile-grep)
+  :init
+  (setq projectile-enable-caching t
+        projectile-globally-ignored-file-suffixes
+        '(
+          "blob"
+          "class"
+          "classpath"
+          "gz"
+          "iml"
+          "ipr"
+          "jar"
+          "pyc"
+          "tkj"
+          "war"
+          "xd"
+          "zip"
+          )
+        projectile-globally-ignored-files '("TAGS" "*~")
+        projectile-tags-command "/usr/bin/ctags -Re -f \"%s\" %s"
+        projectile-mode-line '(:eval (format " [%s]" (projectile-project-name)))
+        )
   :config
-  (projectile-mode)
-  (setq projectile-completion-system 'ivy)
-  :bind
-  ("C-x p f" . projectile-find-file)
-  ("C-x p g" . projectile-grep)
+  (projectile-global-mode)
+
+  (setq projectile-globally-ignored-directories
+        (append (list
+                 ".pytest_cache"
+                 "__pycache__"
+                 "build"
+                 "elpa"
+                 "node_modules"
+                 "output"
+                 "reveal.js"
+                 "semanticdb"
+                 "target"
+                 "venv"
+                 )
+                projectile-globally-ignored-directories))
   )
+
+
+
+;; (use-package projectile
+;;   :config
+;;   (projectile-mode)
+;;   (setq projectile-completion-system 'ivy)
+;;   :bind
+;;   ("C-x p f" . projectile-find-file)
+;;   ("C-x p g" . projectile-grep)
+;;   )
 
 (use-package treemacs-projectile)
 
@@ -200,16 +308,48 @@ _~_: modified
 
 
 ;;==========java==========
+
 (use-package lsp-mode
-  :hook ((lsp-mode . lsp-enable-which-key-integration))
-  :config (setq lsp-completion-enable-additional-text-edit nil)
-  :commands lsp
+  :ensure t
+  :bind
+  (:map lsp-mode-map
+        (("\C-\M-b" . lsp-find-implementation)
+         ("M-RET" . lsp-execute-code-action)))
+  :config
+  (setq lsp-inhibit-message t
+        lsp-eldoc-render-all nil
+        lsp-enable-file-watchers nil
+        lsp-enable-symbol-highlighting nil
+        lsp-headerline-breadcrumb-enable nil
+        lsp-highlight-symbol-at-point nil
+        lsp-modeline-code-actions-enable nil
+        lsp-modeline-diagnostics-enable nil
+        )
+
+  ;; Performance tweaks, see
+  ;; https://github.com/emacs-lsp/lsp-mode#performance
+  (setq gc-cons-threshold 100000000)
+  (setq read-process-output-max (* 1024 1024)) ;; 1mb
+  (setq lsp-idle-delay 0.500)
   )
+
+
+;; (use-package lsp-mode
+;;   :hook ((lsp-mode . lsp-enable-which-key-integration))
+;;   :config (setq lsp-completion-enable-additional-text-edit nil)
+;;   :commands lsp
+;;   )
+(use-package company-lsp :ensure t)
 
 (use-package lsp-ui
   :after lsp-mode
   :init
   (setq lsp-ui-doc-enable nil)
+  :config
+  (setq lsp-prefer-flymake nil
+        lsp-ui-doc-delay 5.0
+        lsp-ui-sideline-enable nil
+        lsp-ui-sideline-show-symbol nil)
   )
 
 (use-package helm-lsp :commands helm-lsp-workspace-symbol)
@@ -219,55 +359,74 @@ _~_: modified
 (use-package lsp-java
   :config
   (add-hook 'java-mode-hook 'lsp)
+  :init
   (setq lsp-java-server-install-dir (expand-file-name "~/.emacs.d/emacs-lsp-java/lsp-java-server/"))
-  )
-
-(use-package dap-mode
-  :after lsp-mode
-  :config (dap-auto-configure-mode))
-
-(use-package dap-java
-  :ensure nil)
-
-
-(use-package helm
-  :config (helm-mode))
-
-(use-package lsp-treemacs
-  )
-
-
-(require 'lsp-java-boot)
-;; to enable the lenses
-(add-hook 'lsp-mode-hook #'lsp-lens-mode)
-(add-hook 'java-mode-hook #'lsp-java-boot-lens-mode)
-
-
-
-(setq lsp-java-java-path "/usr/local/opt/openjdk@11/bin/java")
-(setq lombok-jar-path
+  (setq lsp-java-java-path "/usr/local/opt/openjdk@11/bin/java")
+  (setq lombok-jar-path
         (expand-file-name "~/.m2/repository/org/projectlombok/lombok/1.18.10/lombok-1.18.10.jar"))
-
-(setq lsp-java-vmargs
+  (setq lsp-java-vmargs
         `("-noverify"
           "-Xmx1G"
           "-XX:+UseG1GC"
           "-XX:+UseStringDeduplication"
           ,(concat "-javaagent:" lombok-jar-path)
-;;          ,(concat "-Xbootclasspath/a:" lombok-jar-path)
+          ;;          ,(concat "-Xbootclasspath/a:" lombok-jar-path)
           ))
-(setq lsp-groovy-server-file (expand-file-name "~/.emacs.d/emacs-lsp-java/groovy-language-server/groovy-language-server-all.jar"))
+  (setq lsp-groovy-server-file (expand-file-name "~/.emacs.d/emacs-lsp-java/groovy-language-server/groovy-language-server-all.jar"))
+  (setq lsp-java-configuration-maven-user-settings (expand-file-name "~/.m2/settings.xml"))
+  (setq lsp-java-maven-download-sources t)
+  (setq lsp-java-import-maven-enabled t)
+  )
 
-(setq lsp-java-configuration-maven-user-settings (expand-file-name "~/.m2/settings.xml"))
-(setq lsp-java-maven-download-sources t)
-(setq lsp-java-import-maven-enabled t)
+(use-package dap-mode
+  :ensure t
+  :after lsp-mode
+  :config
+  (dap-mode t)
+  (dap-ui-mode t)
+  (dap-tooltip-mode 1)
+  (tooltip-mode 1)
+  (dap-register-debug-template
+   "localhost:5005"
+   (list :type "java"
+         :request "attach"
+         :hostName "localhost"
+         :port 5005))
+  (dap-register-debug-template
+   "lxd"
+   (list :type "java"
+         :request "attach"
+         :hostName "127.0.0.1"
+         :port 5005))
+  )
 
+(use-package dap-java
+  :ensure nil
+  :after (lsp-java)
+
+  ;; The :bind here makes use-package fail to lead the dap-java block!
+  ;; :bind
+  ;; (("C-c R" . dap-java-run-test-class)
+  ;;  ("C-c d" . dap-java-debug-test-method)
+  ;;  ("C-c r" . dap-java-run-test-method)
+  ;;  )
+
+  :config
+  (global-set-key (kbd "<f7>") 'dap-step-in)
+  (global-set-key (kbd "<f8>") 'dap-next)
+  (global-set-key (kbd "<f9>") 'dap-continue)
+  )
+
+(use-package yaml-mode)
+;;==========java end==========
+
+
+;;==========xml处理==========
 ;; 针对maven的pom和其他的xml 标签补全
 (add-to-list 'auto-mode-alist '("\\.\\(xml\\|xsl\\|rng\\|xhtml\\|lzx\\|x3d\\)\\'" . nxml-mode))
-(setq rng-schema-locating-files (list (expand-file-name "~/.emacs.d/schema/schemas.xml")))   
+(setq rng-schema-locating-files (list (expand-file-name "~/.emacs.d/schema/schemas.xml")))
 
 
-;;==========java end==========
 
 (use-package pdf-tools
   :ensure t
@@ -356,7 +515,7 @@ _~_: modified
   (setq switch-window-shortcut-style 'qwerty)
   )
 
-(global-set-key (kbd "C-x o") 'switch-window) 
+(global-set-key (kbd "C-x o") 'switch-window)
 ;;==========switch-window end==========
 
 ;; (use-package window-numbering
@@ -388,17 +547,17 @@ _~_: modified
   :config
   (awesome-tab-mode t)
   )
-  ;; 使用mac command + N 就可以切换到对应的tab
-  (global-set-key (kbd "s-1") 'awesome-tab-select-visible-tab)
-  (global-set-key (kbd "s-2") 'awesome-tab-select-visible-tab)
-  (global-set-key (kbd "s-3") 'awesome-tab-select-visible-tab)
-  (global-set-key (kbd "s-4") 'awesome-tab-select-visible-tab)
-  (global-set-key (kbd "s-5") 'awesome-tab-select-visible-tab)
-  (global-set-key (kbd "s-6") 'awesome-tab-select-visible-tab)
-  (global-set-key (kbd "s-7") 'awesome-tab-select-visible-tab)
-  (global-set-key (kbd "s-8") 'awesome-tab-select-visible-tab)
-  (global-set-key (kbd "s-9") 'awesome-tab-select-visible-tab)
-  (global-set-key (kbd "s-0") 'awesome-tab-select-visible-tab)
+;; 使用mac command + N 就可以切换到对应的tab
+(global-set-key (kbd "s-1") 'awesome-tab-select-visible-tab)
+(global-set-key (kbd "s-2") 'awesome-tab-select-visible-tab)
+(global-set-key (kbd "s-3") 'awesome-tab-select-visible-tab)
+(global-set-key (kbd "s-4") 'awesome-tab-select-visible-tab)
+(global-set-key (kbd "s-5") 'awesome-tab-select-visible-tab)
+(global-set-key (kbd "s-6") 'awesome-tab-select-visible-tab)
+(global-set-key (kbd "s-7") 'awesome-tab-select-visible-tab)
+(global-set-key (kbd "s-8") 'awesome-tab-select-visible-tab)
+(global-set-key (kbd "s-9") 'awesome-tab-select-visible-tab)
+(global-set-key (kbd "s-0") 'awesome-tab-select-visible-tab)
 
 ;;==========awesome-tab end==========
 
@@ -418,8 +577,8 @@ _~_: modified
   )
 ;;==========avy==========
 ;;字体设置
-(set-face-attribute 'default nil :font "Menlo-16")
-
+;;(set-face-attribute 'default nil :font "Menlo-16")
+(add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono-16"))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -427,7 +586,7 @@ _~_: modified
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(dumb-jump yasnippet-snippets window-number treemacs-projectile awesome-tab zoom window-numbering pdf-tools vterm smartparens yasnippet which-key use-package projectile org-bullets mvn magit lsp-ui lsp-java lsp-ivy hungry-delete helm-lsp format-all flycheck exec-path-from-shell dracula-theme counsel company)))
+   '(smex dumb-jump yasnippet-snippets window-number treemacs-projectile awesome-tab zoom window-numbering pdf-tools vterm smartparens yasnippet which-key use-package projectile org-bullets mvn magit lsp-ui lsp-java lsp-ivy hungry-delete helm-lsp format-all flycheck exec-path-from-shell dracula-theme counsel company)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
