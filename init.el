@@ -311,6 +311,7 @@
 
 (use-package lsp-mode
   :ensure t
+  :commands lsp
   :bind
   (:map lsp-mode-map
         (("\C-\M-b" . lsp-find-implementation)
