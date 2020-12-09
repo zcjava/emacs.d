@@ -89,11 +89,9 @@
 ;;命令补全列表
 (use-package which-key
   :ensure t  ;;是否一定要确保已安装
-  :config
-  (which-key-mode)
   :bind ("M-m" . which-key-show-top-level)  ;; 绑定超级键，顶层命令列表
   )
-
+(which-key-mode)
 
 
 ;;==========skybert==========
@@ -231,14 +229,15 @@
 (define-key Buffer-menu-mode-map "." 'hydra-buffer-menu/body)
 ;;==========hydra end==========
 
-
+;;==========vterm==========
+;; 需要安装cmake、libtool.使用brew install cmake , libtool
 (use-package vterm
   :ensure t
   )
 
 (use-package treemacs)
 
-(treemacs)
+;;(treemacs)
 
 
 
@@ -422,12 +421,16 @@
 ;;==========java end==========
 
 
-;;==========xml处理==========
+
 ;; 针对maven的pom和其他的xml 标签补全
 (add-to-list 'auto-mode-alist '("\\.\\(xml\\|xsl\\|rng\\|xhtml\\|lzx\\|x3d\\)\\'" . nxml-mode))
 (setq rng-schema-locating-files (list (expand-file-name "~/.emacs.d/schema/schemas.xml")))
 
-
+;; git clone https://github.com/m0smith/maven-pom-mode.git ~/.emacs.d/elpa/
+(add-to-list 'load-path  (expand-file-name "~/.emacs.d/elpa/maven-pom-mode"))
+(load "maven-pom-mode")
+(add-to-list 'auto-mode-alist '("pom.xml" . maven-pom-mode))
+;;==========xml处理==========
 
 (use-package pdf-tools
   :ensure t
@@ -562,6 +565,14 @@
 
 ;;==========awesome-tab end==========
 
+;;==========maven pom snippets==========
+;; (use-package maven-pom-mode
+;;   :load-path (lambda () (expand-file-name "~/.emacs.d/elpa/maven-pom-mode/"))
+;;   :config
+;;   (awesome-tab-mode t)
+;;   )
+;;==========maven pom snippets end==========
+
 ;;==========dumb-jump==========
 
 (use-package dumb-jump
@@ -587,7 +598,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(smex dumb-jump yasnippet-snippets window-number treemacs-projectile awesome-tab zoom window-numbering pdf-tools vterm smartparens yasnippet which-key use-package projectile org-bullets mvn magit lsp-ui lsp-java lsp-ivy hungry-delete helm-lsp format-all flycheck exec-path-from-shell dracula-theme counsel company)))
+   '(java-snippets smex dumb-jump yasnippet-snippets window-number treemacs-projectile awesome-tab zoom window-numbering pdf-tools vterm smartparens yasnippet which-key use-package projectile org-bullets mvn magit lsp-ui lsp-java lsp-ivy hungry-delete helm-lsp format-all flycheck exec-path-from-shell dracula-theme counsel company)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
