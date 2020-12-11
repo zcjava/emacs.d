@@ -26,6 +26,8 @@
 
 ;;==========utf8==========
 ;; 设置emacs 使用 utf-8
+;; 设置为中文简体语言环境
+(setenv "LANG" "zh_CN.UTF-8")
 (setq locale-coding-system 'utf-8)
 ;; 设置键盘输入时的字符编码
 (set-keyboard-coding-system 'utf-8)
@@ -44,6 +46,10 @@
 ;; 解决文件目录的中文名乱码
 (setq-default pathname-coding-system 'utf-8)
 (set-file-name-coding-system 'utf-8)
+;;;; 设置编辑环境
+
+
+
 ;; 解决 Shell Mode(cmd) 下中文乱码问题
 ;;==========utf8 end==========
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
