@@ -51,7 +51,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq tab-width 2)
 (setq-default indent-tabs-mode nil)
-	      
+
 (setq auto-save-default nil)
 ;;不保留备份文件  eg:  init.el~之类的文件
 (setq make-backup-files nil)
@@ -157,8 +157,8 @@
 
 (use-package counsel-projectile
   :bind
-  ("C-x p f" . 'counsel-projectile-find-file)
-  ("C-x p g" . 'counsel-projectile-grep)
+  ("C-c p f" . 'counsel-projectile-find-file)
+  ("C-c p g" . 'counsel-projectile-grep)
   )
 
 ;;==========skybert==========
@@ -235,7 +235,10 @@
   :ensure t
   )
 
-(use-package treemacs)
+(use-package treemacs
+  :commands (treemacs)
+  :after (lsp-mode)
+  )
 
 ;;(treemacs)
 
@@ -243,8 +246,8 @@
 
 (use-package projectile
   ;; :bind
-  ;; ("C-x p f" . projectile-find-file)
-  ;; ("C-x p g" . projectile-grep)
+  ;; ("C-c p f" . projectile-find-file)
+  ;; ("C-c p g" . projectile-grep)
   :init
   (setq projectile-enable-caching t
         projectile-globally-ignored-file-suffixes
@@ -292,8 +295,8 @@
 ;;   (projectile-mode)
 ;;   (setq projectile-completion-system 'ivy)
 ;;   :bind
-;;   ("C-x p f" . projectile-find-file)
-;;   ("C-x p g" . projectile-grep)
+;;   ("C-c p f" . projectile-find-file)
+;;   ("C-c p g" . projectile-grep)
 ;;   )
 
 (use-package treemacs-projectile)
@@ -310,12 +313,25 @@
 
 (use-package lsp-mode
   :ensure t
+  :hook (
+         (lsp-mode . lsp-enable-which-key-integration)
+         (java-mode . #'lsp-deferred))
   :commands lsp
   :bind
   (:map lsp-mode-map
         (("\C-\M-b" . lsp-find-implementation)
          ("M-RET" . lsp-execute-code-action)))
+  :init (setq
+         lsp-keymap-prefix "C-c l"              ; this is for which-key integration documentation, need to use lsp-mode-map
+         read-process-output-max (* 1024 1024)  ; 1 mb
+         lsp-completion-provider :capf
+         lsp-idle-delay 0.500
+         )
   :config
+  (setq lsp-intelephense-multi-root nil) ; don't scan unnecessary projects
+  (with-eval-after-load 'lsp-intelephense
+    (setf (lsp--client-multi-root (gethash 'iph lsp-clients)) nil))
+  (define-key lsp-mode-map (kbd "C-c l") lsp-command-map)
   (setq lsp-inhibit-message t
         lsp-eldoc-render-all nil
         lsp-enable-file-watchers nil
@@ -354,6 +370,12 @@
 
 (use-package helm-lsp :commands helm-lsp-workspace-symbol)
 ;; if you are ivy user
+
+(use-package helm-descbinds
+  :ensure t
+  :bind ("C-h b" . helm-descbinds)
+  )
+
 (use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
 
 (use-package lsp-java
@@ -381,6 +403,13 @@
 (use-package dap-mode
   :ensure t
   :after lsp-mode
+  :functions dap-hydra/nil
+  :bind (:map lsp-mode-map
+              ("<f5>" . dap-debug)
+              ("M-<f5>" . dap-hydra))
+  :hook ((dap-mode . dap-ui-mode)
+         (dap-session-created . (lambda (&_rest) (dap-hydra)))
+         (dap-terminated . (lambda (&_rest) (dap-hydra/nil))))
   :config
   (dap-mode t)
   (dap-ui-mode t)
@@ -418,6 +447,14 @@
   )
 
 (use-package yaml-mode)
+
+(use-package lsp-treemacs
+  :after (lsp-mode treemacs)
+  :ensure t
+  :commands lsp-treemacs-errors-list
+  :bind (:map lsp-mode-map
+              ("M-9" . lsp-treemacs-errors-list)))
+
 ;;==========java end==========
 
 
@@ -573,6 +610,17 @@
 ;;   )
 ;;==========maven pom snippets end==========
 
+
+(defun my/ansi-colorize-buffer ()
+  (let ((buffer-read-only nil))
+    (ansi-color-apply-on-region (point-min) (point-max))))
+
+(use-package ansi-color
+  :ensure t
+  :config
+  (add-hook 'compilation-filter-hook 'my/ansi-colorize-buffer)
+  )
+
 ;;==========dumb-jump==========
 
 (use-package dumb-jump
@@ -588,6 +636,11 @@
   (global-set-key (kbd "C-;") 'avy-goto-char)
   )
 ;;==========avy==========
+
+(use-package quickrun
+  :ensure t
+  :bind ("C-c r" . quickrun))
+
 ;;字体设置
 ;;(set-face-attribute 'default nil :font "Menlo-16")
 (add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono-16"))
