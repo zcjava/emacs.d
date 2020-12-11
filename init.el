@@ -133,8 +133,8 @@
 (use-package ivy
   :init
   (setq ivy-height 20
-        ivy-initial-inputs-alist nil)
-  )
+        ;;ivy-initial-inputs-alist nil
+        ))
 
 (use-package ivy-posframe
   :init
@@ -157,7 +157,15 @@
   ("C-h v" . 'counsel-describe-variable)
   ("C-o"   . 'counsel-outline)
   ("C-x b" . 'counsel-switch-buffer)
+  :hook (after-init . ivy-mode)
   )
+
+;; (use-package counsel
+;;   :ensure t
+;;   ;;  :config (require 'swiper) (require 'counsel) ;; 依赖
+;;   :hook (after-init . ivy-mode)
+;;   )
+
 ;;(global-set-key (kbd "C-s") 'isearch-forward)
 (global-set-key (kbd "C-'") 'swiper-isearch-thing-at-point)
 
