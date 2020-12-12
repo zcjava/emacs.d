@@ -24,6 +24,9 @@
 ;;隐藏滚动条
 (scroll-bar-mode nil)
 
+;;设置默认目录
+(setq default-directory "~/")
+
 ;;==========utf8==========
 ;; 设置emacs 使用 utf-8
 ;; 设置为中文简体语言环境
@@ -346,7 +349,9 @@
   (with-eval-after-load 'lsp-intelephense
     (setf (lsp--client-multi-root (gethash 'iph lsp-clients)) nil))
   (define-key lsp-mode-map (kbd "C-c l") lsp-command-map)
-  (setq lsp-inhibit-message t
+  (setq
+   ;; 关闭lsp debug信息
+   ;; lsp-inhibit-message t
         lsp-eldoc-render-all nil
         lsp-enable-file-watchers nil
         lsp-enable-symbol-highlighting nil
