@@ -169,6 +169,9 @@
 ;;   :hook (after-init . ivy-mode)
 ;;   )
 
+
+
+
 ;;(global-set-key (kbd "C-s") 'isearch-forward)
 (global-set-key (kbd "C-'") 'swiper-isearch-thing-at-point)
 
@@ -194,11 +197,6 @@
   :ensure t
   :config
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
-  )
-
-(defun open-init-file()
-  (interactive)
-  (find-file "~/.emacs.d/init.el")
   )
 
 ;;==========smartparens==========
@@ -328,6 +326,7 @@
 
 ;;==========java==========
 
+
 (use-package lsp-mode
   :ensure t
   :hook (
@@ -368,6 +367,9 @@
   (setq lsp-idle-delay 0.500)
   )
 
+(use-package groovy-mode)
+;;(require 'lsp-groovy)
+;;(add-hook 'groovy-mode-hook #'lsp-groovy-enable)
 
 ;; (use-package lsp-mode
 ;;   :hook ((lsp-mode . lsp-enable-which-key-integration))
@@ -474,6 +476,8 @@
   :bind (:map lsp-mode-map
               ("M-9" . lsp-treemacs-errors-list)))
 
+;; (use-package gradle-mode
+;;   )
 ;;==========java end==========
 
 
@@ -660,6 +664,25 @@
   :ensure t
   :bind ("C-c r" . quickrun))
 
+
+
+;;==========myself custom fun==========
+(defun open-init-file()
+  (interactive)
+  (find-file "~/.emacs.d/init.el")
+  )
+
+(global-set-key (kbd "<C-return>") 'newline-code-tab)
+
+(defun newline-code-tab()
+  (interactive)
+  (newline-and-indent)
+  (newline-and-indent)
+  (previous-line)
+  (indent-for-tab-command)
+  )
+;;==========myself custom==========
+
 ;;字体设置
 ;;(set-face-attribute 'default nil :font "Menlo-16")
 (add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono-16"))
@@ -670,7 +693,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(java-snippets smex dumb-jump yasnippet-snippets window-number treemacs-projectile awesome-tab zoom window-numbering pdf-tools vterm smartparens yasnippet which-key use-package projectile org-bullets mvn magit lsp-ui lsp-java lsp-ivy hungry-delete helm-lsp format-all flycheck exec-path-from-shell dracula-theme counsel company)))
+   '(lsp-groovy groovy-mode java-snippets smex dumb-jump yasnippet-snippets window-number treemacs-projectile awesome-tab zoom window-numbering pdf-tools vterm smartparens yasnippet which-key use-package projectile org-bullets mvn magit lsp-ui lsp-java lsp-ivy hungry-delete helm-lsp format-all flycheck exec-path-from-shell dracula-theme counsel company)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
