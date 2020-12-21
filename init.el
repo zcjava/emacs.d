@@ -160,6 +160,8 @@
   ("C-h v" . 'counsel-describe-variable)
   ("C-o"   . 'counsel-outline)
   ("C-x b" . 'counsel-switch-buffer)
+  ("C-x g" . 'counsel-rg)
+
   :hook (after-init . ivy-mode)
   )
 
@@ -179,6 +181,8 @@
   :bind
   ("C-c p f" . 'counsel-projectile-find-file)
   ("C-c p g" . 'counsel-projectile-grep)
+  ("C-c p p" . 'counsel-projectile-switch-project)
+  ("C-c p b" . 'counsel-projectile-switch-to-buffer)
   )
 
 ;;==========skybert==========
@@ -263,27 +267,27 @@
   ;; :bind
   ;; ("C-c p f" . projectile-find-file)
   ;; ("C-c p g" . projectile-grep)
-  :init
-  (setq projectile-enable-caching t
-        projectile-globally-ignored-file-suffixes
-        '(
-          "blob"
-          "class"
-          "classpath"
-          "gz"
-          "iml"
-          "ipr"
-          "jar"
-          "pyc"
-          "tkj"
-          "war"
-          "xd"
-          "zip"
-          )
-        projectile-globally-ignored-files '("TAGS" "*~")
-        projectile-tags-command "/usr/bin/ctags -Re -f \"%s\" %s"
-        projectile-mode-line '(:eval (format " [%s]" (projectile-project-name)))
-        )
+  ;; :init
+  ;; (setq projectile-enable-caching t
+  ;;       projectile-globally-ignored-file-suffixes
+  ;;       '(
+  ;;         "blob"
+  ;;         "class"
+  ;;         "classpath"
+  ;;         "gz"
+  ;;         "iml"
+  ;;         "ipr"
+  ;;         "jar"
+  ;;         "pyc"
+  ;;         "tkj"
+  ;;         "war"
+  ;;         "xd"
+  ;;         "zip"
+  ;;         )
+  ;;       projectile-globally-ignored-files '("TAGS" "*~")
+  ;;       projectile-tags-command "/usr/bin/ctags -Re -f \"%s\" %s"
+  ;;       projectile-mode-line '(:eval (format " [%s]" (projectile-project-name)))
+  ;;       )
   :config
   (projectile-global-mode)
 
@@ -351,14 +355,14 @@
   (setq
    ;; 关闭lsp debug信息
    ;; lsp-inhibit-message t
-        lsp-eldoc-render-all nil
-        lsp-enable-file-watchers nil
-        lsp-enable-symbol-highlighting nil
-        lsp-headerline-breadcrumb-enable nil
-        lsp-highlight-symbol-at-point nil
-        lsp-modeline-code-actions-enable nil
-        lsp-modeline-diagnostics-enable nil
-        )
+   lsp-eldoc-render-all nil
+   lsp-enable-file-watchers nil
+   lsp-enable-symbol-highlighting nil
+   lsp-headerline-breadcrumb-enable nil
+   lsp-highlight-symbol-at-point nil
+   lsp-modeline-code-actions-enable nil
+   lsp-modeline-diagnostics-enable nil
+   )
 
   ;; Performance tweaks, see
   ;; https://github.com/emacs-lsp/lsp-mode#performance
@@ -476,11 +480,36 @@
   :bind (:map lsp-mode-map
               ("M-9" . lsp-treemacs-errors-list)))
 
-;; (use-package gradle-mode
-;;   )
+(use-package gradle-mode
+  )
 ;;==========java end==========
 
 
+;;==========python==========
+
+(use-package python-mode
+  :init
+  (add-hook 'python-mode-hook
+            (lambda ()
+              (setq tab-width 4)
+              (setq python-indent-offset 4)
+              (setq global-flycheck-mode 1)
+              )
+            ))
+
+
+(use-package lsp-pyright
+  :ensure t
+  :config
+  (setq lsp-pyright-auto-import-completions t)
+  (setq lsp-pyright-auto-search-paths t)
+  (setq lsp-pyright-extra-paths '("/usr/local/lib/python3.9/site-packages"))
+  :hook (python-mode . (lambda ()
+                         (require 'lsp-pyright)
+                         (lsp))))  ; or lsp-deferred
+(use-package flycheck-pyflakes
+  )
+;;==========python end==========
 
 ;; 针对maven的pom和其他的xml 标签补全
 (add-to-list 'auto-mode-alist '("\\.\\(xml\\|xsl\\|rng\\|xhtml\\|lzx\\|x3d\\)\\'" . nxml-mode))
@@ -522,7 +551,7 @@
 (global-set-key (kbd "C-c C-r") 'ivy-resume)
 (global-set-key (kbd "<f6>") 'ivy-resume)
 (global-set-key (kbd "M-x") 'counsel-M-x)
-(global-set-key (kbd "C-x C-f") 'counsel-find-file)
+;;(global-set-key (kbd "C-x C-f") 'counsel-find-file)
 (global-set-key (kbd "<f1> f") 'counsel-describe-function)
 (global-set-key (kbd "<f1> v") 'counsel-describe-variable)
 (global-set-key (kbd "<f1> o") 'counsel-describe-symbol)
@@ -638,6 +667,10 @@
   (let ((buffer-read-only nil))
     (ansi-color-apply-on-region (point-min) (point-max))))
 
+(defun display-ansi-colors ()
+  (interactive)
+  (ansi-color-apply-on-region (point-min) (point-max)))
+
 (use-package ansi-color
   :ensure t
   :config
@@ -681,6 +714,15 @@
   (previous-line)
   (indent-for-tab-command)
   )
+
+
+(defun copy-path()
+  (interactive)
+  (let (cdir 'default-directory)
+    (message "%s" cdir)
+    (x-select-text cdir)
+    )
+  )
 ;;==========myself custom==========
 
 ;;字体设置
@@ -693,7 +735,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(lsp-groovy groovy-mode java-snippets smex dumb-jump yasnippet-snippets window-number treemacs-projectile awesome-tab zoom window-numbering pdf-tools vterm smartparens yasnippet which-key use-package projectile org-bullets mvn magit lsp-ui lsp-java lsp-ivy hungry-delete helm-lsp format-all flycheck exec-path-from-shell dracula-theme counsel company)))
+   '(lsp-pyright gradle-mode lsp-groovy groovy-mode java-snippets smex dumb-jump yasnippet-snippets window-number treemacs-projectile awesome-tab zoom window-numbering pdf-tools vterm smartparens yasnippet which-key use-package projectile org-bullets mvn magit lsp-ui lsp-java lsp-ivy hungry-delete helm-lsp format-all flycheck exec-path-from-shell dracula-theme counsel company)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
