@@ -487,15 +487,15 @@
 
 ;;==========python==========
 
-(use-package python-mode
-  :init
-  (add-hook 'python-mode-hook
-            (lambda ()
-              (setq tab-width 4)
-              (setq python-indent-offset 4)
-              (setq global-flycheck-mode 1)
-              )
-            ))
+;; (use-package python-mode
+;;   :init
+;;   (add-hook 'python-mode-hook
+;;             (lambda ()
+;;               (setq tab-width 4)
+;;               (setq python-indent-offset 4)
+;;               (setq global-flycheck-mode 1)
+;;               )
+;;             ))
 
 
 (use-package lsp-pyright
@@ -503,7 +503,8 @@
   :config
   (setq lsp-pyright-auto-import-completions t)
   (setq lsp-pyright-auto-search-paths t)
-  (setq lsp-pyright-extra-paths '("/usr/local/lib/python3.9/site-packages"))
+  (setq lsp-pyright-python-executable-cmd "python3")
+  (setq lsp-pyright-extra-paths (list"/usr/local/lib/python3.9/site-packages/" "."))
   :hook (python-mode . (lambda ()
                          (require 'lsp-pyright)
                          (lsp))))  ; or lsp-deferred
@@ -685,6 +686,9 @@
 (add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
 ;;==========dumb-jump==========
 
+(use-package json-mode
+  )
+
 ;;==========avy==========
 (use-package avy
   :ensure t
@@ -735,7 +739,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(lsp-pyright gradle-mode lsp-groovy groovy-mode java-snippets smex dumb-jump yasnippet-snippets window-number treemacs-projectile awesome-tab zoom window-numbering pdf-tools vterm smartparens yasnippet which-key use-package projectile org-bullets mvn magit lsp-ui lsp-java lsp-ivy hungry-delete helm-lsp format-all flycheck exec-path-from-shell dracula-theme counsel company)))
+   '(json-mode lsp-pyright gradle-mode lsp-groovy groovy-mode java-snippets smex dumb-jump yasnippet-snippets window-number treemacs-projectile awesome-tab zoom window-numbering pdf-tools vterm smartparens yasnippet which-key use-package projectile org-bullets mvn magit lsp-ui lsp-java lsp-ivy hungry-delete helm-lsp format-all flycheck exec-path-from-shell dracula-theme counsel company)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
