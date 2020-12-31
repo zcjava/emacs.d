@@ -58,8 +58,14 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; White space
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;==========tab indent==========
 (setq tab-width 2)
+(setq-default tab-width 2)
+(setq c-basic-offset 2)
+;; (setq tab-always-indent)
 (setq-default indent-tabs-mode nil)
+;;==========tab indent end==========
+
 
 (setq auto-save-default nil)
 ;;不保留备份文件  eg:  init.el~之类的文件
@@ -480,8 +486,8 @@
   :bind (:map lsp-mode-map
               ("M-9" . lsp-treemacs-errors-list)))
 
-(use-package gradle-mode
-  )
+;;(use-package gradle-mode
+;;  )
 
 (use-package yaml-mode)
 ;;==========java end==========
