@@ -59,9 +59,9 @@
 ;; White space
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;==========tab indent==========
-(setq tab-width 2)
-(setq-default tab-width 2)
-(setq c-basic-offset 2)
+(setq tab-width 4)
+(setq-default tab-width 4)
+(setq c-basic-offset 4)
 ;; (setq tab-always-indent)
 (setq-default indent-tabs-mode nil)
 ;;==========tab indent end==========
@@ -697,6 +697,17 @@
 (use-package json-mode
   )
 
+;;==========vue==========
+(use-package vue-mode
+  :mode "\\.vue\\'"
+  :hook (vue-mode . prettier-js-mode)
+  :config
+  (add-hook 'vue-mode-hook 'lsp)
+  (setq prettier-js-args '("--parser vue"))
+  )
+;;==========vue==========
+
+
 ;;==========avy==========
 (use-package avy
   :ensure t
@@ -709,6 +720,9 @@
   :ensure t
   :bind ("C-c r" . quickrun))
 
+(use-package youdao-dictionary
+  :ensure t
+  )
 
 
 ;;==========myself custom fun==========
@@ -730,10 +744,9 @@
 
 (defun copy-path()
   (interactive)
-  (let (cdir 'default-directory)
-    (message "%s" cdir)
-    (x-select-text cdir)
-    )
+  (setq currentdir default-directory)
+  (message "%s" currentdir)
+  (x-select-text currentdir)
   )
 ;;==========myself custom==========
 
@@ -747,10 +760,11 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(yaml-mode json-mode lsp-pyright gradle-mode lsp-groovy groovy-mode java-snippets smex dumb-jump yasnippet-snippets window-number treemacs-projectile awesome-tab zoom window-numbering pdf-tools vterm smartparens yasnippet which-key use-package projectile org-bullets mvn magit lsp-ui lsp-java lsp-ivy hungry-delete helm-lsp format-all flycheck exec-path-from-shell dracula-theme counsel company)))
+   '(vue-mode vagrant-tramp youdao-dictionary yaml-mode json-mode lsp-pyright gradle-mode lsp-groovy groovy-mode java-snippets smex dumb-jump yasnippet-snippets window-number treemacs-projectile awesome-tab zoom window-numbering pdf-tools vterm smartparens yasnippet which-key use-package projectile org-bullets mvn magit lsp-ui lsp-java lsp-ivy hungry-delete helm-lsp format-all flycheck exec-path-from-shell dracula-theme counsel company)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+(put 'downcase-region 'disabled nil)
