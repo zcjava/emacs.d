@@ -10,9 +10,13 @@
 
 ;;	     '("melpa" . "http://elpa.emacs-china.org/melpa/"))
 (setq package-archives '(
-			 ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
-			 ("gnu" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
-			 ("org" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")))
+			             ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
+			             ("gnu" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
+			             ("org" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")))
+;; (setq url-proxy-services
+;;       '(("no_proxy" . "^\\(localhost\\|10.*\\)")
+;;         ("http" . "127.0.0.1:53224")
+;;         ("https" . "127.0.0.1:53224")))
 
 (package-initialize)
 
@@ -96,8 +100,8 @@
 (use-package hungry-delete
   :ensure t
   :bind (
-	 ("C-c DEL" . hungry-delete-backward)
-	 ("C-c d" . hungry-delete-forward))
+	     ("C-c DEL" . hungry-delete-backward)
+	     ("C-c d" . hungry-delete-forward))
   )
 
 
@@ -197,8 +201,9 @@
 
 ;;==========flycheck==========
 (use-package flycheck
+  :init (global-flycheck-mode)
   :ensure t
-  :hook (after-init . global-flycheck-mode))
+  )
 (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))
 ;;==========flycheck==========
 
@@ -208,6 +213,118 @@
   :config
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
   )
+
+
+;;==========org-agenda==========
+
+;;(setq org-agenda-files '("~/Desktop/gtd/"))
+
+(global-set-key (kbd "C-c a") 'org-agenda)
+(global-set-key (kbd "C-c c") 'org-capture)
+(setq org-agenda-dir "~/Desktop/gtd/")
+(setq org-agenda-file-note (expand-file-name "notes.org" org-agenda-dir))
+(setq org-agenda-file-gtd (expand-file-name "gtd.org" org-agenda-dir))
+(setq org-agenda-file-work (expand-file-name "work.org" org-agenda-dir))
+(setq org-agenda-file-journal (expand-file-name "journal.org" org-agenda-dir))
+(setq org-agenda-file-code-snippet (expand-file-name "snippet.org" org-agenda-dir))
+(setq org-default-notes-file (expand-file-name "gtd.org" org-agenda-dir))
+(setq org-agenda-file-blogposts (expand-file-name "all-posts.org" org-agenda-dir))
+(setq org-agenda-files (list org-agenda-dir))
+
+
+(setq org-capture-templates
+      '(("t" "Todo" entry (file+headline org-agenda-file-gtd "Workspace")
+         "* TODO [#B] %?\n  %i\n %U"
+         :empty-lines 1)
+        ("n" "notes" entry (file+headline org-agenda-file-note "Quick notes")
+         "* %?\n  %i\n %U"
+         :empty-lines 1)
+        ("b" "Blog Ideas" entry (file+headline org-agenda-file-note "Blog Ideas")
+         "* TODO [#B] %?\n  %i\n %U"
+         :empty-lines 1)
+        ("s" "Code Snippet" entry
+         (file org-agenda-file-code-snippet)
+         "* %?\t%^g\n#+BEGIN_SRC %^{language}\n\n#+END_SRC")
+        ("w" "work" entry (file+headline org-agenda-file-work "Work")
+         "* TODO [#A] %?\n  %i\n %U"
+         :empty-lines 1)
+        ("x" "Web Collections" entry
+         (file+headline org-agenda-file-note "Web")
+         "* %U %:annotation\n\n%:initial\n\n%?")
+        ("p" "Protocol" entry (file+headline org-agenda-file-note "Inbox")
+         "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
+	    ("L" "Protocol Link" entry (file+headline org-agenda-file-note "Inbox")
+         "* %? [[%:link][%:description]] \nCaptured On: %U")
+        ("c" "Chrome" entry (file+headline org-agenda-file-note "Quick notes")
+         "* TODO [#C] %?\n %(zilongshanren/retrieve-chrome-current-tab-url)\n %i\n %U"
+         :empty-lines 1)
+        ("l" "links" entry (file+headline org-agenda-file-note "Quick notes")
+         "* TODO [#C] %?\n  %i\n %a \n %U"
+         :empty-lines 1)
+        ("j" "Journal Entry"
+         entry (file+datetree org-agenda-file-journal)
+         "* %?"
+         :empty-lines 1)))
+
+(with-eval-after-load 'org-capture
+  (defun org-hugo-new-subtree-post-capture-template ()
+    "Returns `org-capture' template string for new Hugo post.
+See `org-capture-templates' for more information."
+    (let* ((title (read-from-minibuffer "Post Title: ")) ;Prompt to enter the post title
+           (fname (org-hugo-slug title)))
+      (mapconcat #'identity
+                 `(
+                   ,(concat "* TODO " title)
+                   ":PROPERTIES:"
+                   ,(concat ":EXPORT_FILE_NAME: " fname)
+                   ":END:"
+                   "\n\n")        ;Place the cursor here finally
+                 "\n")))
+
+  (add-to-list 'org-capture-templates
+               '("h"              ;`org-capture' binding + h
+                 "Hugo post"
+                 entry
+                 ;; It is assumed that below file is present in `org-directory'
+                 ;; and that it has a "Blog Ideas" heading. It can even be a
+                 ;; symlink pointing to the actual location of all-posts.org!
+                 (file+headline org-agenda-file-blogposts "Blog Ideas")
+                 (function org-hugo-new-subtree-post-capture-template))))
+
+;;An entry without a cookie is treated just like priority ' B '.
+;;So when create new task, they are default 重要且紧急
+(setq org-agenda-custom-commands
+      '(
+        ("w" . "任务安排")
+        ("wa" "重要且紧急的任务" tags-todo "+PRIORITY=\"A\"")
+        ("wb" "重要且不紧急的任务" tags-todo "-Weekly-Monthly-Daily+PRIORITY=\"B\"")
+        ("wc" "不重要且紧急的任务" tags-todo "+PRIORITY=\"C\"")
+        ("b" "Blog" tags-todo "BLOG")
+        ("p" . "项目安排")
+        ("pw" tags-todo "PROJECT+WORK+CATEGORY=\"work\"")
+        ("pl" tags-todo "PROJECT+DREAM+CATEGORY=\"zilongshanren\"")
+        ("W" "Weekly Review"
+         ((stuck "") ;; review stuck projects as designated by org-stuck-projects
+          (tags-todo "PROJECT") ;; review all projects (assuming you use todo keywords to designate projects)
+          ))))
+
+(add-to-list 'org-agenda-custom-commands
+             '("r" "Daily Agenda Review"
+               ((agenda "" ((org-agenda-overriding-header "今日记录")
+                            (org-agenda-span 'day)
+                            (org-agenda-show-log 'clockcheck)
+                            (org-agenda-start-with-log-mode nil)
+                            (org-agenda-log-mode-items '(closed clock state))
+                            (org-agenda-clockreport-mode t))))))
+
+
+;;==========org-agenda end==========
+
+;;==========org pomodoro==========
+(use-package org-pomodoro
+  )
+;;==========org pomodoro==========
+
 
 ;;==========smartparens==========
 ;;自动补全符号
@@ -260,10 +377,11 @@
   :ensure t
   )
 
+
 (use-package treemacs
+  :ensure t
   :commands (treemacs)
-  :after (lsp-mode)
-  )
+  :after (lsp-mode))
 
 ;;(treemacs)
 
@@ -337,6 +455,7 @@
 ;;==========java==========
 
 
+
 (use-package lsp-mode
   :ensure t
   :hook (
@@ -388,6 +507,7 @@
 ;;   )
 (use-package company-lsp :ensure t)
 
+
 (use-package lsp-ui
   :after lsp-mode
   :init
@@ -412,6 +532,8 @@
 (use-package lsp-java
   :config
   (add-hook 'java-mode-hook 'lsp)
+  (setq lsp-java-format-settings-url "https://raw.githubusercontent.com/google/styleguide/gh-pages/eclipse-java-google-style.xml" lsp-java-format-settings-profile "GoogleStyle")
+  (setq lsp-java-format-enabled t)
   :init
   (setq lsp-java-server-install-dir (expand-file-name "~/.emacs.d/emacs-lsp-java/lsp-java-server/"))
   (setq lsp-java-java-path "/usr/local/opt/openjdk@11/bin/java")
@@ -429,6 +551,7 @@
   (setq lsp-java-configuration-maven-user-settings (expand-file-name "~/.m2/settings.xml"))
   (setq lsp-java-maven-download-sources t)
   (setq lsp-java-import-maven-enabled t)
+  (setq lsp-java-save-actions-organize-imports t)
   )
 
 (use-package dap-mode
@@ -446,6 +569,7 @@
   (dap-ui-mode t)
   (dap-tooltip-mode 1)
   (tooltip-mode 1)
+  ;;  (dap-ui-controls-mode 1)
   (dap-register-debug-template
    "localhost:5005"
    (list :type "java"
@@ -478,6 +602,7 @@
   )
 
 (use-package yaml-mode)
+
 
 (use-package lsp-treemacs
   :after (lsp-mode treemacs)
@@ -548,9 +673,11 @@
   :ensure t
   :config (setq exec-path (append exec-path '("/usr/local/bin")))
   )
+(exec-path-from-shell-initialize)
 (setq exec-path-from-shell-check-startup-files nil)
-(when (memq window-system '(mac ns x))
-  (exec-path-from-shell-initialize))
+;;(when (memq window-system '(mac ns x))
+
+
 
 (setq ivy-use-virtual-buffers t)
 (setq enable-recursive-minibuffers t)
@@ -760,7 +887,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(vue-mode vagrant-tramp youdao-dictionary yaml-mode json-mode lsp-pyright gradle-mode lsp-groovy groovy-mode java-snippets smex dumb-jump yasnippet-snippets window-number treemacs-projectile awesome-tab zoom window-numbering pdf-tools vterm smartparens yasnippet which-key use-package projectile org-bullets mvn magit lsp-ui lsp-java lsp-ivy hungry-delete helm-lsp format-all flycheck exec-path-from-shell dracula-theme counsel company)))
+   '(org-pomodoro vue-mode vagrant-tramp youdao-dictionary yaml-mode json-mode lsp-pyright gradle-mode lsp-groovy groovy-mode java-snippets smex dumb-jump yasnippet-snippets window-number treemacs-projectile awesome-tab zoom window-numbering pdf-tools vterm smartparens yasnippet which-key use-package projectile org-bullets mvn magit lsp-ui lsp-java lsp-ivy hungry-delete helm-lsp format-all flycheck exec-path-from-shell dracula-theme counsel company)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
