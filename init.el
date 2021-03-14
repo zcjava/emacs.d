@@ -220,11 +220,11 @@
 (global-set-key (kbd "C-c a") 'org-agenda)
 (global-set-key (kbd "C-c c") 'org-capture)
 
-(setq org-agenda-dir "~/Desktop/note/gtd/")
-(setq org-agenda-file-inbox (expand-file-name "inbox.org" org-agenda-dir))
-(setq org-agenda-file-gtd (expand-file-name "gtd.org" org-agenda-dir))
-(setq org-agenda-file-tickler (expand-file-name "tickler.org" org-agenda-dir))
-(setq org-agenda-file-someday (expand-file-name "someday.org" org-agenda-dir))
+(setq org-agenda-dir (expand-file-name "~/Desktop/note/"))
+(setq org-agenda-file-inbox (concat org-agenda-dir "inbox.org"))
+(setq org-agenda-file-gtd (concat org-agenda-dir "gtd.org"))
+(setq org-agenda-file-tickler (concat org-agenda-dir "tickler.org"))
+(setq org-agenda-file-someday (concat org-agenda-dir "someday.org"))
 (setq org-agenda-files (list org-agenda-dir))
 
 (setq org-capture-templates `(
