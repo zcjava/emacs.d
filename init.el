@@ -221,103 +221,42 @@
 
 (global-set-key (kbd "C-c a") 'org-agenda)
 (global-set-key (kbd "C-c c") 'org-capture)
-(setq org-agenda-dir "~/Desktop/gtd/")
-(setq org-agenda-file-note (expand-file-name "notes.org" org-agenda-dir))
-(setq org-agenda-file-gtd (expand-file-name "gtd.org" org-agenda-dir))
-(setq org-agenda-file-work (expand-file-name "work.org" org-agenda-dir))
-(setq org-agenda-file-journal (expand-file-name "journal.org" org-agenda-dir))
-(setq org-agenda-file-code-snippet (expand-file-name "snippet.org" org-agenda-dir))
-(setq org-default-notes-file (expand-file-name "gtd.org" org-agenda-dir))
-(setq org-agenda-file-blogposts (expand-file-name "all-posts.org" org-agenda-dir))
-(setq org-agenda-files (list org-agenda-dir))
+(global-set-key (kbd "C-c l") 'org-store-link)
+
+(setq gtd-dir "~/Desktop/gtd/")
+(setq gtd-file-inbox (expand-file-name "inbox.org" gtd-dir))
+(setq gtd-file-gtd (expand-file-name "gtd.org" gtd-dir))
+(setq gtd-file-tickler (expand-file-name "tickler.org" gtd-dir))
+(setq gtd-file-someday (expand-file-name "someday.org" gtd-dir))
+
+(setq org-agenda-files (list gtd-file-inbox gtd-file-gtd gtd-file-tickler))
 
 
-(setq org-capture-templates
-      '(("t" "Todo" entry (file+headline org-agenda-file-gtd "Workspace")
-         "* TODO [#B] %?\n  %i\n %U"
-         :empty-lines 1)
-        ("n" "notes" entry (file+headline org-agenda-file-note "Quick notes")
-         "* %?\n  %i\n %U"
-         :empty-lines 1)
-        ("b" "Blog Ideas" entry (file+headline org-agenda-file-note "Blog Ideas")
-         "* TODO [#B] %?\n  %i\n %U"
-         :empty-lines 1)
-        ("s" "Code Snippet" entry
-         (file org-agenda-file-code-snippet)
-         "* %?\t%^g\n#+BEGIN_SRC %^{language}\n\n#+END_SRC")
-        ("w" "work" entry (file+headline org-agenda-file-work "Work")
-         "* TODO [#A] %?\n  %i\n %U"
-         :empty-lines 1)
-        ("x" "Web Collections" entry
-         (file+headline org-agenda-file-note "Web")
-         "* %U %:annotation\n\n%:initial\n\n%?")
-        ("p" "Protocol" entry (file+headline org-agenda-file-note "Inbox")
-         "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
-	    ("L" "Protocol Link" entry (file+headline org-agenda-file-note "Inbox")
-         "* %? [[%:link][%:description]] \nCaptured On: %U")
-        ("c" "Chrome" entry (file+headline org-agenda-file-note "Quick notes")
-         "* TODO [#C] %?\n %(zilongshanren/retrieve-chrome-current-tab-url)\n %i\n %U"
-         :empty-lines 1)
-        ("l" "links" entry (file+headline org-agenda-file-note "Quick notes")
-         "* TODO [#C] %?\n  %i\n %a \n %U"
-         :empty-lines 1)
-        ("j" "Journal Entry"
-         entry (file+datetree org-agenda-file-journal)
-         "* %?"
-         :empty-lines 1)))
-
-(with-eval-after-load 'org-capture
-  (defun org-hugo-new-subtree-post-capture-template ()
-    "Returns `org-capture' template string for new Hugo post.
-See `org-capture-templates' for more information."
-    (let* ((title (read-from-minibuffer "Post Title: ")) ;Prompt to enter the post title
-           (fname (org-hugo-slug title)))
-      (mapconcat #'identity
-                 `(
-                   ,(concat "* TODO " title)
-                   ":PROPERTIES:"
-                   ,(concat ":EXPORT_FILE_NAME: " fname)
-                   ":END:"
-                   "\n\n")        ;Place the cursor here finally
-                 "\n")))
-
-  (add-to-list 'org-capture-templates
-               '("h"              ;`org-capture' binding + h
-                 "Hugo post"
-                 entry
-                 ;; It is assumed that below file is present in `org-directory'
-                 ;; and that it has a "Blog Ideas" heading. It can even be a
-                 ;; symlink pointing to the actual location of all-posts.org!
-                 (file+headline org-agenda-file-blogposts "Blog Ideas")
-                 (function org-hugo-new-subtree-post-capture-template))))
-
-;;An entry without a cookie is treated just like priority ' B '.
-;;So when create new task, they are default 重要且紧急
-(setq org-agenda-custom-commands
-      '(
-        ("w" . "任务安排")
-        ("wa" "重要且紧急的任务" tags-todo "+PRIORITY=\"A\"")
-        ("wb" "重要且不紧急的任务" tags-todo "-Weekly-Monthly-Daily+PRIORITY=\"B\"")
-        ("wc" "不重要且紧急的任务" tags-todo "+PRIORITY=\"C\"")
-        ("b" "Blog" tags-todo "BLOG")
-        ("p" . "项目安排")
-        ("pw" tags-todo "PROJECT+WORK+CATEGORY=\"work\"")
-        ("pl" tags-todo "PROJECT+DREAM+CATEGORY=\"zilongshanren\"")
-        ("W" "Weekly Review"
-         ((stuck "") ;; review stuck projects as designated by org-stuck-projects
-          (tags-todo "PROJECT") ;; review all projects (assuming you use todo keywords to designate projects)
-          ))))
-
-(add-to-list 'org-agenda-custom-commands
-             '("r" "Daily Agenda Review"
-               ((agenda "" ((org-agenda-overriding-header "今日记录")
-                            (org-agenda-span 'day)
-                            (org-agenda-show-log 'clockcheck)
-                            (org-agenda-start-with-log-mode nil)
-                            (org-agenda-log-mode-items '(closed clock state))
-                            (org-agenda-clockreport-mode t))))))
+(setq org-capture-templates '(
+                              ("t" "TODO [inbox]" entry
+                               (file+headline gtd-file-inbox "Tasks")
+                               "* TODO %i%?")
+                              ("T" "Tickler" entry
+                               (file+headline gtd-file-tickler "Tickler")
+                               "* %i%? \n %U")
+                              ))
 
 
+(use-package org-super-agenda
+
+  )
+;; (setq org-refile-targets (list
+;;                            (list gtd-file-gtd :maxlevel  3))
+;;                            (gtd-file-tickler :maxlevel . 1)
+;;                            (gtd-file-someday :maxlevel . 2)
+;;                            ))
+
+(setq org-refile-targets '(("~/Desktop/gtd/gtd.org" :maxlevel . 3)
+                           ("~/Desktop/gtd/someday.org" :level . 1)
+                           ("~/Desktop/gtd/tickler.org" :maxlevel . 2)))
+
+
+(setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")))
 ;;==========org-agenda end==========
 
 ;;==========org pomodoro==========
