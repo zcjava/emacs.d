@@ -217,46 +217,33 @@
 
 ;;==========org-agenda==========
 
-;;(setq org-agenda-files '("~/Desktop/gtd/"))
-
 (global-set-key (kbd "C-c a") 'org-agenda)
 (global-set-key (kbd "C-c c") 'org-capture)
 (global-set-key (kbd "C-c l") 'org-store-link)
 
-(setq gtd-dir "~/Desktop/gtd/")
-(setq gtd-file-inbox (expand-file-name "inbox.org" gtd-dir))
-(setq gtd-file-gtd (expand-file-name "gtd.org" gtd-dir))
-(setq gtd-file-tickler (expand-file-name "tickler.org" gtd-dir))
-(setq gtd-file-someday (expand-file-name "someday.org" gtd-dir))
 
-(setq org-agenda-files (list gtd-file-inbox gtd-file-gtd gtd-file-tickler))
+(setq org-agenda-dir (expand-file-name "~/Desktop/note/"))
+(setq org-agenda-file-inbox (concat org-agenda-dir "inbox.org"))
+(setq org-agenda-file-gtd (concat org-agenda-dir "gtd.org"))
+(setq org-agenda-file-tickler (concat org-agenda-dir "tickler.org"))
+(setq org-agenda-file-someday (concat org-agenda-dir "someday.org"))
+(setq org-agenda-files (list org-agenda-dir))
 
-
-(setq org-capture-templates '(
-                              ("t" "TODO [inbox]" entry
-                               (file+headline gtd-file-inbox "Tasks")
-                               "* TODO %i%?")
-                              ("T" "Tickler" entry
-                               (file+headline gtd-file-tickler "Tickler")
-                               "* %i%? \n %U")
+(setq org-capture-templates `(
+                              ("t" "Todo [inbox]" entry (file+headline ,org-agenda-file-inbox "Tasks") "* TODO %i%?")
+                              ("T" "Ticker" entry (file+headline ,org-agenda-file-tickler "Tickler") "* %i%? \n %U")
                               ))
+
+(setq org-refile-targets `((,org-agenda-file-gtd :maxlevel . 3)
+                           (,org-agenda-file-someday :level . 1)
+                           (,org-agenda-file-tickler :maxlevel . 2)))
+
+(setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")))
 
 
 (use-package org-super-agenda
 
   )
-;; (setq org-refile-targets (list
-;;                            (list gtd-file-gtd :maxlevel  3))
-;;                            (gtd-file-tickler :maxlevel . 1)
-;;                            (gtd-file-someday :maxlevel . 2)
-;;                            ))
-
-(setq org-refile-targets '(("~/Desktop/gtd/gtd.org" :maxlevel . 3)
-                           ("~/Desktop/gtd/someday.org" :level . 1)
-                           ("~/Desktop/gtd/tickler.org" :maxlevel . 2)))
-
-
-(setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")))
 ;;==========org-agenda end==========
 
 ;;==========org pomodoro==========
