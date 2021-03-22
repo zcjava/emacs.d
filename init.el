@@ -3,7 +3,6 @@
 (require 'package)
 (setq package-enable-at-startup nil)
 (setq use-package-always-ensure t)
-
 ;;(add-to-list 'package-archives
 
 
@@ -14,10 +13,9 @@
 			             ("gnu" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
 			             ("org" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")))
 ;; (setq url-proxy-services
-;;       '(("no_proxy" . "^\\(localhost\\|10.*\\)")
-;;         ("http" . "127.0.0.1:53224")
-;;         ("https" . "127.0.0.1:53224")))
-
+;;        '(("no_proxy" . "^\\(localhost\\|10.*\\)")
+;;          ("http" . "127.0.0.1:52067")
+;;          ("https" . "127.0.0.1:52067")))
 (package-initialize)
 
 ;;隐藏菜单栏
@@ -85,7 +83,6 @@
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
-
 ;; (eval-and-compile
 ;;     (setq use-package-always-ensure t) ;不用每个包都手动添加:ensure t关键字
 ;;     (setq use-package-always-defer t) ;默认都是延迟加载，不用每个包都手动添加:defer t
@@ -96,6 +93,8 @@
   :config
   ;;(setq display-line-numbers-type 'relative)
   (global-display-line-numbers-mode t))
+
+(use-package leetcode)
 
 (use-package hungry-delete
   :ensure t
@@ -214,7 +213,6 @@
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
   )
 
-
 ;;==========org-agenda==========
 
 (global-set-key (kbd "C-c a") 'org-agenda)
@@ -240,7 +238,58 @@
 
 (setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")))
 
+(setq org-log-done 'time)
+;; 如果子任务完成，则父任务自动完成
+(defun org-summary-todo (n-done n-not-done)
+    "Switch entry to DONE when all subentries are done, to TODO otherwise."
+    (let (org-log-done org-log-states)   ; turn off logging
+    (org-todo (if (= n-not-done 0) "DONE" "TODO"))))
 
+(add-hook 'org-after-todo-statistics-hook 'org-summary-todo)
+
+;; Change task state to STARTED when clocking in
+(setq org-clock-in-switch-to-state "TODO")
+(setq org-clock-out-switch-to-state "DONE")
+
+
+;; tags
+(setq org-tag-alist '(("@work" . ?w) ("@home" . ?h)
+                   ("@study" . ?s)))
+
+
+;; pomodoro 通知功能
+(defun notify-osx (title message)
+(call-process "terminal-notifier"
+             nil 0 nil
+             "-group" "Emacs"
+             "-title" title
+             "-message" message
+             ;;"-sender" "org.gnu.Emacs"
+             "-activate" "oeg.gnu.Emacs"))
+
+;; 任务提醒功能
+;; https://emacs-china.org/t/org-agenda/232
+(use-package org-alert
+  )
+
+(require 'appt)
+(setq appt-time-msg-list nil)    ;; clear existing appt list
+(setq appt-display-interval '10)  ;; warn every 5 minutes from t - appt-message-warning-time
+(setq
+ appt-message-warning-time '20  ;; send first warning 15 minutes before appointment
+ appt-display-mode-line nil     ;; don't show in the modeline
+ appt-display-format 'window)   ;; pass warnings to the designated window function
+(appt-activate 1)                ;; activate appointment notification
+(display-time)                   ;; activate time display
+
+(org-agenda-to-appt)             ;; generate the appt list from org agenda files on emacs launch
+(run-at-time "24:01" 3600 'org-agenda-to-appt)           ;; update appt list hourly
+(add-hook 'org-finalize-agenda-hook 'org-agenda-to-appt) ;; update appt list on agenda view
+(defun my-appt-display (min-to-app new-time msg)
+  (notify-osx
+   (format "Appointment in %s minutes" min-to-app)    ;; passed to -title in terminal-notifier call
+   (format "%s" msg)))                                ;; passed to -message in terminal-notifier call
+(setq appt-disp-window-function (function my-appt-display))
 (use-package org-super-agenda
 
   )
@@ -778,6 +827,7 @@
   )
 
 
+
 ;;==========myself custom fun==========
 (defun open-init-file()
   (interactive)
@@ -813,7 +863,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(org-pomodoro vue-mode vagrant-tramp youdao-dictionary yaml-mode json-mode lsp-pyright gradle-mode lsp-groovy groovy-mode java-snippets smex dumb-jump yasnippet-snippets window-number treemacs-projectile awesome-tab zoom window-numbering pdf-tools vterm smartparens yasnippet which-key use-package projectile org-bullets mvn magit lsp-ui lsp-java lsp-ivy hungry-delete helm-lsp format-all flycheck exec-path-from-shell dracula-theme counsel company)))
+   '(leetcode org-alert org-pomodoro vue-mode vagrant-tramp youdao-dictionary yaml-mode json-mode lsp-pyright gradle-mode lsp-groovy groovy-mode java-snippets smex dumb-jump yasnippet-snippets window-number treemacs-projectile awesome-tab zoom window-numbering pdf-tools vterm smartparens yasnippet which-key use-package projectile org-bullets mvn magit lsp-ui lsp-java lsp-ivy hungry-delete helm-lsp format-all flycheck exec-path-from-shell dracula-theme counsel company)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
