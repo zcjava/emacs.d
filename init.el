@@ -94,7 +94,13 @@
 ;;   ;;(setq display-line-numbers-type 'relative)
 ;;   (global-display-line-numbers-mode t))
 
-(use-package leetcode)
+(use-package leetcode
+  :config
+  (setq leetcode-prefer-language "java")
+  (setq leetcode-prefer-sql "mysql")
+  (setq leetcode-save-solutions t)
+  (setq leetcode-directory (expand-file-name "~/Desktop/note/leetcode/"))
+  )
 
 (use-package hungry-delete
   :ensure t
@@ -248,8 +254,8 @@
 (add-hook 'org-after-todo-statistics-hook 'org-summary-todo)
 
 ;; Change task state to STARTED when clocking in
-(setq org-clock-in-switch-to-state "TODO")
-(setq org-clock-out-switch-to-state "DONE")
+;;(setq org-clock-in-switch-to-state "TODO")
+;;(setq org-clock-out-switch-to-state "DONE")
 
 
 ;; tags
