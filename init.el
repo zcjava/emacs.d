@@ -89,10 +89,10 @@
 ;;     )
 
 ;; 开启全局行号显示
-(use-package emacs
-  :config
-  ;;(setq display-line-numbers-type 'relative)
-  (global-display-line-numbers-mode t))
+;; (use-package emacs
+;;   :config
+;;   ;;(setq display-line-numbers-type 'relative)
+;;   (global-display-line-numbers-mode t))
 
 (use-package leetcode)
 
