@@ -12,10 +12,10 @@
 			             ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
 			             ("gnu" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
 			             ("org" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")))
-;; (setq url-proxy-services
-;;        '(("no_proxy" . "^\\(localhost\\|10.*\\)")
-;;          ("http" . "127.0.0.1:52067")
-;;          ("https" . "127.0.0.1:52067")))
+(setq url-proxy-services
+       '(("no_proxy" . "^\\(localhost\\|10.*\\)")
+         ("http" . "127.0.0.1:55817")
+         ("https" . "127.0.0.1:55817")))
 (package-initialize)
 
 ;;隐藏菜单栏
@@ -514,7 +514,7 @@
   :config
   (add-hook 'java-mode-hook 'lsp)
   (setq lsp-java-format-settings-url "https://raw.githubusercontent.com/google/styleguide/gh-pages/eclipse-java-google-style.xml" lsp-java-format-settings-profile "GoogleStyle")
-  (setq lsp-java-format-enabled t)
+;;  (setq lsp-java-format-enabled t)
   :init
   (setq lsp-java-server-install-dir (expand-file-name "~/.emacs.d/emacs-lsp-java/lsp-java-server/"))
   (setq lsp-java-java-path "/usr/local/opt/openjdk@11/bin/java")
@@ -532,10 +532,12 @@
   (setq lsp-java-configuration-maven-user-settings (expand-file-name "~/.m2/settings.xml"))
   (setq lsp-java-maven-download-sources t)
   (setq lsp-java-import-maven-enabled t)
-  (setq lsp-java-save-actions-organize-imports t)
+;;  (setq lsp-java-save-actions-organize-imports t)
   )
 
 (use-package dap-mode
+  :init
+  (setq dap-java-test-additional-args '("-n" "\".*(Test|IT).*\""))
   :ensure t
   :after lsp-mode
   :functions dap-hydra/nil
