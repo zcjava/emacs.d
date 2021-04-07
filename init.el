@@ -12,10 +12,10 @@
 			             ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
 			             ("gnu" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
 			             ("org" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")))
-(setq url-proxy-services
-       '(("no_proxy" . "^\\(localhost\\|10.*\\)")
-         ("http" . "127.0.0.1:55817")
-         ("https" . "127.0.0.1:55817")))
+;; (setq url-proxy-services
+;;        '(("no_proxy" . "^\\(localhost\\|10.*\\)")
+;;          ("http" . "127.0.0.1:52067")
+;;          ("https" . "127.0.0.1:52067")))
 (package-initialize)
 
 ;;隐藏菜单栏
@@ -514,7 +514,7 @@
   :config
   (add-hook 'java-mode-hook 'lsp)
   (setq lsp-java-format-settings-url "https://raw.githubusercontent.com/google/styleguide/gh-pages/eclipse-java-google-style.xml" lsp-java-format-settings-profile "GoogleStyle")
-;;  (setq lsp-java-format-enabled t)
+  (setq lsp-java-format-enabled t)
   :init
   (setq lsp-java-server-install-dir (expand-file-name "~/.emacs.d/emacs-lsp-java/lsp-java-server/"))
   (setq lsp-java-java-path "/usr/local/opt/openjdk@11/bin/java")
@@ -532,12 +532,15 @@
   (setq lsp-java-configuration-maven-user-settings (expand-file-name "~/.m2/settings.xml"))
   (setq lsp-java-maven-download-sources t)
   (setq lsp-java-import-maven-enabled t)
+  (setq lsp-java-references-code-lens-enabled t)
+  (setq lsp-java-autobuild-enabled t)
 ;;  (setq lsp-java-save-actions-organize-imports t)
   )
 
 (use-package dap-mode
   :init
-  (setq dap-java-test-additional-args '("-n" "\".*(Test|IT).*\""))
+;;  (setq dap-java-test-additional-args '("-n" "\".*(Test|IT).*\""))
+  (setq dap-java-java-command "/usr/local/opt/openjdk@11/bin/java")
   :ensure t
   :after lsp-mode
   :functions dap-hydra/nil
@@ -817,7 +820,11 @@
   )
 ;;==========vue==========
 
-
+;;==========undo tree==========
+(use-package undo-tree
+  )
+(global-undo-tree-mode t)
+;;==========undo tree end==========
 ;;==========avy==========
 (use-package avy
   :ensure t
@@ -831,11 +838,23 @@
   :bind ("C-c r" . quickrun))
 
 (use-package youdao-dictionary
+  :init
+  (setq url-automatic-caching t)
+  (setq youdao-dictionary-search-history-file "~/.emacs.d/.youdao")
   :ensure t
   )
 
+(global-set-key (kbd "C-c y s") 'youdao-dictionary-search-at-point)
+(global-set-key (kbd "C-c y v") 'youdao-dictionary-play-voice-at-point)
+(global-set-key (kbd "C-c y i") 'youdao-dictionary-search-from-input)
 
 
+;;==========helm dash==========
+(use-package dash
+  )
+(use-package helm-dash
+  )
+;;==========helm dash end==========
 ;;==========myself custom fun==========
 (defun open-init-file()
   (interactive)
@@ -871,7 +890,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(leetcode org-alert org-pomodoro vue-mode vagrant-tramp youdao-dictionary yaml-mode json-mode lsp-pyright gradle-mode lsp-groovy groovy-mode java-snippets smex dumb-jump yasnippet-snippets window-number treemacs-projectile awesome-tab zoom window-numbering pdf-tools vterm smartparens yasnippet which-key use-package projectile org-bullets mvn magit lsp-ui lsp-java lsp-ivy hungry-delete helm-lsp format-all flycheck exec-path-from-shell dracula-theme counsel company)))
+   '(helm-dash undo-tree leetcode org-alert org-pomodoro vue-mode vagrant-tramp youdao-dictionary yaml-mode json-mode lsp-pyright gradle-mode lsp-groovy groovy-mode java-snippets smex dumb-jump yasnippet-snippets window-number treemacs-projectile awesome-tab zoom window-numbering pdf-tools vterm smartparens yasnippet which-key use-package projectile org-bullets mvn magit lsp-ui lsp-java lsp-ivy hungry-delete helm-lsp format-all flycheck exec-path-from-shell dracula-theme counsel company)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
