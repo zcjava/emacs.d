@@ -13,9 +13,9 @@
 			             ("gnu" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
 			             ("org" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")))
 ;; (setq url-proxy-services
-;;        '(("no_proxy" . "^\\(localhost\\|10.*\\)")
-;;          ("http" . "127.0.0.1:52067")
-;;          ("https" . "127.0.0.1:52067")))
+;;         '(("no_proxy" . "^\\(localhost\\|10.*\\)")
+;;           ("http" . "127.0.0.1:52067")
+;;           ("https" . "127.0.0.1:52067")))
 (package-initialize)
 
 ;;隐藏菜单栏
@@ -216,7 +216,8 @@
 (use-package org-bullets
   :ensure t
   :config
-  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+  (add-hook 'org-mode-hook #'org-bullets-mode)
+  (add-hook 'org-mode-hook #'org-indent-mode)
   )
 
 ;;==========org-agenda==========
@@ -247,8 +248,8 @@
 (setq org-log-done 'time)
 ;; 如果子任务完成，则父任务自动完成
 (defun org-summary-todo (n-done n-not-done)
-    "Switch entry to DONE when all subentries are done, to TODO otherwise."
-    (let (org-log-done org-log-states)   ; turn off logging
+  "Switch entry to DONE when all subentries are done, to TODO otherwise."
+  (let (org-log-done org-log-states)   ; turn off logging
     (org-todo (if (= n-not-done 0) "DONE" "TODO"))))
 
 (add-hook 'org-after-todo-statistics-hook 'org-summary-todo)
@@ -260,18 +261,18 @@
 
 ;; tags
 (setq org-tag-alist '(("@work" . ?w) ("@home" . ?h)
-                   ("@study" . ?s)))
+                      ("@study" . ?s)))
 
 
 ;; pomodoro 通知功能
 (defun notify-osx (title message)
-(call-process "terminal-notifier"
-             nil 0 nil
-             "-group" "Emacs"
-             "-title" title
-             "-message" message
-             ;;"-sender" "org.gnu.Emacs"
-             "-activate" "oeg.gnu.Emacs"))
+  (call-process "terminal-notifier"
+                nil 0 nil
+                "-group" "Emacs"
+                "-title" title
+                "-message" message
+                ;;"-sender" "org.gnu.Emacs"
+                "-activate" "oeg.gnu.Emacs"))
 
 ;; 任务提醒功能
 ;; https://emacs-china.org/t/org-agenda/232
@@ -486,7 +487,10 @@
 ;;   :config (setq lsp-completion-enable-additional-text-edit nil)
 ;;   :commands lsp
 ;;   )
-(use-package company-lsp :ensure t)
+
+
+;; (use-package company-lsp
+;;   :ensure t)
 
 
 (use-package lsp-ui
@@ -496,6 +500,8 @@
   :config
   (setq lsp-prefer-flymake nil
         lsp-ui-doc-delay 5.0
+        lsp-ui-imenu-auto-refresh t
+   ;;     lsp-ui-imenu--custom-mode-line-format t
         lsp-ui-sideline-enable nil
         lsp-ui-sideline-show-symbol nil)
   )
@@ -511,10 +517,6 @@
 (use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
 
 (use-package lsp-java
-  :config
-  (add-hook 'java-mode-hook 'lsp)
-  (setq lsp-java-format-settings-url "https://raw.githubusercontent.com/google/styleguide/gh-pages/eclipse-java-google-style.xml" lsp-java-format-settings-profile "GoogleStyle")
-  (setq lsp-java-format-enabled t)
   :init
   (setq lsp-java-server-install-dir (expand-file-name "~/.emacs.d/emacs-lsp-java/lsp-java-server/"))
   (setq lsp-java-java-path "/usr/local/opt/openjdk@11/bin/java")
@@ -534,12 +536,20 @@
   (setq lsp-java-import-maven-enabled t)
   (setq lsp-java-references-code-lens-enabled t)
   (setq lsp-java-autobuild-enabled t)
-;;  (setq lsp-java-save-actions-organize-imports t)
+  ;;  (setq lsp-java-save-actions-organize-imports t)
+  :config
+  (setq lsp-java-format-settings-url "https://raw.githubusercontent.com/google/styleguide/gh-pages/eclipse-java-google-style.xml" lsp-java-format-settings-profile "GoogleStyle")
+  (setq lsp-java-format-enabled t)
+  (setq lsp-java-format-comments-enabled t)
+;;  (setq lsp-java-configuration-check-project-settings-exclusions t)
+  (add-hook 'java-mode-hook 'lsp)
+  (add-hook 'before-save-hook 'lsp-format-buffer)
+;;  (add-hook 'before-save-hook 'lsp-java-format)
   )
 
 (use-package dap-mode
   :init
-;;  (setq dap-java-test-additional-args '("-n" "\".*(Test|IT).*\""))
+  ;;  (setq dap-java-test-additional-args '("-n" "\".*(Test|IT).*\""))
   (setq dap-java-java-command "/usr/local/opt/openjdk@11/bin/java")
   :ensure t
   :after lsp-mode
@@ -591,6 +601,8 @@
 
 
 (use-package lsp-treemacs
+;;  :config
+;;  (lsp-treemacs-sync-mode t)
   :after (lsp-mode treemacs)
   :ensure t
   :commands lsp-treemacs-errors-list
@@ -627,6 +639,7 @@
   :hook (python-mode . (lambda ()
                          (require 'lsp-pyright)
                          (lsp))))  ; or lsp-deferred
+
 (use-package flycheck-pyflakes
   )
 ;;==========python end==========
@@ -745,13 +758,13 @@
 
 ;;==========zoom==========
 ;;让当前显示窗口能自动放大，显示更多的区域
-;; (use-package zoom
-;;   :ensure t
-;;   :init
-;;   (setq zoom-size '(0.718 . 0.718)) ;;设置显示区域的比例
-;;   )
+(use-package zoom
+  :ensure t
+  :init
+  (setq zoom-size '(0.718 . 0.718)) ;;设置显示区域的比例
+  )
 
-;; (zoom-mode t)
+(zoom-mode t)
 ;;==========zoom end==========
 
 ;;==========awesome-tab==========
@@ -844,17 +857,34 @@
   :ensure t
   )
 
-(global-set-key (kbd "C-c y s") 'youdao-dictionary-search-at-point)
+(global-set-key (kbd "C-c y w") 'youdao-dictionary-search-at-point)
 (global-set-key (kbd "C-c y v") 'youdao-dictionary-play-voice-at-point)
-(global-set-key (kbd "C-c y i") 'youdao-dictionary-search-from-input)
+(global-set-key (kbd "C-c y s") 'youdao-dictionary-search-from-input)
 
+
+;;==========multiple cursor==========
+(use-package multiple-cursors
+  
+  )
+(global-set-key (kbd "C-c m e") 'mc/edit-lines)
+(global-set-key (kbd "C-c m n") 'mc/mark-next-like-this)
+(global-set-key (kbd "C-c m p") 'mc/mark-previous-like-this)
+(global-set-key (kbd "C-c m a") 'mc/mark-all-like-this)
+(global-set-key (kbd "C-c m w") 'mc/mark-next-like-this-word)
+;;==========multiple cursor end==========
 
 ;;==========helm dash==========
+(use-package helm
+  )
 (use-package dash
   )
 (use-package helm-dash
+  ;; :init
+  ;; (setq helm-dash-browser-func 'eww)
   )
+
 ;;==========helm dash end==========
+
 ;;==========myself custom fun==========
 (defun open-init-file()
   (interactive)
@@ -890,7 +920,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(helm-dash undo-tree leetcode org-alert org-pomodoro vue-mode vagrant-tramp youdao-dictionary yaml-mode json-mode lsp-pyright gradle-mode lsp-groovy groovy-mode java-snippets smex dumb-jump yasnippet-snippets window-number treemacs-projectile awesome-tab zoom window-numbering pdf-tools vterm smartparens yasnippet which-key use-package projectile org-bullets mvn magit lsp-ui lsp-java lsp-ivy hungry-delete helm-lsp format-all flycheck exec-path-from-shell dracula-theme counsel company)))
+   '(magit lsp-ui company-lsp multiple-cursors sqlite3 helm-dash undo-tree leetcode org-alert org-pomodoro vue-mode vagrant-tramp youdao-dictionary yaml-mode json-mode lsp-pyright gradle-mode lsp-groovy groovy-mode java-snippets smex dumb-jump window-number treemacs-projectile awesome-tab zoom window-numbering pdf-tools yasnippet which-key org-bullets mvn lsp-java lsp-ivy hungry-delete helm-lsp format-all flycheck exec-path-from-shell dracula-theme counsel company)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -898,3 +928,4 @@
  ;; If there is more than one, they won't work right.
  )
 (put 'downcase-region 'disabled nil)
+(put 'scroll-left 'disabled nil)
