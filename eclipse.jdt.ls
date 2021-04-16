@@ -1,1 +1,1 @@
-/Users/z/.emacs.d/emacs-lsp-java/lsp-java-server/
+emacs-lsp-java/eclipse.jdt.ls
