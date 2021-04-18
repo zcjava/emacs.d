@@ -8,10 +8,15 @@
 
 
 ;;	     '("melpa" . "http://elpa.emacs-china.org/melpa/"))
+;; (setq package-archives '(
+;; 			             ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
+;; 			             ("gnu" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
+;; 			             ("org" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")))
 (setq package-archives '(
-			             ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
-			             ("gnu" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
-			             ("org" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")))
+                         ("gnu" . "https://elpa.gnu.org/packages/")
+                         ("melpa" . "https://melpa.org/packages/")
+                         ("org" . "https://orgmode.org/elpa/")
+                         ("melpa-stable" . "https://stable.melpa.org/packages/")))
 ;; (setq url-proxy-services
 ;;         '(("no_proxy" . "^\\(localhost\\|10.*\\)")
 ;;           ("http" . "127.0.0.1:52067")
@@ -500,7 +505,7 @@
   :config
   (setq lsp-prefer-flymake nil
         lsp-ui-doc-delay 5.0
-        lsp-ui-imenu-auto-refresh t
+;;        lsp-ui-imenu-auto-refresh t
    ;;     lsp-ui-imenu--custom-mode-line-format t
         lsp-ui-sideline-enable nil
         lsp-ui-sideline-show-symbol nil)
@@ -604,6 +609,8 @@
 ;;  :config
 ;;  (lsp-treemacs-sync-mode t)
   :after (lsp-mode treemacs)
+  :config
+  (global-set-key (kbd "M-s-.") 'lsp-treemacs-implementations)
   :ensure t
   :commands lsp-treemacs-errors-list
   :bind (:map lsp-mode-map
