@@ -31,6 +31,7 @@
 ;;隐藏滚动条
 (scroll-bar-mode nil)
 
+
 ;;设置默认目录
 (setq default-directory "~/")
 
@@ -92,6 +93,15 @@
 ;;     (setq use-package-always-ensure t) ;不用每个包都手动添加:ensure t关键字
 ;;     (setq use-package-always-defer t) ;默认都是延迟加载，不用每个包都手动添加:defer t
 ;;     )
+
+;; mode-line 美化显示
+(use-package doom-modeline
+  :ensure t
+  :init
+  (doom-modeline-mode 1)
+  )
+
+
 
 ;; 开启全局行号显示
 ;; (use-package emacs
@@ -224,6 +234,16 @@
   (add-hook 'org-mode-hook #'org-bullets-mode)
   (add-hook 'org-mode-hook #'org-indent-mode)
   )
+
+
+;; (add-to-list 'org-agenda-custom-commands
+;;                    '("r" "Daily Agenda Review"
+;;                      ((agenda "" ((org-agenda-overriding-header "今日记录")
+;;                                   (org-agenda-span 'day)
+;;                                   (org-agenda-show-log 'clockcheck)
+;;                                   (org-agenda-start-with-log-mode nil)
+;;                                   (org-agenda-log-mode-items '(closed clock state))
+;;                                   (org-agenda-clockreport-mode t))))))
 
 ;;==========org-agenda==========
 
@@ -920,6 +940,10 @@
 ;;字体设置
 ;;(set-face-attribute 'default nil :font "Menlo-16")
 (add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono-16"))
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+(when (file-exists-p custom-file)
+  (load custom-file))
+
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -927,7 +951,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(magit lsp-ui company-lsp multiple-cursors sqlite3 helm-dash undo-tree leetcode org-alert org-pomodoro vue-mode vagrant-tramp youdao-dictionary yaml-mode json-mode lsp-pyright gradle-mode lsp-groovy groovy-mode java-snippets smex dumb-jump window-number treemacs-projectile awesome-tab zoom window-numbering pdf-tools yasnippet which-key org-bullets mvn lsp-java lsp-ivy hungry-delete helm-lsp format-all flycheck exec-path-from-shell dracula-theme counsel company)))
+   '(use-package magit lsp-ui company-lsp multiple-cursors sqlite3 helm-dash undo-tree leetcode org-alert org-pomodoro vue-mode vagrant-tramp youdao-dictionary yaml-mode json-mode lsp-pyright gradle-mode lsp-groovy groovy-mode java-snippets smex dumb-jump window-number treemacs-projectile awesome-tab zoom window-numbering pdf-tools yasnippet which-key org-bullets mvn lsp-java lsp-ivy hungry-delete helm-lsp format-all flycheck exec-path-from-shell dracula-theme counsel company)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
