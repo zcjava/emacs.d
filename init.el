@@ -94,6 +94,7 @@
 ;;     (setq use-package-always-defer t) ;默认都是延迟加载，不用每个包都手动添加:defer t
 ;;     )
 
+;;==========mode line 美化显示==========
 (use-package nyan-mode
   :ensure t
   :init
@@ -103,20 +104,24 @@
   (setq nyan-bar-length 20)
   (nyan-mode))
 
-;; mode-line 美化显示
+
 (use-package doom-modeline
   :ensure t
-  :init
-  (doom-modeline-mode 1)
+  :config
+  (doom-modeline-def-modeline 'ownml
+    '(bar matches buffer-info remote-host buffer-position misc-info major-mode) 
+    '(input-method buffer-encoding process vcs checker))
+
+  ;; Add to `doom-modeline-mode-hook` or other hooks
+  (defun setup-custom-doom-modeline ()
+    (doom-modeline-set-modeline 'ownml 'default))
+  (add-hook 'doom-modeline-mode-hook 'setup-custom-doom-modeline)
   )
 
 
+(doom-modeline-mode t)
+;;==========mode line 美化显示 end==========
 
-;; 开启全局行号显示
-;; (use-package emacs
-;;   :config
-;;   ;;(setq display-line-numbers-type 'relative)
-;;   (global-display-line-numbers-mode t))
 
 (use-package leetcode
   :config
