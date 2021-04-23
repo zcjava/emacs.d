@@ -15,7 +15,6 @@ projectile-bookmarks.eld
 /flycheck_init.el
 org-clock-save.el
 projectile.cache
-smex-items
 eshell
 .youdao
 custom.el
