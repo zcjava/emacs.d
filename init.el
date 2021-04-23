@@ -94,6 +94,15 @@
 ;;     (setq use-package-always-defer t) ;默认都是延迟加载，不用每个包都手动添加:defer t
 ;;     )
 
+(use-package nyan-mode
+  :ensure t
+  :init
+  (setq nyan-animate-nyancat t)
+  (setq nyan-wavy-trail t)
+  (setq nyan-minimum-window-width 80)
+  (setq nyan-bar-length 20)
+  (nyan-mode))
+
 ;; mode-line 美化显示
 (use-package doom-modeline
   :ensure t
