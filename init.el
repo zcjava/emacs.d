@@ -224,7 +224,7 @@
 (use-package counsel-projectile
   :bind
   ("C-c p f" . 'counsel-projectile-find-file)
-  ("C-c p g" . 'counsel-projectile-grep)
+  ("C-c p g" . 'counsel-projectile-rg)
   ("C-c p p" . 'counsel-projectile-switch-project)
   ("C-c p b" . 'counsel-projectile-switch-to-buffer)
   )
@@ -435,6 +435,12 @@
   ;;       )
   :config
   (projectile-global-mode)
+
+  
+  ;; 注意rg会忽略gitignore的文件，所以如果需要unignore某些在gitignore的文件：需要设置(setq projectile-indexing-method 'native)
+  ;; counsel-projectile-rg 忽略不忽略由 .gitginore + .ignore(.ignore优先级高于.gitignore)共同决定；
+  ;; counsel-projectile-find-file 忽略不忽略由 .projectile 决定
+  (setq projectile-indexing-method 'native)
 
   (setq projectile-globally-ignored-directories
         (append (list
@@ -805,7 +811,7 @@
   (setq zoom-size '(0.718 . 0.718)) ;;设置显示区域的比例
   )
 
-(zoom-mode t)
+(global-set-key (kbd "C-c z") 'zoom)
 ;;==========zoom end==========
 
 ;;==========awesome-tab==========
