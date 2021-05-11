@@ -249,6 +249,7 @@
   (add-hook 'org-mode-hook #'org-indent-mode)
   )
 
+(setq org-startzup-folded nil)
 
 ;; (add-to-list 'org-agenda-custom-commands
 ;;                    '("r" "Daily Agenda Review"
