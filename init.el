@@ -396,9 +396,36 @@
 ;;==========vterm==========
 ;; 需要安装cmake、libtool.使用brew install cmake , libtool
 (use-package vterm
-  :ensure t
-  )
+  :hook (vterm-mode . (lambda ()
+                        (setq-local global-hl-line-mode nil)
+                        (setq-local line-spacing nil)))
+  :preface
+  (defun ian/new-vterm-instance ()
+    (interactive)
+    (vterm t))
+  :config
+  (with-eval-after-load 'evil
+    (evil-set-initial-state 'vterm-mode 'emacs))
+  (define-key vterm-mode-map (kbd "C-l") #'(lambda ()
+                                             (interactive)
+                                             (vterm-clear)
+                                             (vterm-clear-scrollback))))
 
+(use-package vterm-toggle
+  :after (projectile vterm evil)
+  :config
+  (setq vterm-toggle-fullscreen-p nil)
+  (setq vterm-toggle-scope 'project)
+  (with-eval-after-load 'evil
+    (evil-set-initial-state 'vterm-mode 'emacs))
+  (global-set-key (kbd "C-`") #'vterm-toggle)
+  (add-to-list 'display-buffer-alist
+               '((lambda (bufname _) (with-current-buffer bufname (equal major-mode 'vterm-mode)))
+                 (display-buffer-reuse-window display-buffer-at-bottom)
+                 (reusable-frames . visible)
+                 (window-height . 0.7))))
+
+;;==========vterm end==========
 
 (use-package treemacs
   :ensure t
@@ -951,6 +978,7 @@
 
 
 (defun copy-path()
+  
   (interactive)
   (setq currentdir default-directory)
   (message "%s" currentdir)
@@ -966,18 +994,18 @@
   (load custom-file))
 
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   '(use-package magit lsp-ui company-lsp multiple-cursors sqlite3 helm-dash undo-tree leetcode org-alert org-pomodoro vue-mode vagrant-tramp youdao-dictionary yaml-mode json-mode lsp-pyright gradle-mode lsp-groovy groovy-mode java-snippets smex dumb-jump window-number treemacs-projectile awesome-tab zoom window-numbering pdf-tools yasnippet which-key org-bullets mvn lsp-java lsp-ivy hungry-delete helm-lsp format-all flycheck exec-path-from-shell dracula-theme counsel company)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
-(put 'downcase-region 'disabled nil)
-(put 'scroll-left 'disabled nil)
+;; (custom-set-variables
+;;  ;; custom-set-variables was added by Custom.
+;;  ;; If you edit it by hand, you could mess it up, so be careful.
+;;  ;; Your init file should contain only one such instance.
+;;  ;; If there is more than one, they won't work right.
+;;  '(package-selected-packages
+;;    '(use-package magit lsp-ui company-lsp multiple-cursors sqlite3 helm-dash undo-tree leetcode org-alert org-pomodoro vue-mode vagrant-tramp youdao-dictionary yaml-mode json-mode lsp-pyright gradle-mode lsp-groovy groovy-mode java-snippets smex dumb-jump window-number treemacs-projectile awesome-tab zoom window-numbering pdf-tools yasnippet which-key org-bullets mvn lsp-java lsp-ivy hungry-delete helm-lsp format-all flycheck exec-path-from-shell dracula-theme counsel company)))
+;; (custom-set-faces
+;;  ;; custom-set-faces was added by Custom.
+;;  ;; If you edit it by hand, you could mess it up, so be careful.
+;;  ;; Your init file should contain only one such instance.
+;;  ;; If there is more than one, they won't work right.
+;;  )
+;; (put 'downcase-region 'disabled nil)
+;; (put 'scroll-left 'disabled nil)
