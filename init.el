@@ -1,87 +1,11 @@
-(require 'package)
-
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 
 (require 'init-elpa)
-(package-initialize)
-
-(unless package-archive-contents
-  (package-refresh-contents))
-;; 当没有安装包，则执行刷新package并安装package
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
-
-(setq package-enable-at-startup nil)
-(setq use-package-always-ensure t)
-
 (require 'init-ui)
-
-
-
-;; (eval-and-compile
-;;     (setq use-package-always-ensure t) ;不用每个包都手动添加:ensure t关键字
-;;     (setq use-package-always-defer t) ;默认都是延迟加载，不用每个包都手动添加:defer t
-;;     )
-
-
-(setq inhibit-startup-message t)
-
-
-
-
+(require 'init-settings)
 
 ;;设置默认目录
 (setq default-directory "~/")
-
-;;==========utf8==========
-;; 设置emacs 使用 utf-8
-;; 设置为中文简体语言环境
-(setenv "LANG" "zh_CN.UTF-8")
-(setq locale-coding-system 'utf-8)
-;; 设置键盘输入时的字符编码
-(set-keyboard-coding-system 'utf-8)
-(set-selection-coding-system 'utf-8)
-;; 文件默认保存为 utf-8
-(set-buffer-file-coding-system 'utf-8)
-(set-default buffer-file-coding-system 'utf8)
-(set-default-coding-systems 'utf-8)
-;; 解决粘贴中文出现乱码的问题
-(set-clipboard-coding-system 'utf-8)
-;; 终端中文乱码
-(set-terminal-coding-system 'utf-8)
-(prefer-coding-system 'utf-8)
-(modify-coding-system-alist 'process "*" 'utf-8)
-(setq default-process-coding-system '(utf-8 . utf-8))
-;; 解决文件目录的中文名乱码
-(setq-default pathname-coding-system 'utf-8)
-(set-file-name-coding-system 'utf-8)
-;;;; 设置编辑环境
-
-
-
-;; 解决 Shell Mode(cmd) 下中文乱码问题
-;;==========utf8 end==========
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; White space
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;==========tab indent==========
-(setq tab-width 4)
-(setq-default tab-width 4)
-(setq c-basic-offset 4)
-;; (setq tab-always-indent)
-(setq-default indent-tabs-mode nil)
-;;==========tab indent end==========
-
-
-(setq auto-save-default nil)
-;;不保留备份文件  eg:  init.el~之类的文件
-(setq make-backup-files nil)
-;; 使用y/n 替代yes/no
-(fset 'yes-or-no-p 'y-or-n-p)
-;; unless 的含义是 if nil  do body
-
-
 
 
 (use-package leetcode

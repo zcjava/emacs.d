@@ -6,6 +6,8 @@
 ;;隐藏滚动条
 (scroll-bar-mode nil)
 
+(setq inhibit-startup-message t)
+
 ;;==========theme==========
 (use-package dracula-theme
   :ensure t
