@@ -1,27 +1,33 @@
-(add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
-(require 'init-ui)
-
-(setq inhibit-startup-message t)
 (require 'package)
+
+(add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
+
+(require 'init-elpa)
+(package-initialize)
+
+(unless package-archive-contents
+  (package-refresh-contents))
+;; 当没有安装包，则执行刷新package并安装package
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+
 (setq package-enable-at-startup nil)
 (setq use-package-always-ensure t)
 
-;;(add-to-list 'package-archives
-;;	     '("melpa" . "http://elpa.emacs-china.org/melpa/"))
-;; (setq package-archives '(
-;; 			             ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
-;; 			             ("gnu" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
-;; 			             ("org" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")))
-(setq package-archives '(
-                         ("gnu" . "https://elpa.gnu.org/packages/")
-                         ("melpa" . "https://melpa.org/packages/")
-                         ("org" . "https://orgmode.org/elpa/")
-                         ("melpa-stable" . "https://stable.melpa.org/packages/")))
-;; (setq url-proxy-services
-;;         '(("no_proxy" . "^\\(localhost\\|10.*\\)")
-;;           ("http" . "127.0.0.1:52067")
-;;           ("https" . "127.0.0.1:52067")))
-(package-initialize)
+(require 'init-ui)
+
+
+
+;; (eval-and-compile
+;;     (setq use-package-always-ensure t) ;不用每个包都手动添加:ensure t关键字
+;;     (setq use-package-always-defer t) ;默认都是延迟加载，不用每个包都手动添加:defer t
+;;     )
+
+
+(setq inhibit-startup-message t)
+
+
 
 
 
@@ -74,18 +80,8 @@
 ;; 使用y/n 替代yes/no
 (fset 'yes-or-no-p 'y-or-n-p)
 ;; unless 的含义是 if nil  do body
-(unless (bound-and-true-p package--initialized)
-  (package-initialize)) ;; 刷新软件源索引
-(unless package-archive-contents
-  (package-refresh-contents))
-;; 当没有安装包，则执行刷新package并安装package
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
-;; (eval-and-compile
-;;     (setq use-package-always-ensure t) ;不用每个包都手动添加:ensure t关键字
-;;     (setq use-package-always-defer t) ;默认都是延迟加载，不用每个包都手动添加:defer t
-;;     )
+
+
 
 
 (use-package leetcode
@@ -672,10 +668,21 @@
 (add-to-list 'auto-mode-alist '("\\.\\(xml\\|xsl\\|rng\\|xhtml\\|lzx\\|x3d\\)\\'" . nxml-mode))
 (setq rng-schema-locating-files (list (expand-file-name "~/.emacs.d/schema/schemas.xml")))
 
+;;==========maven pom ==========
 ;; git clone https://github.com/m0smith/maven-pom-mode.git ~/.emacs.d/elpa/
-(add-to-list 'load-path  (expand-file-name "~/.emacs.d/elpa/maven-pom-mode"))
-(load "maven-pom-mode")
+
+(add-to-list 'load-path  (expand-file-name "elpa_nt/maven-pom-mode" user-emacs-directory))
 (add-to-list 'auto-mode-alist '("pom.xml" . maven-pom-mode))
+(load "maven-pom-mode")
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; (use-package maven-pom-mode                                                               ;;
+;;   :load-path (lambda () (expand-file-name "elpa_nt/maven-pom-mode" user-emacs-directory)) ;;
+;;   )                                                                                       ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;==========maven pom end==========
+
 ;;==========xml处理==========
 
 (use-package pdf-tools
@@ -790,7 +797,7 @@
 ;;awesome-tab 不在elpa里,使用需要自行下载到elpa里面,命令如下:
 ;; git clone --depth=1 https://github.com/manateelazycat/awesome-tab.git ~/.emacs.d/elpa/awesome-tab/
 (use-package awesome-tab
-  :load-path (lambda () (expand-file-name "~/.emacs.d/elpa/awesome-tab/"))
+  :load-path (lambda () (expand-file-name "elpa_nt/awesome-tab/" user-emacs-directory))
   :config
   (awesome-tab-mode t)
   )
@@ -808,13 +815,6 @@
 
 ;;==========awesome-tab end==========
 
-;;==========maven pom snippets==========
-;; (use-package maven-pom-mode
-;;   :load-path (lambda () (expand-file-name "~/.emacs.d/elpa/maven-pom-mode/"))
-;;   :config
-;;   (awesome-tab-mode t)
-;;   )
-;;==========maven pom snippets end==========
 
 
 (defun my/ansi-colorize-buffer ()

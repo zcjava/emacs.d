@@ -1,3 +1,9 @@
 [submodule "emacs-lsp-java"]
 	path = emacs-lsp-java
 	url = git@gitee.com:smileo/emacs-lsp-java.git
+[submodule "elpa_nt/awesome-tab"]
+	path = elpa_nt/awesome-tab
+	url = https://github.com/manateelazycat/awesome-tab.git
+[submodule "elpa_nt/maven-pom-mode"]
+	path = elpa_nt/maven-pom-mode
+	url = https://github.com/m0smith/maven-pom-mode.git
