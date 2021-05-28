@@ -13,9 +13,6 @@
 ;;           ("http" . "127.0.0.1:52067")
 ;;           ("https" . "127.0.0.1:52067")))
 
-;;(add-to-list 'package-archives
-;;	     '("melpa" . "http://elpa.emacs-china.org/melpa/"))
-
 (unless (bound-and-true-p package--initialized)
   (package-initialize)) ;; 刷新软件源索引
 

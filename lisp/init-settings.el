@@ -1,3 +1,14 @@
+;; ;; Adjust garbage collection thresholds during startup, and thereafter
+;;  (let ((normal-gc-cons-threshold (* 20 1024 1024))
+;;        (init-gc-cons-threshold (* 128 1024 1024)))
+;;    (setq gc-cons-threshold init-gc-cons-threshold)
+;;    (add-hook 'emacs-startup-hook
+;;              (lambda () (setq gc-cons-threshold normal-gc-cons-threshold))))
+
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+(when (file-exists-p custom-file)
+  (load custom-file))
+
 ;;==========utf8==========
 ;; 设置emacs 使用 utf-8
 ;; 设置为中文简体语言环境
@@ -20,14 +31,10 @@
 ;; 解决文件目录的中文名乱码
 (setq-default pathname-coding-system 'utf-8)
 (set-file-name-coding-system 'utf-8)
-;;;; 设置编辑环境
 ;; 解决 Shell Mode(cmd) 下中文乱码问题
 ;;==========utf8 end==========
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; White space
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;==========tab indent==========
 (setq tab-width 4)
 (setq-default tab-width 4)
@@ -43,5 +50,12 @@
 ;; 使用y/n 替代yes/no
 (fset 'yes-or-no-p 'y-or-n-p)
 ;; unless 的含义是 if nil  do body
+
+(use-package exec-path-from-shell
+  :ensure t
+  :config (setq exec-path (append exec-path '("/usr/local/bin")))
+  )
+(exec-path-from-shell-initialize)
+(setq exec-path-from-shell-check-startup-files nil)
 
 (provide 'init-settings)
