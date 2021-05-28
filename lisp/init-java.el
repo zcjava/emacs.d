@@ -1,4 +1,5 @@
 ;;==========java==========
+
 (use-package lsp-java
   :init
   (setq lsp-java-server-install-dir (expand-file-name "~/.emacs.d/emacs-lsp-java/lsp-java-server/"))
@@ -24,10 +25,15 @@
   (setq lsp-java-format-settings-url "https://raw.githubusercontent.com/google/styleguide/gh-pages/eclipse-java-google-style.xml" lsp-java-format-settings-profile "GoogleStyle")
   (setq lsp-java-format-enabled t)
   (setq lsp-java-format-comments-enabled t)
-;;  (setq lsp-java-configuration-check-project-settings-exclusions t)
+  ;;  (setq lsp-java-configuration-check-project-settings-exclusions t)
   (add-hook 'java-mode-hook 'lsp)
   (add-hook 'before-save-hook 'lsp-format-buffer)
-;;  (add-hook 'before-save-hook 'lsp-java-format)
+  ;;  (add-hook 'before-save-hook 'lsp-java-format)
+  ;;==========load maven pom mode==========
+  (add-to-list 'load-path  (expand-file-name "site-lisp/maven-pom-mode" user-emacs-directory))
+  (add-to-list 'auto-mode-alist '("pom.xml" . maven-pom-mode))
+  (load "maven-pom-mode")
+  ;;==========load maven pom mode end==========
   )
 
 (use-package dap-mode
@@ -84,8 +90,8 @@
 
 
 (use-package lsp-treemacs
-;;  :config
-;;  (lsp-treemacs-sync-mode t)
+  ;;  :config
+  ;;  (lsp-treemacs-sync-mode t)
   :after (lsp-mode treemacs)
   :config
   (global-set-key (kbd "M-s-.") 'lsp-treemacs-implementations)
@@ -103,15 +109,8 @@
 ;;==========maven pom ==========
 ;; git clone https://github.com/m0smith/maven-pom-mode.git ~/.emacs.d/elpa/
 
-(add-to-list 'load-path  (expand-file-name "site-lisp/maven-pom-mode" user-emacs-directory))
-(add-to-list 'auto-mode-alist '("pom.xml" . maven-pom-mode))
-(load "maven-pom-mode")
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (use-package maven-pom-mode                                                               ;;
-;;   :load-path (lambda () (expand-file-name "site-lisp/maven-pom-mode" user-emacs-directory)) ;;
-;;   )                                                                                       ;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;(load "maven-pom-mode")
 
 ;;==========maven pom end==========
 
