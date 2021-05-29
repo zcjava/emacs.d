@@ -1,3 +1,5 @@
+;;屏幕最大化
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
 ;;隐藏菜单栏
 (menu-bar-mode nil)
 ;;隐藏工具栏
