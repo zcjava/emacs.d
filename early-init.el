@@ -8,7 +8,7 @@
 
 ;;; Code:
 ;; start the initial frame maximized
-(add-to-list 'initial-frame-alist '(fullscreen . maximized))
+;;(add-to-list 'initial-frame-alist '(fullscreen . maximized))
 (setq package-enable-at-startup nil)
 
 ;; So we can detect this having been loaded

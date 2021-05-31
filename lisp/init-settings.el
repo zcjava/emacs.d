@@ -1,9 +1,13 @@
 ;; ;; Adjust garbage collection thresholds during startup, and thereafter
-(let ((normal-gc-cons-threshold (* 20 1024 1024))
-      (init-gc-cons-threshold (* 128 1024 1024)))
-  (setq gc-cons-threshold init-gc-cons-threshold)
-  (add-hook 'emacs-startup-hook
-            (lambda () (setq gc-cons-threshold normal-gc-cons-threshold))))
+;; (let ((normal-gc-cons-threshold (* 20 1024 1024))
+;;       (init-gc-cons-threshold (* 128 1024 1024)))
+;;   (setq gc-cons-threshold init-gc-cons-threshold)
+;;   (add-hook 'emacs-startup-hook
+;;             (lambda () (setq gc-cons-threshold normal-gc-cons-threshold))))
+
+;;(setq gc-cons-threshold (* 128 1024 1024))
+(setq gc-cons-percentage 0.6)
+(setq gc-cons-threshold most-positive-fixnum)
 
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (when (file-exists-p custom-file)
@@ -51,11 +55,14 @@
 (fset 'yes-or-no-p 'y-or-n-p)
 ;; unless 的含义是 if nil  do body
 
+;;=========加载系统环境变量==========
 (use-package exec-path-from-shell
   :ensure t
-  :config (setq exec-path (append exec-path '("/usr/local/bin")))
+;;  :config (setq exec-path (append exec-path '("/usr/local/bin")))
   )
-(exec-path-from-shell-initialize)
+(when (memq window-system '(mac ns x))
+  (exec-path-from-shell-initialize))
+
 (setq exec-path-from-shell-check-startup-files nil)
 
 (provide 'init-settings)
