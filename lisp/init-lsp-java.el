@@ -118,4 +118,4 @@
   :ensure t
   )
 
-(provide 'init-java)
+(provide 'init-lsp-java)

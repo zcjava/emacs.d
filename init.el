@@ -12,7 +12,8 @@
 (require 'init-projectile)
 
 (require 'init-lsp)
-(require 'init-java)
+(require 'init-lsp-java)
+(require 'init-lsp-flutter)
 (require 'init-python)
 (require 'init-leetcode)
 
