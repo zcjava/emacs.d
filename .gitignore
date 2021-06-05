@@ -26,3 +26,5 @@ network-security.data
 .org-id-locations
 .gradle
 smex-items
+/.extension/
+tramp
