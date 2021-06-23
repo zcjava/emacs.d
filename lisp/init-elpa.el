@@ -8,10 +8,10 @@
 ;;                         ("org" . "https://orgmode.org/elpa/")
 ;;                         ("melpa-stable" . "https://stable.melpa.org/packages/")))
 
-;; (setq url-proxy-services
-;;         '(("no_proxy" . "^\\(localhost\\|10.*\\)")
-;;           ("http" . "127.0.0.1:52067")
-;;           ("https" . "127.0.0.1:52067")))
+(setq url-proxy-services
+        '(("no_proxy" . "^\\(localhost\\|10.*\\)")
+          ("http" . "127.0.0.1:52067")
+          ("https" . "127.0.0.1:52067")))
 
 (unless (bound-and-true-p package--initialized)
   (package-initialize)) ;; 刷新软件源索引
