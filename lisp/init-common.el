@@ -244,7 +244,10 @@
   ;; (setq helm-dash-browser-func 'eww)
   )
 
-;;==========helm dash end==========
 
+;;==========helm dash end==========
+(use-package diminish)
+(use-package scratch)
+(use-package command-log-mode)
 
 (provide 'init-common)
