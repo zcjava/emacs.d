@@ -155,6 +155,7 @@
 ;;==========awesome-tab==========
 ;;awesome-tab 不在elpa里,使用需要自行下载到elpa里面,命令如下:
 ;; git clone --depth=1 https://github.com/manateelazycat/awesome-tab.git ~/.emacs.d/elpa/awesome-tab/
+
 (use-package awesome-tab
   :load-path (lambda () (expand-file-name "site-lisp/awesome-tab/" user-emacs-directory))
   :config

@@ -72,4 +72,7 @@
 ;; the whitespace on currrent line, otherwise, eclim leaves messy
 ;; code behind.
 
+(use-package all-the-icons)
+(use-package all-the-icons-dired)
+
 (provide 'init-ui)

@@ -29,4 +29,15 @@
 (require 'init-nginx)
 (require 'init-my)
 
+;;Tip
 
+;;;;;;;;;;;;;vterm;;;;;;;;;;;;;;;;;;;
+;; vterm编译需要安装cmake、libtool    ;;
+;; brew install cmake              ;;
+;; brew install libtool            ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;;;;;;;;;;;;all-the-icons;;;;;;;;;;;
+;; all-the-icons需要fontconfig支持  ;;
+;; brew install fontconfig         ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

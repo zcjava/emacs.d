@@ -3,9 +3,9 @@
 (use-package lsp-java
   :init
   (setq lsp-java-server-install-dir (expand-file-name "~/.emacs.d/emacs-lsp-java/lsp-java-server/"))
-  (setq lsp-java-java-path "/usr/local/opt/openjdk@11/bin/java")
+  (setq lsp-java-java-path "/Library/Java/JavaVirtualMachines/openjdk-11.jdk/Contents/Home/bin/java")
   (setq lombok-jar-path
-        (expand-file-name "~/.m2/repository/org/projectlombok/lombok/1.18.10/lombok-1.18.10.jar"))
+        (expand-file-name "~/data/mavenrepo/org/projectlombok/lombok/1.18.10/lombok-1.18.10.jar"))
   (setq lsp-java-vmargs
         `("-noverify"
           "-Xmx1G"
