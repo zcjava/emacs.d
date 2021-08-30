@@ -2,7 +2,7 @@
   :ensure t
   :hook (
          (lsp-mode . lsp-enable-which-key-integration)
-         (java-mode . #'lsp-deferred))
+         (lsp-mode . lsp-lens-mode))
   :commands lsp
   :bind
   (:map lsp-mode-map

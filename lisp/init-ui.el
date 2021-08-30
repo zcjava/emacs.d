@@ -22,6 +22,7 @@
 ;;(add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono-16"))
 
 (set-face-attribute 'default nil :font "DejaVu Sans Mono-16")
+
 (global-font-lock-mode t)
 (setq font-lock-maximum-size 5000000)
 

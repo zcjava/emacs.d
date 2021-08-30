@@ -1,9 +1,9 @@
 ;;==========java==========
-
+(setq my-java-path "/Library/Java/JavaVirtualMachines/openjdk-11.jdk/Contents/Home/bin/java")
 (use-package lsp-java
   :init
   (setq lsp-java-server-install-dir (expand-file-name "~/.emacs.d/emacs-lsp-java/lsp-java-server/"))
-  (setq lsp-java-java-path "/Library/Java/JavaVirtualMachines/openjdk-11.jdk/Contents/Home/bin/java")
+  (setq lsp-java-java-path my-java-path)
   (setq lombok-jar-path
         (expand-file-name "~/data/mavenrepo/org/projectlombok/lombok/1.18.10/lombok-1.18.10.jar"))
   (setq lsp-java-vmargs
@@ -18,6 +18,7 @@
   (setq lsp-java-configuration-maven-user-settings (expand-file-name "~/.m2/settings.xml"))
   (setq lsp-java-maven-download-sources t)
   (setq lsp-java-import-maven-enabled t)
+  (setq lsp-java-implementations-code-lens-enabled t)
   (setq lsp-java-references-code-lens-enabled t)
   (setq lsp-java-autobuild-enabled t)
   ;;  (setq lsp-java-save-actions-organize-imports t)
@@ -27,19 +28,23 @@
   (setq lsp-java-format-comments-enabled t)
   ;;  (setq lsp-java-configuration-check-project-settings-exclusions t)
   (add-hook 'java-mode-hook 'lsp)
+  (add-hook 'java-mode-hook 'lsp-deferred)
+  (add-hook 'java-mode-hook 'lsp-java-boot-lens-mode)
   (add-hook 'before-save-hook 'lsp-format-buffer)
   ;;  (add-hook 'before-save-hook 'lsp-java-format)
   ;;==========load maven pom mode==========
-  (add-to-list 'load-path  (expand-file-name "site-lisp/maven-pom-mode" user-emacs-directory))
-  (add-to-list 'auto-mode-alist '("pom.xml" . maven-pom-mode))
-  (load "maven-pom-mode")
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;; (add-to-list 'load-path  (expand-file-name "site-lisp/maven-pom-mode" user-emacs-directory)) ;;
+  ;; (add-to-list 'auto-mode-alist '("pom.xml" . maven-pom-mode))                                 ;;
+  ;; (load "maven-pom-mode")                                                                      ;;
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;;==========load maven pom mode end==========
   )
 
 (use-package dap-mode
   :init
   ;;  (setq dap-java-test-additional-args '("-n" "\".*(Test|IT).*\""))
-  (setq dap-java-java-command "/usr/local/opt/openjdk@11/bin/java")
+  (setq dap-java-java-command my-java-path)
   :ensure t
   :after lsp-mode
   :functions dap-hydra/nil
