@@ -1,4 +1,5 @@
 ;;==========java==========
+(setenv "JAVA_HOME"  "/Library/Java/JavaVirtualMachines/openjdk-11.jdk/Contents/Home/")
 (setq my-java-path "/Library/Java/JavaVirtualMachines/openjdk-11.jdk/Contents/Home/bin/java")
 (use-package lsp-java
   :init

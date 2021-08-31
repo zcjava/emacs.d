@@ -86,8 +86,10 @@
 (add-hook 'prog-mode-hook 'hs-minor-mode)
 
 ;;==========xml处理==========
-(add-to-list 'auto-mode-alist '("\\.\\(xml\\|xsl\\|rng\\|xhtml\\|lzx\\|x3d\\)\\'" . nxml-mode))
-(setq rng-schema-locating-files (list (expand-file-name "~/.emacs.d/schema/schemas.xml")))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; (add-to-list 'auto-mode-alist '("\\.\\(xml\\|xsl\\|rng\\|xhtml\\|lzx\\|x3d\\)\\'" . nxml-mode)) ;;
+;; (setq rng-schema-locating-files (list (expand-file-name "~/.emacs.d/schema/schemas.xml")))      ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
 (use-package pdf-tools
