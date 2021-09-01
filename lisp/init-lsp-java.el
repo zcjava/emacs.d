@@ -47,7 +47,7 @@
   ;;  (setq dap-java-test-additional-args '("-n" "\".*(Test|IT).*\""))
   (setq dap-java-java-command my-java-path)
   :ensure t
-  :after lsp-mode
+  :after (lsp-mode)
   :functions dap-hydra/nil
   :bind (:map lsp-mode-map
               ("<f5>" . dap-debug)
@@ -56,6 +56,7 @@
          (dap-session-created . (lambda (&_rest) (dap-hydra)))
          (dap-terminated . (lambda (&_rest) (dap-hydra/nil))))
   :config
+  (require 'dap-java)
   (dap-mode t)
   (dap-ui-mode t)
   (dap-tooltip-mode 1)
@@ -91,25 +92,6 @@
   (global-set-key (kbd "<f8>") 'dap-next)
   (global-set-key (kbd "<f9>") 'dap-continue)
   )
-
-(use-package yaml-mode)
-
-
-(use-package lsp-treemacs
-  ;;  :config
-  ;;  (lsp-treemacs-sync-mode t)
-  :after (lsp-mode treemacs)
-  :config
-  (global-set-key (kbd "M-s-.") 'lsp-treemacs-implementations)
-  :ensure t
-  :commands lsp-treemacs-errors-list
-  :bind (:map lsp-mode-map
-              ("M-9" . lsp-treemacs-errors-list)))
-
-;;(use-package gradle-mode
-;;  )
-
-(use-package yaml-mode)
 ;;==========java end==========
 
 ;;==========maven pom ==========
@@ -123,5 +105,11 @@
 (use-package mvn
   :ensure t
   )
+
+(require 'lsp-java-boot)
+;; to enable the lenses
+(add-hook 'lsp-mode-hook #'lsp-lens-mode)
+(add-hook 'java-mode-hook #'lsp-java-boot-lens-mode)
+
 
 (provide 'init-lsp-java)
