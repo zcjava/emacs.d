@@ -17,13 +17,18 @@
   )
 
 
-(defun copy-path()
-;;  (setq default-directory "~/")  
+(defun copy-file-path-my ()
+  "Put the current file name on the clipboard"
   (interactive)
-  (setq currentdir "~/")
-  (message "%s" currentdir)
-  (x-select-text currentdir)
-  )
+  (let ((filename (if (equal major-mode 'dired-mode)
+                      default-directory
+                    (buffer-file-name))))
+    (when filename
+      (with-temp-buffer
+        (insert filename)
+        (clipboard-kill-region (point-min) (point-max)))
+      (message filename))))
+
 ;;==========myself custom==========
 
 (provide 'init-my)

@@ -159,7 +159,7 @@
 ;; git clone --depth=1 https://github.com/manateelazycat/awesome-tab.git ~/.emacs.d/elpa/awesome-tab/
 
 (use-package awesome-tab
-  :load-path (lambda () (expand-file-name "site-lisp/awesome-tab/" user-emacs-directory))
+  :load-path (lambda () (expand-file-name "elpa/awesome-tab/" user-emacs-directory))
   :config
   (awesome-tab-mode t)
   )
