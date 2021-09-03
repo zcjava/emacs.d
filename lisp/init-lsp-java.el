@@ -32,6 +32,10 @@
   (add-hook 'java-mode-hook 'lsp-deferred)
   (add-hook 'java-mode-hook 'lsp-java-boot-lens-mode)
   (add-hook 'before-save-hook 'lsp-format-buffer)
+  ;; git clone git@github.com:juergenhoetzel/emacs-nexus.git ~/.emacs.d/site-lisp/
+  (add-to-list 'load-path  (expand-file-name "site-lisp/emacs-nexus" user-emacs-directory))
+  (require 'nexus)
+  (setq nexus-rest-url "https://nexus.peoplecommnue.com/nexus/service/local/lucene/search")
   ;;  (add-hook 'before-save-hook 'lsp-java-format)
   ;;==========load maven pom mode==========
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
