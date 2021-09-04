@@ -28,3 +28,4 @@ network-security.data
 smex-items
 /.extension/
 tramp
+site-lisp/lsp-server/

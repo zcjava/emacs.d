@@ -12,6 +12,7 @@
             (lambda () (setq gc-cons-threshold (* 20 1024 1024)))))
 
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
+
 (require 'init-benchmarking)
 (require 'init-elpa)
 (require 'init-ui)
@@ -43,7 +44,8 @@
 ;; brew install fontconfig         ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;;==========awesome-tab==========
+;;==========other third elpa==========
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; git clone --depth=1 https://github.com/manateelazycat/awesome-tab.git ~/.emacs.d/site-lisp/awesome-tab/ ;;
+;; awesome-tab https://github.com/manateelazycat/awesome-tab
+;; emacs-nexus https://github.com/juergenhoetzel/emacs-nexus
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

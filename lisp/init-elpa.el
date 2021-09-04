@@ -1,8 +1,4 @@
 ;; (setq package-archives '(
-;;  			             ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
-;;  			             ("gnu" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
-;;  			             ("org" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")))
-;; (setq package-archives '(
 ;;                         ("gnu" . "https://elpa.gnu.org/packages/")
 ;;                         ("melpa" . "https://melpa.org/packages/")
 ;;                         ("org" . "https://orgmode.org/elpa/")
@@ -13,7 +9,7 @@
                          ("org" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")
                          ("melpa-stable" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa-stable/")
                          ))
- (setq url-proxy-services
+(setq url-proxy-services
          '(("no_proxy" . "^\\(localhost\\|10.*\\)")
            ("http" . "127.0.0.1:52067")
            ("https" . "127.0.0.1:52067")))

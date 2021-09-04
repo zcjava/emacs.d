@@ -1,8 +1,6 @@
 (use-package lsp-mode
   :ensure t
-  :hook (
-         (lsp-mode . lsp-enable-which-key-integration)
-         (java-mode . #'lsp-deferred))
+  :hook (lsp-mode . lsp-enable-which-key-integration)
   :commands lsp
   :bind
   (:map lsp-mode-map
@@ -75,8 +73,8 @@
 
 
 ;;(use-package gradle-mode)
-(use-package yaml-mode)
-(use-package groovy-mode)
+;;(use-package yaml-mode)
+;;(use-package groovy-mode)
 
 ;; (use-package company-lsp
 ;;   :ensure t)

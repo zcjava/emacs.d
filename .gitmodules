@@ -9,7 +9,10 @@
 	url = https://github.com/m0smith/maven-pom-mode.git
 [submodule "site-lisp/awesome-tab"]
 	path = site-lisp/awesome-tab
-	url = https://github.com/manateelazycat/awesome-tab.git
+	url = git@github.com:manateelazycat/awesome-tab.git
 [submodule "site-lisp/maven-pom-mode"]
 	path = site-lisp/maven-pom-mode
 	url = https://github.com/m0smith/maven-pom-mode.git
+[submodule "site-lisp/emacs-nexus"]
+	path = site-lisp/emacs-nexus
+	url = git@github.com:juergenhoetzel/emacs-nexus.git
