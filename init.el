@@ -1,5 +1,3 @@
-(add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
-
 (defconst *spell-check-support-enabled* nil) ;; Enable with t if you prefer
 ;;(defconst *is-a-mac* (eq system-type 'darwin))
 
@@ -13,21 +11,19 @@
   (add-hook 'emacs-startup-hook
             (lambda () (setq gc-cons-threshold (* 20 1024 1024)))))
 
+(add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 (require 'init-benchmarking)
 (require 'init-elpa)
 (require 'init-ui)
 (require 'init-settings)
-
 (require 'init-common)
+(require 'init-projectile)
 (require 'init-minibuffer-tool)
 (require 'init-org)
 (require 'init-term)
-(require 'init-projectile)
-
 (require 'init-lsp)
 (require 'init-lsp-java)
 (require 'init-lsp-flutter)
-
 (require 'init-python)
 (require 'init-leetcode)
 (require 'init-nginx)
@@ -49,5 +45,5 @@
 
 ;;==========awesome-tab==========
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; git clone --depth=1 https://github.com/manateelazycat/awesome-tab.git ~/.emacs.d/elpa/awesome-tab/ ;;
+;; git clone --depth=1 https://github.com/manateelazycat/awesome-tab.git ~/.emacs.d/site-lisp/awesome-tab/ ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

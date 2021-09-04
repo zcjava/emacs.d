@@ -74,7 +74,7 @@
               ("M-9" . lsp-treemacs-errors-list)))
 
 
-(use-package gradle-mode)
+;;(use-package gradle-mode)
 (use-package yaml-mode)
 (use-package groovy-mode)
 
