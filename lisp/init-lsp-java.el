@@ -33,7 +33,6 @@
   (add-hook 'java-mode-hook 'lsp)
   (add-hook 'java-mode-hook 'lsp-deferred)
   (add-hook 'java-mode-hook 'lsp-java-boot-lens-mode)
-  (add-hook 'before-save-hook 'lsp-format-buffer)
   (setq lsp-groovy-server-file (expand-file-name "lsp-server/emacs-lsp-java/groovy-language-server/groovy-language-server-all.jar" user-emacs-directory))
   )
 
@@ -103,5 +102,7 @@
 (add-to-list 'load-path  (expand-file-name "site-lisp/emacs-nexus" user-emacs-directory))
 (require 'nexus)
 (setq nexus-rest-url "https://nexus.peoplecommnue.com/nexus/service/local/lucene/search")
-
+(require 'ac-nexus)
+(add-hook 'clojure-mode-hook 'ac-source-lein-set-up)
+(setq mm-url-use-external t)
 (provide 'init-lsp-java)

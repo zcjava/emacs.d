@@ -1,7 +1,10 @@
 (use-package lsp-mode
   :ensure t
-  :hook (lsp-mode . lsp-enable-which-key-integration)
-  :commands lsp
+  :hook (
+         (lsp-mode . lsp-enable-which-key-integration)
+         (nxml-mode . lsp)     ;; nxml-mode  自动加载lsp
+         )
+  :commands lsp  ;;lsp-mode取个别名,命令行输入lsp
   :bind
   (:map lsp-mode-map
         (("\C-\M-b" . lsp-find-implementation)
@@ -15,9 +18,9 @@
   :config
   (setq lsp-intelephense-multi-root nil) ; don't scan unnecessary projects
   (with-eval-after-load 'lsp-intelephense
-  (setf (lsp--client-multi-root (gethash 'iph lsp-clients)) nil))
+    (setf (lsp--client-multi-root (gethash 'iph lsp-clients)) nil))
   (define-key lsp-mode-map (kbd "C-c l") lsp-command-map)
-
+  (add-hook 'before-save-hook 'lsp-format-buffer)
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; (setq                                 ;;
   ;;  ;; 关闭lsp debug信息                 ;;
@@ -40,11 +43,11 @@
 (use-package lsp-ui
   :after (lsp-mode)
   :init (setq lsp-ui-doc-delay 1.5
-      lsp-ui-doc-position 'bottom
-	  lsp-ui-doc-max-width 100)
+              lsp-ui-doc-position 'bottom
+	          lsp-ui-doc-max-width 100)
   :bind (:map lsp-ui-mode-map
-         ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
-         ([remap xref-find-references] . lsp-ui-peek-find-references))
+              ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
+              ([remap xref-find-references] . lsp-ui-peek-find-references))
   ;; :config
   ;; (setq lsp-prefer-flymake nil
   ;;       lsp-ui-sideline-enable nil
@@ -88,5 +91,5 @@
 ;;==========xml lsp==========
 (setq lsp-xml-jar-file (expand-file-name "site-lisp/lsp-server/xmlls/org.eclipse.lemminx-0.13.1-uber.jar" user-emacs-directory))
 
-(provide 'init-lsp)
 
+(provide 'init-lsp)
