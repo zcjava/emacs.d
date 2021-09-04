@@ -29,3 +29,4 @@ smex-items
 /.extension/
 tramp
 site-lisp/lsp-server/
+!/site-lisp/lsp-server/java/eclipse.jdt.ls/

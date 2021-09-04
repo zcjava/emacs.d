@@ -45,11 +45,19 @@
 
 
 ;;==========tab indent==========
+(use-package smart-tabs-mode)
 (setq tab-width 4)
 (setq-default tab-width 4)
+(smart-tabs-insinuate 'c 'c++ 'java 'javascript 'cperl 'python 'ruby 'nxml)
 (setq c-basic-offset 4)
 ;; (setq tab-always-indent)
 (setq-default indent-tabs-mode nil)
+;; nxml-mode
+(setq 
+    nxml-child-indent 4
+    nxml-attribute-indent 4
+    nxml-slash-auto-complete-flag t)
+
 ;;==========tab indent end==========
 
 

@@ -85,5 +85,8 @@
   :bind ("C-c r" . quickrun))
 
 
+;;==========xml lsp==========
+(setq lsp-xml-jar-file (expand-file-name "site-lisp/lsp-server/xmlls/org.eclipse.lemminx-0.13.1-uber.jar" user-emacs-directory))
+
 (provide 'init-lsp)
 

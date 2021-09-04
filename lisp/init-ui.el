@@ -21,7 +21,7 @@
 ;; 设置显示字体和大小
 ;;(add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono-16"))
 
-(set-face-attribute 'default nil :font "DejaVu Sans Mono-16")
+(set-face-attribute 'default nil :font "DejaVu Sans Mono-17")
 
 (global-font-lock-mode t)
 (setq font-lock-maximum-size 5000000)

@@ -95,6 +95,10 @@
   :ensure t
   )
 
+(defun mvn-install ()
+  (interactive)
+  (mvn "install"))
+
 ;; https://github.com/juergenhoetzel/emacs-nexus.git 
 (add-to-list 'load-path  (expand-file-name "site-lisp/emacs-nexus" user-emacs-directory))
 (require 'nexus)
