@@ -9,8 +9,7 @@
   (setq lombok-jar-path
         (expand-file-name "~/data/mavenrepo/org/projectlombok/lombok/1.18.10/lombok-1.18.10.jar"))
   (setq lsp-java-vmargs
-        '("-noverify"
-          "-XX:+UseParallelGC" "-XX:GCTimeRatio=4" "-XX:AdaptiveSizePolicyWeight=90" "-Dsun.zip.disableMemoryMapping=true"
+        `("-noverify"
           "-Xmx1G"
           "-XX:+UseG1GC"
           "-XX:+UseStringDeduplication"
