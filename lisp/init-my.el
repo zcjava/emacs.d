@@ -17,7 +17,7 @@
   )
 
 
-(defun copy-file-path-my ()
+(defun copy-file-path ()
   "Put the current file name on the clipboard"
   (interactive)
   (let ((filename (if (equal major-mode 'dired-mode)

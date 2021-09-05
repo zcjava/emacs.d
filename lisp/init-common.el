@@ -266,6 +266,7 @@
   ;; (setq helm-dash-browser-func 'eww)
   )
 
+(use-package iedit)
 
 ;;==========helm dash end==========
 (use-package diminish)

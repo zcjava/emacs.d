@@ -29,7 +29,7 @@
 (require 'init-leetcode)
 (require 'init-nginx)
 (require 'init-my)
-
+(require 'init-proxy)
 
 ;;Tip
 
