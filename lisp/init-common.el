@@ -261,12 +261,15 @@
 
 (use-package dash
   )
+
 (use-package helm-dash
   ;; :init
   ;; (setq helm-dash-browser-func 'eww)
   )
 
-(use-package iedit)
+(use-package iedit
+  :bind ("C-c e" . iedit-mode)
+  )
 
 ;;==========helm dash end==========
 (use-package diminish)

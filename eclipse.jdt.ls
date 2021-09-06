@@ -1,1 +1,0 @@
-site-lisp/lsp-server/java/eclipse.jdt.ls
