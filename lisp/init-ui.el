@@ -8,8 +8,8 @@
 ;;隐藏滚动条
 (scroll-bar-mode nil)
 
-(setq inhibit-startup-message nil)
-(setq inhibit-message nil)
+(setq inhibit-startup-message t)
+;;(setq inhibit-message nil)
 
 ;;==========theme==========
 (use-package dracula-theme
