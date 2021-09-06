@@ -90,6 +90,6 @@
 
 ;;==========xml lsp==========
 (setq lsp-xml-jar-file (expand-file-name "site-lisp/lsp-server/xmlls/org.eclipse.lemminx-0.13.1-uber.jar" user-emacs-directory))
-
+(setq lsp-xml-server-command `("java" "-cp" "/Users/os/.emacs.d/site-lisp/lsp-server/xmlls/lemminx-maven-0.4.0.jar:/Users/os/.emacs.d/site-lisp/lsp-server/xmlls/maven-core-3.8.2.jar" "-jar" ,lsp-xml-jar-file))
 
 (provide 'init-lsp)

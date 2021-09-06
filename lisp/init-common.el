@@ -80,9 +80,8 @@
 
 (use-package yasnippet
   :config (yas-global-mode)
-  (use-package yasnippet-snippets :ensure t)
   )
-
+(use-package yasnippet-snippets :ensure t)
 (add-hook 'prog-mode-hook 'hs-minor-mode)
 
 ;;==========xml处理==========

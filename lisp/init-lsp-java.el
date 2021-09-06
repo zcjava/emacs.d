@@ -1,5 +1,6 @@
 ;;==========java==========
 (setenv "JAVA_HOME"  "/Library/Java/JavaVirtualMachines/openjdk-11.jdk/Contents/Home/")
+
 (setq my-java-path "/Library/Java/JavaVirtualMachines/openjdk-11.jdk/Contents/Home/bin/java")
 
 (use-package lsp-java
@@ -28,11 +29,8 @@
   (setq lsp-java-format-comments-enabled t)
   (setq lsp-java-configuration-update-build-configuration t)
   ;;  (setq lsp-java-configuration-check-project-settings-exclusions t)
-
-  (add-hook 'lsp-mode-hook 'lsp-lens-mode)
   (add-hook 'java-mode-hook 'lsp)
   (add-hook 'java-mode-hook 'lsp-deferred)
-  (add-hook 'java-mode-hook 'lsp-java-boot-lens-mode)
   (setq lsp-groovy-server-file (expand-file-name "lsp-server/emacs-lsp-java/groovy-language-server/groovy-language-server-all.jar" user-emacs-directory))
   )
 
@@ -78,6 +76,11 @@
   (global-set-key (kbd "<f8>") 'dap-next)
   (global-set-key (kbd "<f9>") 'dap-continue)
   )
+
+(require 'lsp-java-boot)
+;; to enable the lenses
+(add-hook 'lsp-mode-hook #'lsp-lens-mode)
+(add-hook 'java-mode-hook #'lsp-java-boot-lens-mode)
 
 ;;==========java end==========
 
