@@ -15,6 +15,9 @@
 
 (require 'init-benchmarking)
 (require 'init-elpa)
+(require 'init-my)
+(require 'init-proxy)
+(require 'init-recentf)
 (require 'init-ui)
 (require 'init-settings)
 (require 'init-common)
@@ -28,8 +31,6 @@
 (require 'init-python)
 (require 'init-leetcode)
 (require 'init-nginx)
-(require 'init-my)
-(require 'init-proxy)
 
 ;;Tip
 

@@ -34,7 +34,7 @@
   ("C-o"   . 'counsel-outline)
   ("C-x b" . 'counsel-switch-buffer)
   ("C-x g" . 'counsel-rg)
-
+  ("C-c h" . 'counsel-recentf)
   :hook (after-init . ivy-mode)
   )
 
