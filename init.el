@@ -31,7 +31,7 @@
 (require 'init-python)
 (require 'init-leetcode)
 (require 'init-nginx)
-
+(require 'init-http)
 ;;Tip
 
 ;;;;;;;;;;;;;vterm;;;;;;;;;;;;;;;;;;;

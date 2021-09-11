@@ -275,4 +275,15 @@
 (use-package scratch)
 (use-package command-log-mode)
 
+(use-package treemacs
+  :ensure t
+  :commands (treemacs)
+  :config
+  (setq
+   treemacs-project-follow-mode t   ;;根据不同项目自动切换treemacs目录
+   treemacs-hide-gitignored-files-mode t
+   )
+
+  )
+
 (provide 'init-common)

@@ -4,11 +4,13 @@
 ;;                         ("org" . "https://orgmode.org/elpa/")
 ;;                         ("melpa-stable" . "https://stable.melpa.org/packages/")))
 
-(setq package-archives '(("gnu"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
-                         ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
-                         ("org" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")
-                         ("melpa-stable" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa-stable/")
+(setq package-archives '(("gnu"   . "http://elpa.emacs-china.org/gnu/")
+                         ("melpa" . "http://elpa.emacs-china.org/melpa/")
+                         ("org" . "http://elpa.emacs-china.org/org/")
+                         ("melpa-stable" . "http://elpa.emacs-china.org/stable-melpa/")
                          ))
+
+
 
 (unless (bound-and-true-p package--initialized)
   (package-initialize)) ;; 刷新软件源索引
