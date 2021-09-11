@@ -4,6 +4,7 @@
   :hook (
          (lsp-mode . lsp-enable-which-key-integration)
          (nxml-mode . lsp)     ;; nxml-mode  自动加载lsp
+         (java-mode . #'lsp-deferred)
          )
   :commands lsp  ;;lsp-mode取个别名,命令行输入lsp
   :bind
@@ -21,9 +22,10 @@
   (with-eval-after-load 'lsp-intelephense
     (setf (lsp--client-multi-root (gethash 'iph lsp-clients)) nil))
   (define-key lsp-mode-map (kbd "C-c l") lsp-command-map)
-  (add-hook 'lsp-mode
+  (add-hook 'lsp-mode-hook
             (lambda()
               (add-hook 'before-save-hook 'lsp-format-buffer nil t)))
+
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; (setq                                 ;;
   ;;  ;; 关闭lsp debug信息                 ;;
@@ -59,7 +61,11 @@
 
 ;;(use-package helm-lsp :commands helm-lsp-workspace-symbol)
 ;; if you are ivy user
-(use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
+(use-package lsp-ivy
+  :after (lsp-mode)
+  :commands lsp-ivy-workspace-symbol
+  :init (define-key lsp-mode-map [remap xref-find-apropos] #'lsp-ivy-workspace-symbol)
+  )
 
 (use-package lsp-treemacs
   :after (lsp-mode treemacs)
@@ -76,7 +82,41 @@
 ;;(use-package groovy-mode)
 
 ;; (use-package company-lsp
-;;   :ensure t)
+;;    :ensure t)
+
+(use-package dap-mode
+  :init
+  ;;  (setq dap-java-test-additional-args '("-n" "\".*(Test|IT).*\""))
+  (setq dap-java-java-command my-java-path)
+  :ensure t
+  :after (lsp-mode)
+  :functions dap-hydra/nil
+  :bind (:map lsp-mode-map
+              ("<f5>" . dap-debug)
+              ("M-<f5>" . dap-hydra))
+  :hook ((dap-mode . dap-ui-mode)
+         (dap-session-created . (lambda (&_rest) (dap-hydra)))
+         (dap-terminated . (lambda (&_rest) (dap-hydra/nil))))
+  :config
+  (require 'dap-java)
+  (dap-mode t)
+  (dap-ui-mode t)
+  (dap-tooltip-mode 1)
+  (tooltip-mode 1)
+  ;;  (dap-ui-controls-mode 1)
+  (dap-register-debug-template
+   "localhost:5005"
+   (list :type "java"
+         :request "attach"
+         :hostName "localhost"
+         :port 5005))
+  (dap-register-debug-template
+   "lxd"
+   (list :type "java"
+         :request "attach"
+         :hostName "127.0.0.1"
+         :port 5005))
+  )
 
 
 (use-package quickrun

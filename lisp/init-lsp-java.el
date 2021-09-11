@@ -31,47 +31,12 @@
   (setq lsp-java-configuration-check-project-settings-exclusions t)
   (add-hook 'java-mode-hook 'lsp)
   (add-hook 'lsp-mode-hook 'lsp-lens-mode)
-  (add-hook 'java-mode-hook 'lsp-deferred)
   ;; 只在java-mode save的时候 调用lsp-java-origanize-imports
   (add-hook 'java-mode-hook
             (lambda()
               (add-hook 'before-save-hook 'lsp-java-organize-imports nil t)))
-
   )
 
-(use-package dap-mode
-  :init
-  ;;  (setq dap-java-test-additional-args '("-n" "\".*(Test|IT).*\""))
-  (setq dap-java-java-command my-java-path)
-  :ensure t
-  :after (lsp-mode)
-  :functions dap-hydra/nil
-  :bind (:map lsp-mode-map
-              ("<f5>" . dap-debug)
-              ("M-<f5>" . dap-hydra))
-  :hook ((dap-mode . dap-ui-mode)
-         (dap-session-created . (lambda (&_rest) (dap-hydra)))
-         (dap-terminated . (lambda (&_rest) (dap-hydra/nil))))
-  :config
-  (require 'dap-java)
-  (dap-mode t)
-  (dap-ui-mode t)
-  (dap-tooltip-mode 1)
-  (tooltip-mode 1)
-  ;;  (dap-ui-controls-mode 1)
-  (dap-register-debug-template
-   "localhost:5005"
-   (list :type "java"
-         :request "attach"
-         :hostName "localhost"
-         :port 5005))
-  (dap-register-debug-template
-   "lxd"
-   (list :type "java"
-         :request "attach"
-         :hostName "127.0.0.1"
-         :port 5005))
-  )
 
 (use-package dap-java
   :ensure nil

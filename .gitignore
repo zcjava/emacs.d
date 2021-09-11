@@ -10,7 +10,6 @@ transient
 recentf
 .dap-breakpoints
 projectile-bookmarks.eld
-/bookmarks
 /.#init.el
 /flycheck_init.el
 org-clock-save.el
