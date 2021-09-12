@@ -2,9 +2,8 @@
 (use-package lsp-mode
   :ensure t
   :hook (
-         (lsp-mode . 'lsp-enable-which-key-integration)
-         (lsp-mode . 'lsp-lens-mode)
-         (nxml-mode . 'lsp)     ;; nxml-mode  自动加载lsp
+         (lsp-mode . lsp-enable-which-key-integration)
+         (nxml-mode . lsp)     ;; nxml-mode  自动加载lsp
          )
   :commands lsp  ;;lsp-mode取个别名,命令行输入lsp
   :bind
@@ -18,10 +17,12 @@
          lsp-idle-delay 0.500
          )
   :config
+  (setq lsp-completion-enable-additional-text-edit nil)
   (setq lsp-intelephense-multi-root nil) ; don't scan unnecessary projects
   (with-eval-after-load 'lsp-intelephense
     (setf (lsp--client-multi-root (gethash 'iph lsp-clients)) nil))
   (define-key lsp-mode-map (kbd "C-c l") lsp-command-map)
+  (add-hook 'lsp-mode-hook 'lsp-lens-mode)
   (add-hook 'lsp-mode-hook
             (lambda()
               (add-hook 'before-save-hook 'lsp-format-buffer nil t)))

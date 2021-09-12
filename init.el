@@ -12,7 +12,6 @@
             (lambda () (setq gc-cons-threshold (* 20 1024 1024)))))
 
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
-
 (require 'init-benchmarking)
 (require 'init-elpa)
 (require 'init-my)

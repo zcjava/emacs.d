@@ -2,7 +2,6 @@
 (setenv "JAVA_HOME"  "/Library/Java/JavaVirtualMachines/openjdk-11.jdk/Contents/Home/")
 
 (setq my-java-path "/Library/Java/JavaVirtualMachines/openjdk-11.jdk/Contents/Home/bin/java")
-
 (use-package lsp-java
   :init
   (setq lsp-java-server-install-dir (expand-file-name "site-lisp/lsp-server/java/" user-emacs-directory))
@@ -29,25 +28,20 @@
   (setq lsp-java-format-comments-enabled t)
   (setq lsp-java-configuration-update-build-configuration t)
   (setq lsp-java-configuration-check-project-settings-exclusions t)
-  (setq company-minimum-prefix-length 0)
-  ;;  (add-hook 'lsp-mode-hook 'lsp-lens-mode)
-
-  ;; (add-hook 'java-mode-hook (lambda()
-  ;;                             (lsp t)
-  ;;                             (lsp-deferred t)
-  ;;                             (lsp-java-boot-lens-mode t)
-  ;;                             (dap-ui-mode t)
-  ;;                             (dap-tooltip-mode t)
-  ;;                             (tooltip-mode t)
-  ;;                             (dap-ui-controls-mode t)
-  ;;                             (add-hook 'before-save-hook 'lsp-java-organize-imports nil t)
-  ;;                             ))
   (add-hook 'java-mode-hook 'lsp)
-  (add-hook 'java-mode-hook 'lsp-java-boot-lens-mode)
   ;; 只在java-mode save的时候 调用lsp-java-origanize-imports
   (add-hook 'java-mode-hook
             (lambda()
-              (add-hook 'before-save-hook 'lsp-java-organize-imports nil t)))
+              (add-hook 'before-save-hook 'lsp-java-organize-imports nil t)
+              ))
+  ;; 只在某些mode下，生效参数配置
+  (add-hook 'java-mode-hook
+            (lambda()
+              (make-local-variable 'company-minimum-prefix-length)
+              (setq company-minimum-prefix-length 0)
+              ))
+  (require 'lsp-java-boot)
+  (add-hook 'java-mode-hook 'lsp-java-boot-lens-mode)
   )
 
 
