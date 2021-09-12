@@ -2,9 +2,9 @@
 (use-package lsp-mode
   :ensure t
   :hook (
-         (lsp-mode . lsp-enable-which-key-integration)
-         (nxml-mode . lsp)     ;; nxml-mode  自动加载lsp
-         (java-mode . #'lsp-deferred)
+         (lsp-mode . 'lsp-enable-which-key-integration)
+         (lsp-mode . 'lsp-lens-mode)
+         (nxml-mode . 'lsp)     ;; nxml-mode  自动加载lsp
          )
   :commands lsp  ;;lsp-mode取个别名,命令行输入lsp
   :bind
@@ -95,27 +95,14 @@
          (dap-session-created . (lambda (&_rest) (dap-hydra)))
          (dap-terminated . (lambda (&_rest) (dap-hydra/nil))))
   :config
-  (require 'dap-java)
   ;; :bind (:map lsp-mode-map
   ;;             ("<f5>" . dap-debug)
   ;;             ("M-<f5>" . dap-hydra))
-  ;; (dap-mode t)
   ;; (dap-ui-mode t)
   ;; (dap-tooltip-mode 1)
   ;; (tooltip-mode 1)
   ;;  (dap-ui-controls-mode 1)
-  (dap-register-debug-template
-   "localhost:5005"
-   (list :type "java"
-         :request "attach"
-         :hostName "localhost"
-         :port 5005))
-  (dap-register-debug-template
-   "lxd"
-   (list :type "java"
-         :request "attach"
-         :hostName "127.0.0.1"
-         :port 5005))
+
   )
 
 

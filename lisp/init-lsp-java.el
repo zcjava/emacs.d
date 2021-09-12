@@ -29,24 +29,22 @@
   (setq lsp-java-format-comments-enabled t)
   (setq lsp-java-configuration-update-build-configuration t)
   (setq lsp-java-configuration-check-project-settings-exclusions t)
+  (setq company-minimum-prefix-length 0)
+  ;;  (add-hook 'lsp-mode-hook 'lsp-lens-mode)
+
+  ;; (add-hook 'java-mode-hook (lambda()
+  ;;                             (lsp t)
+  ;;                             (lsp-deferred t)
+  ;;                             (lsp-java-boot-lens-mode t)
+  ;;                             (dap-ui-mode t)
+  ;;                             (dap-tooltip-mode t)
+  ;;                             (tooltip-mode t)
+  ;;                             (dap-ui-controls-mode t)
+  ;;                             (add-hook 'before-save-hook 'lsp-java-organize-imports nil t)
+  ;;                             ))
   (add-hook 'java-mode-hook 'lsp)
-  (require 'lsp-java-boot)
-  (add-hook 'lsp-mode-hook 'lsp-lens-mode)
+  (add-hook 'java-mode-hook 'lsp-java-boot-lens-mode)
   ;; 只在java-mode save的时候 调用lsp-java-origanize-imports
-   ;; (add-hook 'java-mode-hook (lambda()
-   ;;                            (lsp t)
-   ;;                            (flycheck-mode t)
-   ;;                            (company-mode t)
-   ;;                            (lsp-ui-mode t)
-   ;;                            (lsp-ui-doc-mode nil)
-   ;;                            (lsp-java-boot-lens-mode t)
-   ;;                            (dap-mode t)
-   ;;                            (dap-ui-mode t)
-   ;;                            (dap-tooltip-mode t)
-   ;;                            (tooltip-mode t)
-   ;;                            (dap-ui-controls-mode t)
-   ;;                            ;;(gradle-mode t)
-   ;;                            )) 
   (add-hook 'java-mode-hook
             (lambda()
               (add-hook 'before-save-hook 'lsp-java-organize-imports nil t)))
@@ -55,6 +53,19 @@
 
 (use-package dap-java
   :ensure nil
+  :config
+  (dap-register-debug-template
+   "localhost:5005"
+   (list :type "java"
+         :request "attach"
+         :hostName "localhost"
+         :port 5005))
+  (dap-register-debug-template
+   "lxd"
+   (list :type "java"
+         :request "attach"
+         :hostName "127.0.0.1"
+         :port 5005))
   ;; :config
   ;; (global-set-key (kbd "<f7>") 'dap-step-in)
   ;; (global-set-key (kbd "<f8>") 'dap-next)
