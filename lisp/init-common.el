@@ -281,7 +281,6 @@
   :config
   (setq
    treemacs-project-follow-mode t   ;;根据不同项目自动切换treemacs目录
-   treemacs-hide-gitignored-files-mode t
    )
 
   )

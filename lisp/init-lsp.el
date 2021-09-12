@@ -91,18 +91,18 @@
   :ensure t
   :after (lsp-mode)
   :functions dap-hydra/nil
-  :bind (:map lsp-mode-map
-              ("<f5>" . dap-debug)
-              ("M-<f5>" . dap-hydra))
   :hook ((dap-mode . dap-ui-mode)
          (dap-session-created . (lambda (&_rest) (dap-hydra)))
          (dap-terminated . (lambda (&_rest) (dap-hydra/nil))))
   :config
   (require 'dap-java)
-  (dap-mode t)
-  (dap-ui-mode t)
-  (dap-tooltip-mode 1)
-  (tooltip-mode 1)
+  ;; :bind (:map lsp-mode-map
+  ;;             ("<f5>" . dap-debug)
+  ;;             ("M-<f5>" . dap-hydra))
+  ;; (dap-mode t)
+  ;; (dap-ui-mode t)
+  ;; (dap-tooltip-mode 1)
+  ;; (tooltip-mode 1)
   ;;  (dap-ui-controls-mode 1)
   (dap-register-debug-template
    "localhost:5005"

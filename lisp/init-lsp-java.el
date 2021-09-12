@@ -30,8 +30,23 @@
   (setq lsp-java-configuration-update-build-configuration t)
   (setq lsp-java-configuration-check-project-settings-exclusions t)
   (add-hook 'java-mode-hook 'lsp)
+  (require 'lsp-java-boot)
   (add-hook 'lsp-mode-hook 'lsp-lens-mode)
   ;; 只在java-mode save的时候 调用lsp-java-origanize-imports
+   ;; (add-hook 'java-mode-hook (lambda()
+   ;;                            (lsp t)
+   ;;                            (flycheck-mode t)
+   ;;                            (company-mode t)
+   ;;                            (lsp-ui-mode t)
+   ;;                            (lsp-ui-doc-mode nil)
+   ;;                            (lsp-java-boot-lens-mode t)
+   ;;                            (dap-mode t)
+   ;;                            (dap-ui-mode t)
+   ;;                            (dap-tooltip-mode t)
+   ;;                            (tooltip-mode t)
+   ;;                            (dap-ui-controls-mode t)
+   ;;                            ;;(gradle-mode t)
+   ;;                            )) 
   (add-hook 'java-mode-hook
             (lambda()
               (add-hook 'before-save-hook 'lsp-java-organize-imports nil t)))
@@ -40,11 +55,10 @@
 
 (use-package dap-java
   :ensure nil
-  :after (lsp-java)
-  :config
-  (global-set-key (kbd "<f7>") 'dap-step-in)
-  (global-set-key (kbd "<f8>") 'dap-next)
-  (global-set-key (kbd "<f9>") 'dap-continue)
+  ;; :config
+  ;; (global-set-key (kbd "<f7>") 'dap-step-in)
+  ;; (global-set-key (kbd "<f8>") 'dap-next)
+  ;; (global-set-key (kbd "<f9>") 'dap-continue)
   )
 
 ;; (require 'lsp-java-boot)
