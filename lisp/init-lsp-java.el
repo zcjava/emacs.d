@@ -35,13 +35,19 @@
               (add-hook 'before-save-hook 'lsp-java-organize-imports nil t)
               ))
   ;; 只在某些mode下，生效参数配置
-  (add-hook 'java-mode-hook
-            (lambda()
-              (make-local-variable 'company-minimum-prefix-length)
-              (setq company-minimum-prefix-length 0)
-              ))
-  (require 'lsp-java-boot)
-  (add-hook 'java-mode-hook 'lsp-java-boot-lens-mode)
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;; (add-hook 'java-mode-hook                                        ;;
+  ;;           (lambda()                                              ;;
+  ;;             (make-local-variable 'company-minimum-prefix-length) ;;
+  ;;             (setq company-minimum-prefix-length 0)               ;;
+  ;;             ))                                                   ;;
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+  ;; spring-boot的支持
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;; (require 'lsp-java-boot)                            ;;
+  ;; (add-hook 'java-mode-hook 'lsp-java-boot-lens-mode) ;;
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   )
 
 
