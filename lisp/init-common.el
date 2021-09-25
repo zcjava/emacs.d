@@ -2,7 +2,7 @@
 (use-package hungry-delete
   :ensure t
   :bind (
-	     ("C-c DEL" . hungry-delete-backward)
+ 	     ("C-c DEL" . hungry-delete-backward)
 	     ("C-c d" . hungry-delete-forward))
   )
 
@@ -21,6 +21,7 @@
   :bind ("M-m" . which-key-show-top-level)  ;; 绑定超级键，顶层命令列表
   )
 (which-key-mode)
+
 
 ;;==========flycheck==========
 (use-package flycheck
@@ -103,12 +104,22 @@
 
 (use-package format-all
   :ensure t
+  :hook (elixir-mode . format-all-mode)
+  :hook (emacs-lisp-mode . format-all-mode)
+  ;; or for all program languages
+  :hook (prog-mode . format-all-mode)
+  ;; change default formatter manually
+  :init
+  (setq formatters '((lsp-mode . "lsp-format-buffer")))
+  :config
+  (add-hook 'format-all-mode-hook 'format-all-ensure-formatter)
   )
 
 
 ;;==========company==========
 ;; 设置全局的代码补全
 (use-package company
+
   :ensure t
   :bind (
          :map company-active-map

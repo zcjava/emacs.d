@@ -1,9 +1,9 @@
 ;;==========myself custom fun==========
 
-
 (defun open-init-file()
   (interactive)
   (find-file "~/.emacs.d/init.el")
+  
   )
 
 (global-set-key (kbd "<C-return>") 'newline-code-tab)

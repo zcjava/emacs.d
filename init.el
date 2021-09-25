@@ -26,12 +26,19 @@
 (require 'init-term)
 (require 'init-lsp)
 (require 'init-lsp-java)
-;;(require 'init-lsp-flutter)
-;;(require 'init-python)
-;;(require 'init-leetcode)
+(require 'init-lsp-flutter)
+(require 'init-lsp-python)
+(require 'init-leetcode)
 (require 'init-nginx)
 (require 'init-http)
+
 ;;Tip
+
+;;==========org-table==========
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; org-mode table需要等宽字体才能表格对齐，采用了ubuntu mono字体，需安装 ;;
+;; brew install font-ubuntu-mono                                         ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;;;;;;;;;;;;vterm;;;;;;;;;;;;;;;;;;;
 ;; vterm编译需要安装cmake、libtool    ;;

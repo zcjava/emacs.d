@@ -22,7 +22,18 @@
 ;; 设置显示字体和大小
 ;;(add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono-16"))
 
-(set-face-attribute 'default nil :font "DejaVu Sans Mono-17")
+(set-face-attribute 'default nil :font "DejaVu Sans Mono-18")
+;;(set-face-attribute 'org-mode nil :font "Ubuntu Mono-18")
+;; org-mode table 设置等宽字体才能使得table对齐
+(with-eval-after-load 'org
+  (defun org-buffer-face-mode-variable ()
+    (interactive)
+    (make-face 'width-font-face)
+    (set-face-attribute 'width-font-face nil :font "Ubuntu Mono 18")
+    (setq buffer-face-mode-face 'width-font-face)
+    (buffer-face-mode))
+  (add-hook 'org-mode-hook 'org-buffer-face-mode-variable))
+
 
 (global-font-lock-mode t)
 (setq font-lock-maximum-size 5000000)
@@ -42,7 +53,7 @@
   :ensure t
   :config
   (doom-modeline-def-modeline 'ownml
-    '(bar matches buffer-info remote-host buffer-position misc-info major-mode) 
+    '(bar matches buffer-info remote-host buffer-position misc-info major-mode)
     '(input-method buffer-encoding process vcs checker))
 
   ;; Add to `doom-modeline-mode-hook` or other hooks
