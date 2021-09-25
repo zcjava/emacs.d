@@ -8,6 +8,8 @@
 ;;隐藏滚动条
 (scroll-bar-mode nil)
 
+(set-cursor-color "green")
+
 (setq inhibit-startup-message t)
 ;;(setq inhibit-message nil)
 
