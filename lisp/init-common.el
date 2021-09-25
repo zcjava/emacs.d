@@ -119,7 +119,6 @@
 ;;==========company==========
 ;; 设置全局的代码补全
 (use-package company
-
   :ensure t
   :bind (
          :map company-active-map
@@ -129,6 +128,12 @@
           ("<tab>" . company-complete))
          )
   )
+
+(use-package company-english-helper
+  :load-path (lambda () (expand-file-name "site-lisp/company-english-helper/" user-emacs-directory))
+  :bind ("C-c C-e" . toggle-company-english-helper)
+  )
+
 
 (add-hook 'after-init-hook 'global-company-mode)
 ;;==========company end==========

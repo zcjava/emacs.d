@@ -53,19 +53,21 @@
 
 (use-package doom-modeline
   :ensure t
+  :init (doom-modeline-mode t)
   :config
+  (setq doom-modeline-height 5)
+  (custom-set-faces
+   '(mode-line ((t (:family "Ubuntu Mono" :height:50))))
+   '(mode-line-inactive ((t (:family "Ubuntu Mono" :height:50))))
+   )
   (doom-modeline-def-modeline 'ownml
     '(bar matches buffer-info remote-host buffer-position misc-info major-mode)
     '(input-method buffer-encoding process vcs checker))
-
   ;; Add to `doom-modeline-mode-hook` or other hooks
   (defun setup-custom-doom-modeline ()
     (doom-modeline-set-modeline 'ownml 'default))
   (add-hook 'doom-modeline-mode-hook 'setup-custom-doom-modeline)
   )
-
-
-(doom-modeline-mode t)
 ;;==========mode line 美化显示 end==========
 
 

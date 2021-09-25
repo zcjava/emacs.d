@@ -12,12 +12,14 @@
             (lambda () (setq gc-cons-threshold (* 20 1024 1024)))))
 
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
+
 (require 'init-benchmarking)
 (require 'init-elpa)
 (require 'init-my)
 (require 'init-proxy)
 (require 'init-recentf)
 (require 'init-ui)
+(require 'init-dashboard)
 (require 'init-settings)
 (require 'init-common)
 (require 'init-projectile)
@@ -56,3 +58,7 @@
 ;; awesome-tab https://github.com/manateelazycat/awesome-tab
 ;; emacs-nexus https://github.com/juergenhoetzel/emacs-nexus
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+;;==========company english helper==========
+;;company english helper git@github.com:manateelazycat/company-english-helper.git
