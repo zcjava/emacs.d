@@ -399,4 +399,9 @@
 ;;(add-hook 'projectile-after-switch-project-hook 'treemacs-display-current-project-exclusively)
 ;;==========treemacs end==========
 
+(use-package expand-region
+  )
+;;选中当前区域语句块
+(global-set-key (kbd "C-=") 'er/expand-region)
+
 (provide 'init-common)

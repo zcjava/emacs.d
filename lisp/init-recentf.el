@@ -3,6 +3,7 @@
 ;;; Code:
 
 (add-hook 'after-init-hook 'recentf-mode)
+(setq recentf-max-menu-items 50)
 (setq-default
  recentf-max-saved-items 1000
  recentf-exclude `("/tmp/" "/ssh:" ,(concat package-user-dir "/.*-autoloads\\.el\\'")))
