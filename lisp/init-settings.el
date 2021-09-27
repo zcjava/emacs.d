@@ -18,11 +18,11 @@
 ;; 设置为中文简体语言环境
 ;; (setenv "LANG" "zh_CN.UTF-8")
 (set-language-environment "UTF-8")
-;; (setq locale-coding-system 'utf-8)			 
-;; ;; 设置键盘输入时的字符编码				 
+;; (setq locale-coding-system 'utf-8)
+;; ;; 设置键盘输入时的字符编码
 (set-keyboard-coding-system 'utf-8)
 (set-selection-coding-system 'utf-8)
-;; ;; 文件默认保存为 utf-8				
+;; ;; 文件默认保存为 utf-8
 (set-buffer-file-coding-system 'utf-8)
 (set-default buffer-file-coding-system 'utf8)
 (set-default-coding-systems 'utf-8)
@@ -53,10 +53,10 @@
 ;; (setq tab-always-indent)
 (setq-default indent-tabs-mode nil)
 ;; nxml-mode
-(setq 
-    nxml-child-indent 4
-    nxml-attribute-indent 4
-    nxml-slash-auto-complete-flag t)
+(setq
+ nxml-child-indent 4
+ nxml-attribute-indent 4
+ nxml-slash-auto-complete-flag t)
 
 ;;==========tab indent end==========
 
@@ -67,11 +67,11 @@
 ;; 使用y/n 替代yes/no
 (fset 'yes-or-no-p 'y-or-n-p)
 ;; unless 的含义是 if nil  do body
-
+(delete-selection-mode t)
 ;;=========加载系统环境变量==========
 (use-package exec-path-from-shell
   :ensure t
-;;  :config (setq exec-path (append exec-path '("/usr/local/bin")))
+  ;;  :config (setq exec-path (append exec-path '("/usr/local/bin")))
   )
 (when (memq window-system '(mac ns x))
   (exec-path-from-shell-initialize))
