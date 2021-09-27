@@ -22,8 +22,6 @@
 
 
 (use-package page-break-lines
-  :config
-  (setq page-break-lines-char)
   )
 
 
