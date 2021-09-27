@@ -24,6 +24,8 @@
 ;; 设置光标的颜色和类型
 (setq-default cursor-type 'bar)
 (set-cursor-color "green")
+;;(set-face-background hl-line-face "dark gray")
+(global-hl-line-mode t)
 
 ;; 设置显示字体和大小
 ;;(add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono-16"))
@@ -83,6 +85,7 @@
 (use-package paren)
 (set-face-background 'show-paren-match (face-background 'default))
 (set-face-attribute 'show-paren-match nil :weight 'extra-bold)
+
 
 ;; Sub word support
 (add-hook 'minibuffer-setup-hook 'subword-mode)
