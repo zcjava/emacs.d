@@ -8,8 +8,6 @@
 ;;隐藏滚动条
 (scroll-bar-mode nil)
 
-(set-cursor-color "green")
-
 (setq inhibit-startup-message t)
 ;;(setq inhibit-message nil)
 
@@ -19,11 +17,16 @@
   )
 
 (load-theme 'dracula t)
+
+
 ;;==========theme end==========
+
+;; 设置光标的颜色和类型
+(setq-default cursor-type 'bar)
+(set-cursor-color "green")
 
 ;; 设置显示字体和大小
 ;;(add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono-16"))
-
 (set-face-attribute 'default nil :font "DejaVu Sans Mono-18")
 ;;(set-face-attribute 'org-mode nil :font "Ubuntu Mono-18")
 ;; org-mode table 设置等宽字体才能使得table对齐
