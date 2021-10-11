@@ -24,7 +24,7 @@
 (global-set-key (kbd "C-c l") 'org-store-link)
 
 
-(setq org-agenda-dir (expand-file-name "~/Desktop/note/"))
+(setq org-agenda-dir (expand-file-name "~/Desktop/note/gtd/"))
 (setq org-agenda-file-inbox (concat org-agenda-dir "inbox.org"))
 (setq org-agenda-file-gtd (concat org-agenda-dir "gtd.org"))
 (setq org-agenda-file-tickler (concat org-agenda-dir "tickler.org"))
