@@ -2,7 +2,17 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("notes.org"
+(("org-capture-last-stored"
+ (filename . "~/Desktop/note/gtd/inbox.org")
+ (front-context-string . "** TODO buy ipho")
+ (rear-context-string)
+ (position . 9))
+("org-refile-last-stored"
+ (filename . "~/Desktop/note/gtd/gtd.org")
+ (front-context-string . "** TODO buy ipho")
+ (rear-context-string . "0-12 Tue 15:22]\n")
+ (position . 10618))
+("notes.org"
  (filename . "~/Desktop/note/notes.org")
  (front-context-string . "#+STARTUP: conte")
  (rear-context-string)
