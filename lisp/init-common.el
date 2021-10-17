@@ -405,4 +405,9 @@
 ;;选中当前区域语句块
 (global-set-key (kbd "C-=") 'er/expand-region)
 
+
+(use-package slime
+  :init
+  (setq inferior-lisp-program "sbcl")
+  )
 (provide 'init-common)

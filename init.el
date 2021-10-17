@@ -62,3 +62,7 @@
 
 ;;==========company english helper==========
 ;;company english helper git@github.com:manateelazycat/company-english-helper.git
+
+
+;;==========youdao  pronunciation need ==========
+;;  brew install mpg123
