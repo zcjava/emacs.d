@@ -1,6 +1,7 @@
 ;;==========vterm==========
 ;; 需要安装cmake、libtool.使用brew install cmake , libtool
 (use-package vterm
+  :pin manual  ;;设置成手动更新
   :hook (vterm-mode . (lambda ()
                         (setq-local global-hl-line-mode nil)
                         (setq-local line-spacing nil)))

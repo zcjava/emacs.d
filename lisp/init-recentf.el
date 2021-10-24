@@ -2,12 +2,13 @@
 ;;; Commentary:
 ;;; Code:
 
-(add-hook 'after-init-hook 'recentf-mode)
+;;(add-hook 'after-init-hook 'recentf-mode)
 (setq recentf-max-menu-items 50)
 (setq-default
  recentf-max-saved-items 1000
  recentf-exclude `("/tmp/" "/ssh:" ,(concat package-user-dir "/.*-autoloads\\.el\\'")))
 
-
+(recentf-mode t)
+(add-to-list 'recentf-keep 'file-remote-p)
 (provide 'init-recentf)
 ;;; init-recentf.el ends here
