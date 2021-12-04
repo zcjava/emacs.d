@@ -410,4 +410,9 @@
   :init
   (setq inferior-lisp-program "sbcl")
   )
+
+(use-package docker
+  :ensure t
+  :bind ("C-c d" . docker))
+
 (provide 'init-common)
