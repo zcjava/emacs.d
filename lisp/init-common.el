@@ -1,3 +1,4 @@
+
 ;; 删除所有的空格，直到下一个非空格字符
 (use-package hungry-delete
   :ensure t
@@ -411,9 +412,29 @@
   (setq inferior-lisp-program "sbcl")
   )
 
+
 (use-package markdown-mode
   :ensure t
   :mode ("README\\.md\\'" . gfm-mode)
   :init (setq markdown-command "multimarkdown"))
+
+(use-package docker
+  :ensure t
+  :bind ("C-c d" . docker))
+
+
+;;==========tramp==========
+(setq tramp-default-user "root")
+(setq tramp-default-method "ssh")
+(setq remote-file-name-inhibit-cache nil)
+(setq vc-ignore-dir-regexp
+      (format "%s\\|%s"
+              vc-ignore-dir-regexp
+              tramp-file-name-regexp))
+(setq tramp-verbose 6)
+(eval-after-load 'tramp '(setq vterm-shell "/bin/bash"))
+(customize-set-variable 'tramp-syntax 'simplified)  ;;可以简写 不用强制输入/ssh:y
+;;==========tramp end==========
+
 
 (provide 'init-common)
