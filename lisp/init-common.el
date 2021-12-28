@@ -37,9 +37,12 @@
 ;;自动补全符号
 (use-package smartparens
   :ensure t
+  :config
+  (smartparens-global-mode t)
+  (require 'smartparens-config)
+  (sp-local-pair 'elisp-mode "'" nil :actions nil)
+  (sp-local-pair 'elisp-mode "`" nil :actions nil)
   )
-
-(smartparens-global-mode t)
 ;;==========smartparens end==========
 
 
