@@ -437,4 +437,7 @@
 ;;==========tramp end==========
 
 
+(use-package visual-regexp
+  :ensure t
+  )
 (provide 'init-common)
