@@ -30,6 +30,7 @@
 (require 'init-lsp-java)
 (require 'init-lsp-flutter)
 (require 'init-lsp-python)
+(require 'init-html)
 (require 'init-leetcode)
 (require 'init-nginx)
 (require 'init-http)

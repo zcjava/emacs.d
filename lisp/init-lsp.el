@@ -4,6 +4,7 @@
   :hook (
          (lsp-mode . lsp-enable-which-key-integration)
          (nxml-mode . lsp)     ;; nxml-mode  自动加载lsp
+         (web-mode . lsp)
          )
   :commands lsp  ;;lsp-mode取个别名,命令行输入lsp
   :bind
