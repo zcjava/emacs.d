@@ -16,6 +16,11 @@
          read-process-output-max (* 1024 1024)  ; 1 mb
          lsp-completion-provider :capf
          lsp-idle-delay 0.500
+         lsp-vetur-validation-template nil
+         lsp-vetur-dev-log-level "DEBUG"
+         lsp-vetur-format-default-formatter-css "none"
+         lsp-vetur-format-default-formatter-html "none"
+         lsp-vetur-format-default-formatter-js "none"
          )
   :config
   (setq lsp-completion-enable-additional-text-edit nil)
