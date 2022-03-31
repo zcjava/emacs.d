@@ -30,6 +30,7 @@
 (require 'init-lsp-java)
 (require 'init-lsp-flutter)
 (require 'init-lsp-python)
+(require 'init-lsp-clojure)
 (require 'init-html)
 (require 'init-leetcode)
 (require 'init-nginx)
@@ -57,6 +58,8 @@
 ;;==========other third elpa==========
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; awesome-tab https://github.com/manateelazycat/awesome-tab
+;; install: git clone --depth=1 https://github.com/manateelazycat/awesome-tab.git ~/.emacs.d/site-lisp/awesome-tab/
+;;
 ;; emacs-nexus https://github.com/juergenhoetzel/emacs-nexus
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
