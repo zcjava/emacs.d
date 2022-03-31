@@ -25,4 +25,13 @@
 ;;   (flycheck-add-next-checker (car checkers) (cons 'error (cdr checkers)))) ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;; need install tools
+
+
+;; brew install clojure/tools/clojure
+;; brew install clojure-lsp/brew/clojure-lsp-native
+;; brew install borkdude/brew/clj-kondo
+;; brew install leiningen
+;; brew install --cask zprint
+
 (provide 'init-lsp-clojure)
