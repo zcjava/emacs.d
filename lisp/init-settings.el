@@ -78,5 +78,6 @@
 
 (setq exec-path-from-shell-check-startup-files nil)
 
+(setq undo-tree-auto-save-history nil)
 
 (provide 'init-settings)
