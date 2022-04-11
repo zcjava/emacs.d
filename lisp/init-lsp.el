@@ -95,7 +95,7 @@
 (use-package dap-mode
   :init
   ;;  (setq dap-java-test-additional-args '("-n" "\".*(Test|IT).*\""))
-  ;;  (setq dap-java-java-command my-java-path)
+  (setq dap-java-java-command my-java-path)
   :ensure t
   :after (lsp-mode)
   :functions dap-hydra/nil

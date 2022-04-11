@@ -1,11 +1,12 @@
 ;;==========java==========
-;;(setenv "JAVA_HOME"  "/Library/Java/JavaVirtualMachines/jdk-11.0.14.jdk/Contents/Home/")
+(setq JAVA_HOME_PATH "/Library/Java/JavaVirtualMachines/jdk-11.0.13.jdk/Contents/Home/")
 
-;;(setq my-java-path "/Library/Java/JavaVirtualMachines/jdk-11.0.14.jdk/Contents/Home/bin/java")
+(setenv "JAVA_HOME"  JAVA_HOME_PATH)
+(setq my-java-path (concat JAVA_HOME_PATH "bin/java"))
 (use-package lsp-java
   :init
   (setq lsp-java-server-install-dir (expand-file-name "site-lisp/lsp-server/java/" user-emacs-directory))
-  ;;  (setq lsp-java-java-path my-java-path)
+  (setq lsp-java-java-path my-java-path)
   (setq lombok-jar-path
         (expand-file-name "~/.m2/repository/org/projectlombok/lombok/1.18.10/lombok-1.18.10.jar"))
   (setq lsp-java-vmargs
