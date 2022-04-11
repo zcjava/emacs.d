@@ -31,3 +31,4 @@ eclipse.jdt.ls
 site-lisp/lsp-server/java/
 projects
 *.~undo-tree~
+.DS_Store
