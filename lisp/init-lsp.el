@@ -21,6 +21,7 @@
          lsp-vetur-format-default-formatter-css "none"
          lsp-vetur-format-default-formatter-html "none"
          lsp-vetur-format-default-formatter-js "none"
+         lsp-headerline-breadcrumb-enable nil
          )
   :config
   (setq lsp-completion-enable-additional-text-edit nil)
@@ -94,7 +95,7 @@
 (use-package dap-mode
   :init
   ;;  (setq dap-java-test-additional-args '("-n" "\".*(Test|IT).*\""))
-  (setq dap-java-java-command my-java-path)
+  ;;  (setq dap-java-java-command my-java-path)
   :ensure t
   :after (lsp-mode)
   :functions dap-hydra/nil

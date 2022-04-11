@@ -17,7 +17,7 @@
   (setq lsp-pyright-auto-import-completions t)
   (setq lsp-pyright-auto-search-paths t)
   (setq lsp-pyright-python-executable-cmd "python3")
-  (setq lsp-pyright-extra-paths (list"/opt/homebrew/Cellar/python@3.9/3.9.10/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/" "."))
+  (setq lsp-pyright-extra-paths (list "/opt/homebrew/Cellar/python@3.9/3.9.12/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/" "."))
   :hook (python-mode . (lambda ()
                          (require 'lsp-pyright)
                          (lsp))))  ; or lsp-deferred
