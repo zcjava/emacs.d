@@ -174,23 +174,23 @@
 ;;==========zoom end==========
 
 
-(use-package sort-tab
-  :load-path (lambda () (expand-file-name "site-lisp/sort-tab/" user-emacs-directory))
-  :config
-  (sort-tab-mode t)
-  )
+;; (use-package sort-tab
+;;   :load-path (lambda () (expand-file-name "site-lisp/sort-tab/" user-emacs-directory))
+;;   :config
+;;   (sort-tab-mode t)
+;;   )
 
-(global-set-key (kbd "s-1") 'sort-tab-select-visible-tab)
-(global-set-key (kbd "s-2") 'sort-tab-select-visible-tab)
-(global-set-key (kbd "s-3") 'sort-tab-select-visible-tab)
-(global-set-key (kbd "s-4") 'sort-tab-select-visible-tab)
-(global-set-key (kbd "s-5") 'sort-tab-select-visible-tab)
-(global-set-key (kbd "s-6") 'sort-tab-select-visible-tab)
-(global-set-key (kbd "s-7") 'sort-tab-select-visible-tab)
-(global-set-key (kbd "s-8") 'sort-tab-select-visible-tab)
-(global-set-key (kbd "s-9") 'sort-tab-select-visible-tab)
-(global-set-key (kbd "s-0") 'sort-tab-select-visible-tab)
-(global-set-key (kbd "s-Q") 'sort-tab-close-all-tabs)
+;; (global-set-key (kbd "s-1") 'sort-tab-select-visible-tab)
+;; (global-set-key (kbd "s-2") 'sort-tab-select-visible-tab)
+;; (global-set-key (kbd "s-3") 'sort-tab-select-visible-tab)
+;; (global-set-key (kbd "s-4") 'sort-tab-select-visible-tab)
+;; (global-set-key (kbd "s-5") 'sort-tab-select-visible-tab)
+;; (global-set-key (kbd "s-6") 'sort-tab-select-visible-tab)
+;; (global-set-key (kbd "s-7") 'sort-tab-select-visible-tab)
+;; (global-set-key (kbd "s-8") 'sort-tab-select-visible-tab)
+;; (global-set-key (kbd "s-9") 'sort-tab-select-visible-tab)
+;; (global-set-key (kbd "s-0") 'sort-tab-select-visible-tab)
+;; (global-set-key (kbd "s-Q") 'sort-tab-close-all-tabs)
 
 
 ;;==========awesome-tab==========
@@ -198,22 +198,22 @@
 ;; git clone --depth=1 https://github.com/manateelazycat/awesome-tab.git ~/.emacs.d/site-lisp/awesome-tab/
 
 
-;; (use-package awesome-tab
-;;   :load-path (lambda () (expand-file-name "site-lisp/awesome-tab/" user-emacs-directory))
-;;   :config
-;;   (awesome-tab-mode t)
-;;   )
-;; ;; 使用mac command + N 就可以切换到对应的tab
-;; (global-set-key (kbd "s-1") 'awesome-tab-select-visible-tab)
-;; (global-set-key (kbd "s-2") 'awesome-tab-select-visible-tab)
-;; (global-set-key (kbd "s-3") 'awesome-tab-select-visible-tab)
-;; (global-set-key (kbd "s-4") 'awesome-tab-select-visible-tab)
-;; (global-set-key (kbd "s-5") 'awesome-tab-select-visible-tab)
-;; (global-set-key (kbd "s-6") 'awesome-tab-select-visible-tab)
-;; (global-set-key (kbd "s-7") 'awesome-tab-select-visible-tab)
-;; (global-set-key (kbd "s-8") 'awesome-tab-select-visible-tab)
-;; (global-set-key (kbd "s-9") 'awesome-tab-select-visible-tab)
-;; (global-set-key (kbd "s-0") 'awesome-tab-select-visible-tab)
+(use-package awesome-tab
+  :load-path (lambda () (expand-file-name "site-lisp/awesome-tab/" user-emacs-directory))
+  :config
+  (awesome-tab-mode t)
+  )
+;; 使用mac command + N 就可以切换到对应的tab
+(global-set-key (kbd "s-1") 'awesome-tab-select-visible-tab)
+(global-set-key (kbd "s-2") 'awesome-tab-select-visible-tab)
+(global-set-key (kbd "s-3") 'awesome-tab-select-visible-tab)
+(global-set-key (kbd "s-4") 'awesome-tab-select-visible-tab)
+(global-set-key (kbd "s-5") 'awesome-tab-select-visible-tab)
+(global-set-key (kbd "s-6") 'awesome-tab-select-visible-tab)
+(global-set-key (kbd "s-7") 'awesome-tab-select-visible-tab)
+(global-set-key (kbd "s-8") 'awesome-tab-select-visible-tab)
+(global-set-key (kbd "s-9") 'awesome-tab-select-visible-tab)
+(global-set-key (kbd "s-0") 'awesome-tab-select-visible-tab)
 
 ;;==========awesome-tab end==========
 

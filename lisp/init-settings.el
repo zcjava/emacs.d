@@ -62,8 +62,12 @@
 
 
 (setq auto-save-default nil)
+
 ;;不保留备份文件  eg:  init.el~之类的文件
-(setq make-backup-files nil)
+;;(setq make-backup-files nil)
+;;保留备份文件，但归集到.backups里
+(setq backup-directory-alist (quote (("." . "~/.emacs.d/.backups"))))
+
 ;; 使用y/n 替代yes/no
 (fset 'yes-or-no-p 'y-or-n-p)
 ;; unless 的含义是 if nil  do body
