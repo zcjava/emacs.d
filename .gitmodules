@@ -1,24 +1,6 @@
-[submodule "emacs-lsp-java"]
-	path = emacs-lsp-java
-	url = git@gitee.com:smileo/emacs-lsp-java.git
-[submodule "elpa_nt/awesome-tab"]
-	path = elpa_nt/awesome-tab
-	url = https://github.com/manateelazycat/awesome-tab.git
-[submodule "elpa_nt/maven-pom-mode"]
-	path = elpa_nt/maven-pom-mode
-	url = https://github.com/m0smith/maven-pom-mode.git
-[submodule "site-lisp/awesome-tab"]
-	path = site-lisp/awesome-tab
-	url = git@github.com:manateelazycat/awesome-tab.git
-[submodule "site-lisp/maven-pom-mode"]
-	path = site-lisp/maven-pom-mode
-	url = https://github.com/m0smith/maven-pom-mode.git
 [submodule "site-lisp/emacs-nexus"]
 	path = site-lisp/emacs-nexus
 	url = git@github.com:juergenhoetzel/emacs-nexus.git
 [submodule "site-lisp/company-english-helper"]
 	path = site-lisp/company-english-helper
 	url = git@github.com:manateelazycat/company-english-helper.git
-[submodule "site-lisp/sort-tab"]
-	path = site-lisp/sort-tab
-	url = git@github.com:manateelazycat/sort-tab.git
