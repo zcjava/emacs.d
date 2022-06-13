@@ -174,23 +174,23 @@
 ;;==========zoom end==========
 
 
-(use-package sort-tab
-  :load-path (lambda () (expand-file-name "site-lisp/sort-tab/" user-emacs-directory))
-  :config
-  (sort-tab-mode t)
-  )
+;; (use-package sort-tab
+;;   :load-path (lambda () (expand-file-name "site-lisp/sort-tab/" user-emacs-directory))
+;;   :config
+;;   (sort-tab-mode t)
+;;   )
 
-(global-set-key (kbd "s-1") 'sort-tab-select-visible-tab)
-(global-set-key (kbd "s-2") 'sort-tab-select-visible-tab)
-(global-set-key (kbd "s-3") 'sort-tab-select-visible-tab)
-(global-set-key (kbd "s-4") 'sort-tab-select-visible-tab)
-(global-set-key (kbd "s-5") 'sort-tab-select-visible-tab)
-(global-set-key (kbd "s-6") 'sort-tab-select-visible-tab)
-(global-set-key (kbd "s-7") 'sort-tab-select-visible-tab)
-(global-set-key (kbd "s-8") 'sort-tab-select-visible-tab)
-(global-set-key (kbd "s-9") 'sort-tab-select-visible-tab)
-(global-set-key (kbd "s-0") 'sort-tab-select-visible-tab)
-(global-set-key (kbd "s-Q") 'sort-tab-close-all-tabs)
+;; (global-set-key (kbd "s-1") 'sort-tab-select-visible-tab)
+;; (global-set-key (kbd "s-2") 'sort-tab-select-visible-tab)
+;; (global-set-key (kbd "s-3") 'sort-tab-select-visible-tab)
+;; (global-set-key (kbd "s-4") 'sort-tab-select-visible-tab)
+;; (global-set-key (kbd "s-5") 'sort-tab-select-visible-tab)
+;; (global-set-key (kbd "s-6") 'sort-tab-select-visible-tab)
+;; (global-set-key (kbd "s-7") 'sort-tab-select-visible-tab)
+;; (global-set-key (kbd "s-8") 'sort-tab-select-visible-tab)
+;; (global-set-key (kbd "s-9") 'sort-tab-select-visible-tab)
+;; (global-set-key (kbd "s-0") 'sort-tab-select-visible-tab)
+;; (global-set-key (kbd "s-Q") 'sort-tab-close-all-tabs)
 
 
 ;;==========awesome-tab==========
