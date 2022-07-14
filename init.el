@@ -26,12 +26,14 @@
 (require 'init-minibuffer-tool)
 (require 'init-org)
 (require 'init-term)
-(require 'init-lsp)
-(require 'init-lsp-java)
-(require 'init-lsp-flutter)
-(require 'init-lsp-python)
-(require 'init-lsp-clojure)
-(require 'init-html)
+(require 'init-eglot)
+;; (require 'init-lsp)
+;; (require 'init-lsp-java)
+;; (require 'init-lsp-flutter)
+;; (require 'init-lsp-python)
+;; (require 'init-lsp-clojure)
+;; (require 'init-html)
+
 (require 'init-leetcode)
 (require 'init-nginx)
 (require 'init-http)
@@ -70,3 +72,4 @@
 
 ;;==========youdao  pronunciation need ==========
 ;;  brew install mpg123
+(put 'set-goal-column 'disabled nil)
