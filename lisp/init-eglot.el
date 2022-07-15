@@ -4,20 +4,28 @@
 
 (defun my-eglot-keybindgs ()
   (define-key evil-motion-state-map "gR" #'eglot-rename)
-  3  (define-key evil-motion-state-map "gr" #'xref-find-references)
+  (define-key evil-motion-state-map "gr" #'xref-find-references)
   (define-key evil-normal-state-map "gi" #'eglot-find-implementation)
   (define-key evil-motion-state-map "gh" #'eldoc)
   (define-key evil-normal-state-map "ga" #'eglot-code-actions))
 
+(use-package prettier-js
+  :ensure t
+  )
+
+
 (use-package web-mode
   :ensure t
+  :config
+  ;;  (format-all-mode nil)
+  ;;  (add-hook 'web-mode-hook 'prettier-js-mode)
   )
 
 (use-package eglot
   :ensure t
   :init
   (add-to-list 'auto-mode-alist '("\\.vue\\'" . genehack-vue-mode))
-  (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.\\(html\\|css\\)\\'" . web-mode))
   (advice-add 'eglot-ensure :after 'my-eglot-keybindgs)
   :bind (:map eglot-mode-map
               ("C-c l a" . eglot-code-actions)

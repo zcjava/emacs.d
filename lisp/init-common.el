@@ -109,7 +109,7 @@
 (use-package format-all
   :ensure t
   :hook (elixir-mode . format-all-mode)
-  :hook (emacs-lisp-mode . format-all-mode)
+  ;;  :hook (emacs-lisp-mode . format-all-mode)
   ;; or for all program languages
   :hook (prog-mode . format-all-mode)
   ;; change default formatter manually
@@ -230,13 +230,13 @@
   )
 
 ;;==========vue==========
-(use-package vue-mode
-  :mode "\\.vue\\'"
-  :hook (vue-mode . prettier-js-mode)
-  :config
-  (add-hook 'vue-mode-hook 'lsp)
-  (setq prettier-js-args '("--parser vue"))
-  )
+;; (use-package vue-mode
+;;   :mode "\\.vue\\'"
+;;   :hook (vue-mode . prettier-js-mode)
+;;   :config
+;;   (add-hook 'vue-mode-hook 'lsp)
+;;   (setq prettier-js-args '("--parser vue"))
+;;   )
 ;;==========vue==========
 
 ;;==========undo tree==========
@@ -320,7 +320,7 @@
 (use-package treemacs
   :ensure t
   :defer t
-  :hook (projectile-after-switch-project . treemacs-display-current-project-exclusively)
+  ;;  :hook (projectile-after-switch-project . treemacs-display-current-project-exclusively)
   :init
   (with-eval-after-load 'winum
     (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
