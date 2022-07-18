@@ -22,6 +22,10 @@
 (use-package web-mode
   :ensure t
   :config
+  (setq web-mode-script-padding 4
+        web-mode-style-padding 4
+        web-mode-block-padding 4
+        )
   ;;  (format-all-mode nil)
   ;;  (add-hook 'web-mode-hook 'prettier-js-mode)
   )
