@@ -16,7 +16,7 @@ org-clock-save.el
 projectile.cache
 eshell
 .youdao
-custom.el
+##custom.el
 .mc-lists.el
 url
 .org-id-locations
